@@ -3,10 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel Qualidade</title>
+<title>LABOR Quality Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+:root{
+    --bg:#0B1120;
+    --card:#111827;
+    --card2:#1E293B;
+    --primary:#2F54EB;
+    --secondary:#60A5FA;
+    --text:#F8FAFC;
+    --muted:#94A3B8;
+    --border:rgba(96,165,250,.12);
+}
+
 *{
     margin:0;
     padding:0;
@@ -14,200 +25,215 @@
 }
 
 body{
-    font-family: Arial, sans-serif;
-    background:#f3f6f9;
-    color:#1f2937;
-    padding:18px;
+    background:linear-gradient(135deg,#0b1120,#111827);
+    color:var(--text);
+    font-family:Arial, sans-serif;
+    padding:20px;
 }
 
 .header{
-    background:white;
-    border-radius:16px;
-    padding:20px 28px;
+    background:linear-gradient(145deg,#111827,#1e293b);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:24px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:18px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.06);
+    box-shadow:0 15px 40px rgba(0,0,0,.4);
+    margin-bottom:20px;
 }
 
-.header h1{
-    color:#0f172a;
+.logo{
+    display:flex;
+    gap:16px;
+    align-items:center;
+}
+
+.logo-box{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    background:var(--primary);
+}
+
+.title{
     font-size:28px;
+    font-weight:700;
 }
 
 .subtitle{
-    color:#64748b;
+    color:var(--muted);
     font-size:14px;
 }
 
 .dashboard{
     display:grid;
-    grid-template-columns: 58% 42%;
+    gap:20px;
+}
+
+.kpis{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
     gap:18px;
 }
 
-.card{
-    background:white;
-    border-radius:18px;
-    padding:20px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.06);
-}
-
-.card h2{
-    color:#0f172a;
-    font-size:20px;
-    margin-bottom:18px;
-}
-
-.kpi-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:16px;
-    margin-bottom:18px;
-}
-
 .kpi{
-    background:white;
-    border-left:5px solid #0ea5e9;
-    padding:18px;
-    border-radius:12px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+    background:linear-gradient(145deg,#111827,#1e293b);
+    border:1px solid var(--border);
+    padding:22px;
+    border-radius:18px;
 }
 
-.kpi-title{
+.kpi-label{
+    color:var(--muted);
     font-size:13px;
-    color:#64748b;
 }
 
 .kpi-value{
-    font-size:28px;
-    font-weight:700;
-    margin-top:6px;
+    font-size:34px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.kpi-note{
+    margin-top:8px;
+    color:#60A5FA;
+    font-size:12px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:60% 40%;
+    gap:20px;
+}
+
+.card{
+    background:linear-gradient(145deg,#111827,#1e293b);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:22px;
+}
+
+.card h2{
+    margin-bottom:20px;
+    font-size:22px;
+}
+
+.rank-item{
+    display:flex;
+    justify-content:space-between;
+    background:#0f172a;
+    padding:14px;
+    border-radius:12px;
+    margin-bottom:10px;
+}
+
+.pipeline{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+}
+
+.stage{
+    background:#0f172a;
+    padding:22px;
+    border-radius:16px;
+    text-align:center;
+}
+
+.stage-value{
+    font-size:42px;
+    font-weight:bold;
+    color:var(--secondary);
+}
+
+.stage-label{
+    margin-top:8px;
+    color:var(--muted);
 }
 
 .full{
-    grid-column:1 / span 2;
-}
-
-table{
     width:100%;
-    border-collapse:collapse;
-}
-
-th{
-    background:#f8fafc;
-    color:#475569;
-    font-size:13px;
-    padding:12px;
-    text-align:left;
-}
-
-td{
-    padding:12px;
-    border-bottom:1px solid #e2e8f0;
-    font-size:14px;
-}
-
-.scroll{
-    max-height:260px;
-    overflow:auto;
 }
 
 canvas{
     max-height:300px !important;
-}
-
-.section-space{
-    margin-top:18px;
 }
 </style>
 </head>
 <body>
 
 <div class="header">
-    <div>
-        <h1>Painel Estratégico da Qualidade</h1>
-        <div class="subtitle">Indicadores operacionais em tempo real</div>
+    <div class="logo">
+        <div class="logo-box"></div>
+        <div>
+            <div class="title">LABOR Quality Dashboard</div>
+            <div class="subtitle">Painel Estratégico da Qualidade</div>
+        </div>
     </div>
-    <div class="subtitle" id="ultimaAtualizacao"></div>
-</div>
-
-<div class="kpi-grid">
-    <div class="kpi">
-        <div class="kpi-title">Total Descarte</div>
-        <div class="kpi-value" id="totalDescarte">...</div>
-    </div>
-
-    <div class="kpi">
-        <div class="kpi-title">Último Descarte</div>
-        <div class="kpi-value" id="ultimoDescarte">...</div>
-    </div>
-
-    <div class="kpi">
-        <div class="kpi-title">Total Amostras</div>
-        <div class="kpi-value" id="totalAmostras">...</div>
-    </div>
-
-    <div class="kpi">
-        <div class="kpi-title">SKUs Esfig</div>
-        <div class="kpi-value" id="totalEsfig">...</div>
-    </div>
+    <div id="ultimaAtualizacao"></div>
 </div>
 
 <div class="dashboard">
 
-    <div class="card">
-        <h2>Descarte por Origem</h2>
-        <canvas id="descarteChart"></canvas>
+    <div class="kpis">
+        <div class="kpi">
+            <div class="kpi-label">Total Descarte</div>
+            <div class="kpi-value" id="totalDescarte"></div>
+            <div class="kpi-note">Indicador financeiro</div>
+        </div>
 
-        <div class="section-space scroll">
-            <table>
-                <thead>
-                    <tr>
-                        <th>SKU</th>
-                        <th>Descrição</th>
-                        <th>Valor</th>
-                    </tr>
-                </thead>
-                <tbody id="descarteTable"></tbody>
-            </table>
+        <div class="kpi">
+            <div class="kpi-label">Último Descarte</div>
+            <div class="kpi-value" id="ultimoDescarte"></div>
+            <div class="kpi-note">Última operação</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">Amostras</div>
+            <div class="kpi-value" id="totalAmostras"></div>
+            <div class="kpi-note">Ano corrente</div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">SKUs Esfig</div>
+            <div class="kpi-value" id="totalEsfig"></div>
+            <div class="kpi-note">Em monitoramento</div>
         </div>
     </div>
 
-    <div class="card">
-        <h2>Esfigmomanômetro</h2>
-        <div class="scroll">
-            <table>
-                <thead>
-                    <tr>
-                        <th>SKU</th>
-                        <th>Aguardando</th>
-                        <th>Desmontado</th>
-                        <th>Aferidos</th>
-                    </tr>
-                </thead>
-                <tbody id="esfigTable"></tbody>
-            </table>
+    <div class="grid">
+        <div class="card">
+            <h2>Descarte por Origem</h2>
+            <canvas id="descarteChart"></canvas>
+
+            <div style="margin-top:20px" id="ranking"></div>
+        </div>
+
+        <div class="card">
+            <h2>Pipeline Esfigmomanômetro</h2>
+            <div class="pipeline">
+                <div class="stage">
+                    <div class="stage-value" id="aguardandoTotal">0</div>
+                    <div class="stage-label">Aguardando</div>
+                </div>
+
+                <div class="stage">
+                    <div class="stage-value" id="desmontadoTotal">0</div>
+                    <div class="stage-label">Desmontado</div>
+                </div>
+
+                <div class="stage">
+                    <div class="stage-value" id="aferidosTotal">0</div>
+                    <div class="stage-label">Aferidos</div>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="card full">
-        <h2>Amostras por Mês</h2>
+        <h2>Tendência de Amostras</h2>
         <canvas id="amostraChart"></canvas>
-
-        <div class="section-space scroll">
-            <table>
-                <thead>
-                    <tr>
-                        <th>SKU</th>
-                        <th>Descrição</th>
-                        <th>Qtd</th>
-                    </tr>
-                </thead>
-                <tbody id="amostrasTable"></tbody>
-            </table>
-        </div>
     </div>
 
 </div>
@@ -227,75 +253,64 @@ async function carregarDados(){
     const response = await fetch('./data.json?t=' + Date.now());
     const data = await response.json();
 
-    document.getElementById("totalDescarte").innerText =
+    document.getElementById('totalDescarte').innerText =
         formatMoney(data.descarte.total);
 
-    document.getElementById("ultimoDescarte").innerText =
+    document.getElementById('ultimoDescarte').innerText =
         formatMoney(data.descarte.ultimoDescarte);
 
-    const totalAmostras = data.amostras.mensal.reduce((acc,x)=>acc+x.valor,0);
-    document.getElementById("totalAmostras").innerText = totalAmostras;
+    document.getElementById('totalAmostras').innerText =
+        data.amostras.mensal.reduce((a,b)=>a+b.valor,0);
 
-    document.getElementById("totalEsfig").innerText = data.esfig.length;
+    document.getElementById('totalEsfig').innerText =
+        data.esfig.length;
 
-    document.getElementById("ultimaAtualizacao").innerText =
-        "Atualizado: " + new Date().toLocaleTimeString('pt-BR');
+    document.getElementById('ultimaAtualizacao').innerText =
+        "Online • " + new Date().toLocaleTimeString('pt-BR');
 
-    document.getElementById("descarteTable").innerHTML =
-        data.descarte.top10.map(item=>`
-            <tr>
-                <td>${item.sku}</td>
-                <td>${item.descricao}</td>
-                <td>${formatMoney(item.valor)}</td>
-            </tr>
+    const aguardando = data.esfig.reduce((a,b)=>a+b.aguardando,0);
+    const desmontado = data.esfig.reduce((a,b)=>a+b.desmontado,0);
+    const aferidos = data.esfig.reduce((a,b)=>a+b.aferidos,0);
+
+    document.getElementById('aguardandoTotal').innerText = aguardando;
+    document.getElementById('desmontadoTotal').innerText = desmontado;
+    document.getElementById('aferidosTotal').innerText = aferidos;
+
+    document.getElementById('ranking').innerHTML =
+        data.descarte.top10.map((item,i)=>`
+            <div class="rank-item">
+                <span>#${i+1} ${item.sku}</span>
+                <span>${formatMoney(item.valor)}</span>
+            </div>
         `).join('');
 
-    document.getElementById("esfigTable").innerHTML =
-        data.esfig.map(item=>`
-            <tr>
-                <td>${item.sku}</td>
-                <td>${item.aguardando}</td>
-                <td>${item.desmontado}</td>
-                <td>${item.aferidos}</td>
-            </tr>
-        `).join('');
-
-    document.getElementById("amostrasTable").innerHTML =
-        data.amostras.top10.map(item=>`
-            <tr>
-                <td>${item.sku}</td>
-                <td>${item.descricao}</td>
-                <td>${item.quantidade}</td>
-            </tr>
-        `).join('');
-
-    if(desteChart=descarteChart) descarteChart.destroy();
+    if(descarteChart) descarteChart.destroy();
 
     descarteChart = new Chart(document.getElementById('descarteChart'),{
         type:'bar',
         data:{
             labels:data.descarte.origens.map(x=>x.nome),
             datasets:[{
-                label:'Valor',
-                data:data.descarte.origens.map(x=>x.valor)
+                data:data.descarte.origens.map(x=>x.valor),
+                backgroundColor:'#2F54EB'
             }]
         },
         options:{
             indexAxis:'y',
-            plugins:{legend:{display:false}},
-            responsive:true
+            plugins:{legend:{display:false}}
         }
     });
 
     if(amostraChart) amostraChart.destroy();
 
     amostraChart = new Chart(document.getElementById('amostraChart'),{
-        type:'bar',
+        type:'line',
         data:{
             labels:data.amostras.mensal.map(x=>x.mes),
             datasets:[{
-                label:'Amostras',
-                data:data.amostras.mensal.map(x=>x.valor)
+                data:data.amostras.mensal.map(x=>x.valor),
+                borderColor:'#60A5FA',
+                tension:0.4
             }]
         },
         options:{
