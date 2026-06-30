@@ -1,0 +1,64 @@
+```json id="m1x7qo"
+{
+  "descarte": {
+    "total": 662803.52,
+    "ultimoDescarte": 614772.08,
+    "origens": [
+      {"nome": "Avaria Importação", "valor": 11899.70},
+      {"nome": "Avaria Estoque", "valor": 2819.62},
+      {"nome": "Devolução Avaria", "valor": 3445.67},
+      {"nome": "Desvio Qualidade", "valor": 146716.68},
+      {"nome": "Vencido", "valor": 67408.00},
+      {"nome": "Avaria Nacional", "valor": 50.77},
+      {"nome": "Destinado pelo Emanuel", "valor": 407080.35}
+    ],
+    "top10": [
+      {"sku": "518", "descricao": "PGA-125", "valor": 147881.75},
+      {"sku": "516", "descricao": "PGA-140", "valor": 127851.84},
+      {"sku": "5390", "descricao": "PGA-2040", "valor": 90047.17}
+    ]
+  },
+
+  "esfig": [
+    {
+      "sku": "267",
+      "descricao": "ESFIG VELCRO",
+      "aguardando": 0,
+      "desmontado": 0,
+      "aferidos": 0,
+      "ultimaAfericao": "2026-07-03"
+    },
+    {
+      "sku": "558",
+      "descricao": "KIT VELCRO",
+      "aguardando": 750,
+      "desmontado": 2250,
+      "aferidos": 600,
+      "ultimaAfericao": "2026-07-03"
+    }
+  ],
+
+  "amostras": {
+    "mensal": [
+      {"mes": "Janeiro", "valor": 59},
+      {"mes": "Fevereiro", "valor": 54},
+      {"mes": "Março", "valor": 181},
+      {"mes": "Abril", "valor": 120},
+      {"mes": "Maio", "valor": 88},
+      {"mes": "Junho", "valor": 69}
+    ],
+    "top10": [
+      {
+        "sku": "AM5468",
+        "descricao": "ELETRODO ECG",
+        "quantidade": 124
+      },
+      {
+        "sku": "AM3942",
+        "descricao": "CATETER 24G",
+        "quantidade": 118
+      }
+    ]
+  }
+}
+```
