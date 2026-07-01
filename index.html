@@ -251,117 +251,7 @@ th,td{
 
 <body>
 <div class="container">
-<!-- SIDEBAR -->
-<aside class="sidebar">
-
-    <div class="logo-card">
-        <div class="big">Labor</div>
-        <div class="small">Health Supply</div>
-    </div>
-
-    <div class="menu">
-        <div class="menu-item">Visão Geral</div>
-        <div class="menu-item">Descarte</div>
-        <div class="menu-item">Esfigmomanômetro</div>
-        <div class="menu-item">Amostras</div>
-        <div class="menu-item">Relatórios</div>
-    </div>
-
-    <div class="refresh-box">
-        Atualização automática<br>
-        via JSON / GitHub<br>
-        Intervalo: 2 minutos
-    </div>
-
-</aside>
-
-<!-- MAIN -->
-<main class="main">
-
-    <!-- HEADER -->
-    <div class="header">
-
-        <div>
-            <h1>PAINEL ESTRATÉGICO DA QUALIDADE</h1>
-            <div class="subtitle">
-                Indicadores operacionais em tempo real
-            </div>
-        </div>
-
-        <div class="header-right">
-            <div class="status-box" id="dataAtual"></div>
-            <div class="status-box" id="horaAtual"></div>
-
-            <div class="status-box">
-                <span class="online-dot"></span> Online
-            </div>
-        </div>
-    </div>
-
-    <!-- KPIs -->
-    <div class="kpis">
-
-        <div class="kpi">
-            <div class="kpi-title" style="color:#1d4eff">
-                TOTAL DESCARTE
-            </div>
-
-            <div class="kpi-value" id="totalDescarte">
-                ...
-            </div>
-
-            <div class="kpi-note">
-                Financeiro impactado
-            </div>
-        </div>
-
-        <div class="kpi">
-            <div class="kpi-title" style="color:#8b5cf6">
-                ÚLTIMO DESCARTE
-            </div>
-
-            <div class="kpi-value" id="ultimoDescarte">
-                ...
-            </div>
-
-            <div class="kpi-note">
-                Última operação concluída
-            </div>
-        </div>
-
-        <div class="kpi">
-            <div class="kpi-title" style="color:#d946ef">
-                TOTAL AMOSTRAS
-            </div>
-
-            <div class="kpi-value" id="totalAmostras">
-                ...
-            </div>
-
-            <div class="kpi-note">
-                Processadas no ano
-            </div>
-        </div>
-
-        <div class="kpi">
-            <div class="kpi-title" style="color:#22c55e">
-                SKUs ESFIG
-            </div>
-
-            <div class="kpi-value" id="totalEsfig">
-                ...
-            </div>
-
-            <div class="kpi-note">
-                Em monitoramento
-            </div>
-        </div>
-
-    </div>
-
-    <!-- GRID SUPERIOR -->
-    <div class="grid">
-        <!-- DESCARTE -->
+ <!-- DESCARTE -->
 <div class="card">
     <div class="card-title" style="color:#1d4eff">
         QUADRO DE DESCARTE
@@ -576,7 +466,7 @@ th,td{
 </div>
 
 </div>
-<script>
+    <script>
 let descarteChart;
 let amostraChart;
 
