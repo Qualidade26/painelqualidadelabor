@@ -191,6 +191,27 @@ body{
     padding:18px;
     box-shadow:var(--shadow);
     min-height:118px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.kpi-icon{
+    width:58px;
+    min-width:58px;
+    height:58px;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:38px;
+    background:#eef4ff;
+    box-shadow:inset 0 0 0 1px rgba(29,78,255,.08);
+}
+
+.kpi-content{
+    flex:1;
+    min-width:0;
 }
 
 .kpi-title{
@@ -245,6 +266,14 @@ body{
     margin-bottom:16px;
     text-transform:uppercase;
     letter-spacing:.4px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.title-emoji{
+    font-size:24px;
+    line-height:1;
 }
 
 .chart-wrap{
@@ -492,6 +521,14 @@ td{
     .kpi{
         padding:15px;
         min-height:105px;
+        gap:12px;
+    }
+
+    .kpi-icon{
+        width:50px;
+        min-width:50px;
+        height:50px;
+        font-size:32px;
     }
 
     .kpi-title{
@@ -613,27 +650,39 @@ td{
         <div class="kpis">
 
             <div class="kpi">
-                <div class="kpi-title" style="color:#1d4eff">TOTAL DESCARTE</div>
-                <div class="kpi-value" id="totalDescarte">...</div>
-                <div class="kpi-note">Financeiro impactado</div>
+                <div class="kpi-icon">🗑️</div>
+                <div class="kpi-content">
+                    <div class="kpi-title" style="color:#1d4eff">TOTAL DESCARTE</div>
+                    <div class="kpi-value" id="totalDescarte">...</div>
+                    <div class="kpi-note">Financeiro impactado</div>
+                </div>
             </div>
 
             <div class="kpi">
-                <div class="kpi-title" style="color:#6b5cff">ÚLTIMO DESCARTE</div>
-                <div class="kpi-value" id="ultimoDescarte">...</div>
-                <div class="kpi-note">Última operação registrada</div>
+                <div class="kpi-icon">📋</div>
+                <div class="kpi-content">
+                    <div class="kpi-title" style="color:#6b5cff">ÚLTIMO DESCARTE</div>
+                    <div class="kpi-value" id="ultimoDescarte">...</div>
+                    <div class="kpi-note">Última operação registrada</div>
+                </div>
             </div>
 
             <div class="kpi">
-                <div class="kpi-title" style="color:#f04dd8">TOTAL AMOSTRAS</div>
-                <div class="kpi-value" id="totalAmostras">...</div>
-                <div class="kpi-note">Amostras analisadas no ano</div>
+                <div class="kpi-icon">📦</div>
+                <div class="kpi-content">
+                    <div class="kpi-title" style="color:#f04dd8">TOTAL AMOSTRAS</div>
+                    <div class="kpi-value" id="totalAmostras">...</div>
+                    <div class="kpi-note">Amostras analisadas no ano</div>
+                </div>
             </div>
 
             <div class="kpi">
-                <div class="kpi-title" style="color:#22c55e">SKUs ESFIG</div>
-                <div class="kpi-value" id="totalEsfig">...</div>
-                <div class="kpi-note">SKUs em monitoramento</div>
+                <div class="kpi-icon">📦</div>
+                <div class="kpi-content">
+                    <div class="kpi-title" style="color:#22c55e">SKUs ESFIG</div>
+                    <div class="kpi-value" id="totalEsfig">...</div>
+                    <div class="kpi-note">SKUs em monitoramento</div>
+                </div>
             </div>
 
         </div>
@@ -644,7 +693,7 @@ td{
             <!-- DESCARTE -->
             <div class="card">
                 <div class="card-title" style="color:#1d4eff">
-                    DESCARTE POR ORIGEM
+                    <span class="title-emoji">📊</span> DESCARTE POR ORIGEM
                 </div>
 
                 <div class="chart-wrap">
@@ -670,13 +719,13 @@ td{
             <!-- ESFIG -->
             <div class="card">
                 <div class="card-title" style="color:#1d4eff">
-                    ESFIGMOMANÔMETRO - FLUXO OPERACIONAL
+                    <span class="title-emoji">🕛</span> ESFIGMOMANÔMETRO - FLUXO OPERACIONAL
                 </div>
 
                 <div class="fluxo-esfig">
                     <div class="fluxo-box" style="background:#eef4ff;">
                         <div class="fluxo-numero" style="color:#1d4eff" id="aguardandoTotal">0</div>
-                        <div class="fluxo-label">Aguardando</div>
+                        <div class="fluxo-label">Aguardando<br>Desmontagem</div>
                     </div>
 
                     <div class="fluxo-seta">→</div>
@@ -728,7 +777,7 @@ td{
             <!-- AMOSTRAS -->
             <div class="full-card">
                 <div class="card-title" style="color:#1d4eff">
-                    EVOLUÇÃO DE AMOSTRAS POR MÊS
+                    <span class="title-emoji">📈</span> EVOLUÇÃO DE AMOSTRAS POR MÊS
                 </div>
 
                 <div class="chart-wrap-small">
@@ -739,7 +788,7 @@ td{
             <!-- TOP AMOSTRAS -->
             <div class="full-card">
                 <div class="card-title" style="color:#1d4eff">
-                    TOP 10 AMOSTRAS MAIS SOLICITADAS
+                    <span class="title-emoji">🏆</span> TOP 10 AMOSTRAS MAIS SOLICITADAS
                 </div>
 
                 <div id="amostrasTable"></div>
@@ -750,6 +799,34 @@ td{
 <script>
 let descarteChart;
 let amostraChart;
+
+
+const lineValueLabelsPlugin = {
+    id:'lineValueLabelsPlugin',
+    afterDatasetsDraw(chart){
+        if(chart.canvas.id !== 'amostraChart') return;
+
+        const {ctx} = chart;
+        const dataset = chart.data.datasets[0];
+        const meta = chart.getDatasetMeta(0);
+
+        ctx.save();
+        ctx.font = '900 16px Arial';
+        ctx.fillStyle = '#1d4eff';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+
+        meta.data.forEach((point,index)=>{
+            const value = dataset.data[index];
+            ctx.fillText(value.toLocaleString('pt-BR'), point.x, point.y - 10);
+        });
+
+        ctx.restore();
+    }
+};
+
+Chart.register(lineValueLabelsPlugin);
+
 
 function formatMoney(value){
     return value.toLocaleString('pt-BR',{
@@ -981,6 +1058,9 @@ async function carregarDados(){
                 options:{
                     responsive:true,
                     maintainAspectRatio:false,
+                    layout:{
+                        padding:{top:24,right:12,left:6,bottom:0}
+                    },
                     plugins:{
                         legend:{display:false},
                         tooltip:{
