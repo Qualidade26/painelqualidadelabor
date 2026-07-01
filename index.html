@@ -1469,6 +1469,183 @@ th,td{
     }
 }
 
+
+/* ==========================================================
+   AJUSTE EXTRA - +10% LETRAS, TOP 3 EM LINHA, FLUXO E DATAS
+   ========================================================== */
+.card-title{
+    font-size:18px;
+}
+
+/* Gráfico Descarte por Origem: mais legível */
+.chart-wrap{
+    height:185px;
+}
+
+/* Evolução de amostras maior */
+.chart-wrap-small{
+    height:calc(100% - 24px);
+    min-height:175px;
+}
+
+/* Top 3: número e descrição lado a lado */
+.impacto-card{
+    min-height:66px;
+    padding:9px 10px;
+}
+
+.impacto-topo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.impacto-rank{
+    width:24px;
+    height:24px;
+    min-width:24px;
+    font-size:13px;
+}
+
+.impacto-nome{
+    margin-top:0;
+    font-size:14px;
+    line-height:1.12;
+}
+
+.impacto-valor{
+    font-size:17px;
+    margin-top:7px;
+    padding-left:32px;
+}
+
+/* Fluxo operacional: textos maiores e centralizados */
+.fluxo-box{
+    min-height:80px;
+    padding:12px 9px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.fluxo-numero{
+    font-size:31px;
+}
+
+.fluxo-label{
+    font-size:13px;
+    line-height:1.08;
+    text-align:center;
+}
+
+.fluxo-label-linha{
+    white-space:nowrap;
+    font-size:12px;
+}
+
+.fluxo-seta{
+    font-size:27px;
+}
+
+.progress-label{
+    font-size:14px;
+}
+
+.progress-main{
+    font-size:17px;
+}
+
+.progress-sub{
+    font-size:13px;
+}
+
+/* Datas de aferição maiores */
+.esfig-datas{
+    gap:9px;
+    margin-top:8px;
+}
+
+.esfig-data-box{
+    padding:9px 11px;
+}
+
+.esfig-data-label{
+    font-size:12px;
+    letter-spacing:.2px;
+}
+
+.esfig-data-value{
+    font-size:16px;
+}
+
+/* Tabela ESFIG com leitura melhor */
+.esfig-table-wrap{
+    max-height:122px;
+}
+
+th,td{
+    font-size:13px;
+}
+
+@media (max-width:1500px){
+    .card-title{
+        font-size:16px;
+    }
+
+    .chart-wrap{
+        height:182px;
+    }
+
+    .chart-wrap-small{
+        min-height:165px;
+    }
+
+    .impacto-rank{
+        width:22px;
+        height:22px;
+        min-width:22px;
+        font-size:12px;
+    }
+
+    .impacto-nome{
+        font-size:13px;
+    }
+
+    .impacto-valor{
+        font-size:16px;
+        padding-left:30px;
+    }
+
+    .fluxo-box{
+        min-height:74px;
+    }
+
+    .fluxo-numero{
+        font-size:29px;
+    }
+
+    .fluxo-label{
+        font-size:12px;
+    }
+
+    .fluxo-label-linha{
+        font-size:11px;
+    }
+
+    .esfig-data-label{
+        font-size:11px;
+    }
+
+    .esfig-data-value{
+        font-size:15px;
+    }
+
+    th,td{
+        font-size:12px;
+    }
+}
+
 </style>
 </head>
 
@@ -1561,7 +1738,7 @@ th,td{
                 <div class="fluxo-esfig">
                     <div class="fluxo-box" style="background:#eef4ff;">
                         <div class="fluxo-numero" style="color:#1d4eff" id="aguardandoTotal">0</div>
-                        <div class="fluxo-label">Aguardando<br>Desmontagem</div>
+                        <div class="fluxo-label fluxo-label-linha">Aguardando Desmontagem</div>
                     </div>
 
                     <div class="fluxo-seta">→</div>
@@ -1716,7 +1893,7 @@ const lineLabelPlugin = {
 
             meta.data.forEach((point,index)=>{
                 const value = dataset.data[index];
-                ctx.font = '900 14px Arial';
+                ctx.font = '900 16px Arial';
                 ctx.fillStyle = '#1d4eff';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'bottom';
@@ -1734,7 +1911,7 @@ const barMoneyLabelPlugin = {
         const {ctx} = chart;
         ctx.save();
 
-        ctx.font = '900 13px Arial';
+        ctx.font = '900 15px Arial';
         ctx.fillStyle = '#0f1f4d';
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
@@ -1818,8 +1995,10 @@ async function carregarDados(){
         document.getElementById("topImpactos").innerHTML =
             top3.map((item,index)=>`
                 <div class="impacto-card">
-                    <div class="impacto-rank">${index+1}</div>
-                    <div class="impacto-nome">${item.nome}</div>
+                    <div class="impacto-topo">
+                        <div class="impacto-rank">${index+1}</div>
+                        <div class="impacto-nome">${item.nome}</div>
+                    </div>
                     <div class="impacto-valor">${formatMoney(item.valor)}</div>
                 </div>
             `).join('');
@@ -1922,8 +2101,8 @@ async function carregarDados(){
                     plugins:{
                         legend:{display:false},
                         tooltip:{
-                            titleFont:{size:14,weight:'bold'},
-                            bodyFont:{size:13,weight:'bold'},
+                            titleFont:{size:16,weight:'bold'},
+                            bodyFont:{size:15,weight:'bold'},
                             callbacks:{
                                 label:function(context){
                                     return formatMoney(context.raw);
@@ -1935,7 +2114,7 @@ async function carregarDados(){
                         x:{
                             grid:{display:false},
                             ticks:{
-                                font:{size:13,weight:'bold'},
+                                font:{size:15,weight:'bold'},
                                 color:'#243b70',
                                 callback:function(value){
                                     return value.toLocaleString('pt-BR');
@@ -1945,7 +2124,7 @@ async function carregarDados(){
                         y:{
                             grid:{display:false},
                             ticks:{
-                                font:{size:12,weight:'bold'},
+                                font:{size:14,weight:'bold'},
                                 color:'#243b70'
                             }
                         }
@@ -1989,11 +2168,11 @@ async function carregarDados(){
                     },
                     scales:{
                         x:{
-                            ticks:{font:{size:12,weight:'bold'},color:'#243b70'},
+                            ticks:{font:{size:14,weight:'bold'},color:'#243b70'},
                             grid:{color:'rgba(92,108,150,.14)'}
                         },
                         y:{
-                            ticks:{font:{size:12,weight:'bold'},color:'#243b70'},
+                            ticks:{font:{size:14,weight:'bold'},color:'#243b70'},
                             grid:{color:'rgba(92,108,150,.14)'}
                         }
                     }
