@@ -52,39 +52,42 @@ body{
 
 /* TOPO HORIZONTAL */
 .topbar{
-    height:76px;
+    min-height:116px;
     background:linear-gradient(90deg,var(--top1),var(--top2));
     color:white;
     display:grid;
-    grid-template-columns:170px 1fr 310px;
+    grid-template-columns:300px 1fr 365px;
     align-items:center;
-    gap:16px;
-    padding:8px 14px;
-    box-shadow:0 8px 22px rgba(29,78,255,.22);
+    gap:18px;
+    padding:16px 26px;
+    box-shadow:0 8px 24px rgba(29,78,255,.26);
 }
 
-.logo-card{
-    background:white;
-    color:#1d4eff;
-    border-radius:14px;
-    height:58px;
-    width:86px;
+.brand-logo{
     display:flex;
-    align-items:center;
-    justify-content:center;
     flex-direction:column;
+    justify-content:center;
+    align-items:flex-start;
+    border-right:1px solid rgba(255,255,255,.45);
+    height:78px;
+    padding-right:24px;
+}
+
+.brand-logo .big{
+    color:white;
+    font-size:48px;
+    line-height:.9;
     font-weight:900;
-    box-shadow:0 6px 18px rgba(0,0,0,.12);
+    letter-spacing:5px;
 }
 
-.logo-card .big{
-    font-size:23px;
-    line-height:1;
-}
-
-.logo-card .small{
-    font-size:8px;
-    margin-top:3px;
+.brand-logo .small{
+    color:white;
+    font-size:15px;
+    margin-top:10px;
+    font-weight:900;
+    letter-spacing:7px;
+    opacity:.95;
 }
 
 .header-center{
@@ -93,15 +96,15 @@ body{
 }
 
 .header-center h1{
-    font-size:32px;
-    line-height:1;
+    font-size:36px;
+    line-height:1.05;
     font-weight:900;
-    letter-spacing:.7px;
+    letter-spacing:1px;
     text-transform:uppercase;
 }
 
 .subtitle{
-    font-size:12px;
+    font-size:15px;
     margin-top:8px;
     font-weight:800;
     opacity:.95;
@@ -115,12 +118,13 @@ body{
 }
 
 .status-box{
-    background:white;
-    color:#0f1f4d;
-    padding:9px 12px;
-    border-radius:12px;
+    background:rgba(255,255,255,.14);
+    color:white;
+    padding:12px 16px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.22);
     box-shadow:0 5px 16px rgba(0,0,0,.13);
-    font-size:12px;
+    font-size:13px;
     font-weight:900;
     white-space:nowrap;
 }
@@ -136,10 +140,10 @@ body{
 
 .main{
     flex:1;
-    padding:12px;
+    padding:16px 20px 10px;
     display:flex;
     flex-direction:column;
-    gap:12px;
+    gap:14px;
 }
 
 /* KPI */
@@ -151,19 +155,25 @@ body{
 
 .kpi{
     background:var(--card);
-    border-radius:18px;
-    padding:14px 16px;
+    border-radius:20px;
+    padding:18px 20px;
     box-shadow:var(--shadow);
-    min-height:100px;
+    min-height:118px;
     display:flex;
-    gap:13px;
+    gap:16px;
     align-items:center;
 }
 
 .kpi-icon{
-    font-size:36px;
-    width:46px;
-    min-width:46px;
+    font-size:42px;
+    width:56px;
+    min-width:56px;
+    height:56px;
+    border-radius:50%;
+    background:#eef4ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     text-align:center;
 }
 
@@ -173,14 +183,14 @@ body{
 }
 
 .kpi-title{
-    font-size:15px;
+    font-size:16px;
     font-weight:900;
     text-transform:uppercase;
     letter-spacing:.2px;
 }
 
 .kpi-value{
-    font-size:30px;
+    font-size:34px;
     line-height:1.05;
     font-weight:900;
     margin-top:7px;
@@ -188,9 +198,9 @@ body{
 }
 
 .kpi-note{
-    margin-top:7px;
+    margin-top:8px;
     color:var(--muted);
-    font-size:12px;
+    font-size:13px;
     font-weight:800;
 }
 
@@ -217,7 +227,7 @@ body{
 }
 
 .card-title{
-    font-size:20px;
+    font-size:22px;
     line-height:1.15;
     font-weight:900;
     margin-bottom:12px;
@@ -229,13 +239,13 @@ body{
 .chart-wrap{
     position:relative;
     width:100%;
-    height:255px;
+    height:285px;
 }
 
 .chart-wrap-small{
     position:relative;
     width:100%;
-    height:285px;
+    height:305px;
 }
 
 canvas{
@@ -524,31 +534,38 @@ td{
 
 @media (max-width:1500px){
     .topbar{
-        height:68px;
-        grid-template-columns:130px 1fr 285px;
-        padding:7px 10px;
+        min-height:92px;
+        grid-template-columns:225px 1fr 305px;
+        padding:12px 16px;
     }
 
-    .logo-card{
-        height:52px;
-        width:74px;
+    .brand-logo{
+        height:62px;
+        padding-right:16px;
     }
 
-    .logo-card .big{
-        font-size:19px;
+    .brand-logo .big{
+        font-size:36px;
+        letter-spacing:4px;
+    }
+
+    .brand-logo .small{
+        font-size:11px;
+        letter-spacing:5px;
+        margin-top:8px;
     }
 
     .header-center h1{
-        font-size:27px;
+        font-size:28px;
     }
 
     .subtitle{
-        font-size:10px;
+        font-size:11px;
         margin-top:6px;
     }
 
     .status-box{
-        padding:8px 10px;
+        padding:9px 10px;
         font-size:10px;
     }
 
@@ -564,26 +581,27 @@ td{
     }
 
     .kpi{
-        min-height:84px;
-        padding:10px 12px;
+        min-height:96px;
+        padding:13px 14px;
     }
 
     .kpi-icon{
-        font-size:28px;
-        width:34px;
-        min-width:34px;
+        font-size:31px;
+        width:44px;
+        min-width:44px;
+        height:44px;
     }
 
     .kpi-title{
-        font-size:12px;
+        font-size:13px;
     }
 
     .kpi-value{
-        font-size:24px;
+        font-size:26px;
     }
 
     .kpi-note{
-        font-size:10px;
+        font-size:11px;
     }
 
     .card,.full-card{
@@ -698,9 +716,16 @@ td{
 
 @media (max-width:1200px){
     .topbar{
-        grid-template-columns:90px 1fr;
+        grid-template-columns:1fr;
         height:auto;
-        min-height:76px;
+        min-height:120px;
+    }
+
+    .brand-logo{
+        align-items:center;
+        border-right:0;
+        padding-right:0;
+        height:auto;
     }
 
     .header-right{
@@ -721,9 +746,9 @@ td{
 <div class="page">
 
     <header class="topbar">
-        <div class="logo-card">
-            <div class="big">Labor</div>
-            <div class="small">Health Supply</div>
+        <div class="brand-logo">
+            <div class="big">LABOR</div>
+            <div class="small">HEALTH SUPPLY</div>
         </div>
 
         <div class="header-center">
@@ -879,7 +904,7 @@ td{
             </div>
         </section>
 
-        <div class="footer-update">🔄 Atualização automática a cada 2 minutos</div>
+        <div class="footer-update">🔄 Atualização automática a cada 2 minutos &nbsp;&nbsp;|&nbsp;&nbsp; Última atualização: <span id="ultimaAtualizacaoPainel">--/--/---- --:--:--</span></div>
 
     </main>
 </div>
@@ -981,7 +1006,7 @@ const barMoneyLabelPlugin = {
         const {ctx} = chart;
         ctx.save();
 
-        ctx.font = '900 12px Arial';
+        ctx.font = '900 13px Arial';
         ctx.fillStyle = '#0f1f4d';
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
@@ -1003,6 +1028,12 @@ async function carregarDados(){
     try{
         const response = await fetch('./data.json?t=' + Date.now());
         const data = await response.json();
+
+        const agoraPainel = new Date();
+        const campoUltimaAtualizacao = document.getElementById("ultimaAtualizacaoPainel");
+        if(campoUltimaAtualizacao){
+            campoUltimaAtualizacao.innerText = agoraPainel.toLocaleString('pt-BR');
+        }
 
         document.getElementById("totalDescarte").innerText =
             formatMoney(data.descarte.total);
@@ -1180,7 +1211,7 @@ async function carregarDados(){
                         x:{
                             grid:{display:false},
                             ticks:{
-                                font:{size:11,weight:'bold'},
+                                font:{size:13,weight:'bold'},
                                 color:'#243b70',
                                 callback:function(value){
                                     return value.toLocaleString('pt-BR');
@@ -1238,7 +1269,7 @@ async function carregarDados(){
                             grid:{color:'rgba(92,108,150,.14)'}
                         },
                         y:{
-                            ticks:{font:{size:11,weight:'bold'},color:'#243b70'},
+                            ticks:{font:{size:12,weight:'bold'},color:'#243b70'},
                             grid:{color:'rgba(92,108,150,.14)'}
                         }
                     }
