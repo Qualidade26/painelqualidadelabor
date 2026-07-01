@@ -34,7 +34,7 @@ body{
     min-height:100vh;
     height:100vh;
     display:grid;
-    grid-template-rows:88px 1fr;
+    grid-template-rows:108px 1fr;
 }
 
 /* TOPO HORIZONTAL */
@@ -42,16 +42,17 @@ body{
     background:linear-gradient(90deg,var(--azul1),var(--azul2));
     color:white;
     display:grid;
-    grid-template-columns:260px 1fr 390px;
+    grid-template-columns:170px 1fr 390px;
     align-items:center;
     gap:16px;
-    padding:12px 18px;
+    padding:14px 20px;
     box-shadow:0 8px 28px rgba(15,60,201,.25);
 }
 
 .brand{
     display:flex;
     align-items:center;
+    justify-content:flex-start;
     gap:12px;
     font-weight:900;
 }
@@ -59,24 +60,24 @@ body{
     background:white;
     color:#1d4eff;
     border-radius:18px;
-    width:76px;
-    height:60px;
+    width:118px;
+    height:76px;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
     box-shadow:0 6px 18px rgba(0,0,0,.12);
 }
-.logo-big{font-size:23px;line-height:1;font-weight:900;}
-.logo-small{font-size:10px;margin-top:3px;font-weight:900;}
-.brand-text{font-size:15px;line-height:1.2;opacity:.95;}
+.logo-big{font-size:34px;line-height:1;font-weight:900;}
+.logo-small{font-size:14px;margin-top:3px;font-weight:900;}
+.brand-text{display:none;}
 
 .title-area{
     text-align:center;
     min-width:0;
 }
 .title-area h1{
-    font-size:32px;
+    font-size:40px;
     line-height:1.05;
     font-weight:900;
     letter-spacing:.8px;
@@ -84,7 +85,7 @@ body{
     white-space:nowrap;
 }
 .subtitle{
-    font-size:14px;
+    font-size:16px;
     margin-top:6px;
     font-weight:700;
     opacity:.9;
@@ -102,18 +103,19 @@ body{
     padding:11px 13px;
     border-radius:14px;
     box-shadow:0 6px 18px rgba(0,0,0,.12);
-    font-size:13px;
+    font-size:14px;
     font-weight:900;
     white-space:nowrap;
 }
 .online-dot{width:11px;height:11px;border-radius:50%;display:inline-block;background:#22c55e;margin-right:8px;}
 
 .main{
-    height:calc(100vh - 88px);
+    height:calc(100vh - 108px);
     padding:14px;
     display:grid;
-    grid-template-rows:112px 1fr;
+    grid-template-rows:126px 1fr;
     gap:14px;
+    padding-bottom:28px;
     overflow:hidden;
 }
 
@@ -134,11 +136,11 @@ body{
     align-items:center;
     min-width:0;
 }
-.kpi-icon{font-size:42px;width:54px;min-width:54px;text-align:center;}
+.kpi-icon{font-size:48px;width:60px;min-width:60px;text-align:center;}
 .kpi-content{flex:1;min-width:0;}
-.kpi-title{font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:.2px;}
-.kpi-value{font-size:31px;line-height:1.05;font-weight:900;margin-top:7px;white-space:nowrap;}
-.kpi-note{margin-top:7px;color:var(--muted);font-size:13px;font-weight:800;}
+.kpi-title{font-size:17px;font-weight:900;text-transform:uppercase;letter-spacing:.2px;}
+.kpi-value{font-size:36px;line-height:1.05;font-weight:900;margin-top:7px;white-space:nowrap;}
+.kpi-note{margin-top:7px;color:var(--muted);font-size:15px;font-weight:800;}
 
 /* ENQUADRAMENTO PRINCIPAL */
 .dashboard-grid{
@@ -161,7 +163,7 @@ body{
     flex-direction:column;
 }
 .card-title{
-    font-size:21px;
+    font-size:25px;
     line-height:1.1;
     font-weight:900;
     margin-bottom:12px;
@@ -192,20 +194,20 @@ body{
 canvas{width:100% !important;height:100% !important;}
 
 /* TABELAS */
-table{width:100%;border-collapse:collapse;font-size:14px;}
+table{width:100%;border-collapse:collapse;font-size:16px;}
 th{
     padding:9px 9px;
     text-align:left;
     color:#243b70;
     background:#eef4ff;
-    font-size:14px;
+    font-size:16px;
     font-weight:900;
     border-bottom:1px solid var(--line);
 }
 td{
     padding:8px 9px;
     border-bottom:1px solid var(--line);
-    font-size:14px;
+    font-size:16px;
     font-weight:800;
     vertical-align:middle;
 }
@@ -227,66 +229,81 @@ td{
 }
 .impacto-card{background:#eef4ff;padding:12px;border-radius:15px;min-height:92px;}
 .impacto-rank{width:26px;height:26px;border-radius:9px;background:#1d4eff;color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;}
-.impacto-nome{margin-top:7px;font-size:14px;line-height:1.15;font-weight:900;}
-.impacto-valor{margin-top:7px;font-size:18px;line-height:1.1;font-weight:900;}
+.impacto-nome{margin-top:7px;font-size:16px;line-height:1.15;font-weight:900;}
+.impacto-valor{margin-top:7px;font-size:21px;line-height:1.1;font-weight:900;}
 
 /* ESFIG */
 .fluxo-esfig{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:9px;align-items:center;margin-top:4px;flex:0 0 auto;}
 .fluxo-box{padding:15px 8px;border-radius:18px;text-align:center;min-height:98px;}
-.fluxo-numero{font-size:34px;line-height:1;font-weight:900;}
-.fluxo-label{margin-top:7px;font-size:14px;font-weight:900;line-height:1.12;}
+.fluxo-numero{font-size:40px;line-height:1;font-weight:900;}
+.fluxo-label{margin-top:7px;font-size:16px;font-weight:900;line-height:1.12;}
 .fluxo-seta{font-size:30px;font-weight:900;}
 .progress-area{margin-top:15px;flex:0 0 auto;}
-.progress-label{font-size:15px;font-weight:900;margin-bottom:7px;}
+.progress-label{font-size:17px;font-weight:900;margin-bottom:7px;}
 .progress-track{width:100%;height:17px;background:#dce8ff;border-radius:20px;overflow:hidden;}
 .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#1d4eff,#60a5fa);}
-.progress-main{color:#1d4eff;font-size:19px;font-weight:900;margin-top:8px;}
-.progress-sub{color:#22c55e;font-size:14px;font-weight:900;margin-top:2px;}
+.progress-main{color:#1d4eff;font-size:22px;font-weight:900;margin-top:8px;}
+.progress-sub{color:#22c55e;font-size:16px;font-weight:900;margin-top:2px;}
 .esfig-datas{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:0 0 auto;}
 .esfig-data-box{background:#eef4ff;border:1px solid #d6e5ff;border-radius:15px;padding:10px 12px;}
-.esfig-data-label{font-size:12px;color:#5c6c96;font-weight:900;text-transform:uppercase;letter-spacing:.2px;}
-.esfig-data-value{margin-top:5px;font-size:18px;color:#0f1f4d;font-weight:900;}
+.esfig-data-label{font-size:14px;color:#5c6c96;font-weight:900;text-transform:uppercase;letter-spacing:.2px;}
+.esfig-data-value{margin-top:5px;font-size:20px;color:#0f1f4d;font-weight:900;}
 
 /* TOP AMOSTRAS */
 .amostras-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;height:100%;}
 .amostra-row{display:flex;justify-content:space-between;align-items:center;padding:8px 4px;border-bottom:1px solid #dce8ff;gap:10px;}
 .amostra-rank{width:30px;height:30px;min-width:30px;border-radius:9px;background:linear-gradient(135deg,#1d4eff,#60a5fa);color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;}
 .amostra-info{flex:1;min-width:0;}
-.amostra-sku{font-weight:900;font-size:16px;line-height:1.1;}
-.amostra-desc{color:#5c6c96;font-size:12px;font-weight:800;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.amostra-qtd{font-size:23px;font-weight:900;color:#1d4eff;min-width:50px;text-align:right;}
+.amostra-sku{font-weight:900;font-size:18px;line-height:1.1;}
+.amostra-desc{color:#5c6c96;font-size:14px;font-weight:800;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.amostra-qtd{font-size:28px;font-weight:900;color:#1d4eff;min-width:50px;text-align:right;}
+
+
+.update-footer{
+    position:fixed;
+    left:18px;
+    bottom:6px;
+    background:rgba(15,60,201,.92);
+    color:white;
+    padding:7px 14px;
+    border-radius:14px 14px 0 0;
+    font-size:13px;
+    font-weight:900;
+    box-shadow:0 -4px 16px rgba(15,60,201,.22);
+    z-index:20;
+}
 
 /* NOTEBOOKS MENORES */
 @media (max-width:1500px){
-    .container{grid-template-rows:78px 1fr;}
-    .topbar{grid-template-columns:220px 1fr 350px;padding:10px 14px;}
-    .logo-box{width:66px;height:54px;border-radius:15px;}
-    .logo-big{font-size:20px;}.logo-small{font-size:9px;}
-    .brand-text{font-size:13px;}
-    .title-area h1{font-size:27px;}
-    .subtitle{font-size:12px;}
+    .container{grid-template-rows:96px 1fr;}
+    .topbar{grid-template-columns:150px 1fr 350px;padding:12px 14px;}
+    .logo-box{width:100px;height:66px;border-radius:16px;}
+    .logo-big{font-size:28px;}.logo-small{font-size:12px;}
+    .brand-text{display:none;}
+    .title-area h1{font-size:34px;}
+    .subtitle{font-size:13px;}
     .status-box{font-size:12px;padding:9px 11px;}
-    .main{height:calc(100vh - 78px);padding:12px;grid-template-rows:104px 1fr;gap:12px;}
+    .main{height:calc(100vh - 96px);padding:12px;grid-template-rows:112px 1fr;gap:12px;padding-bottom:30px;}
     .kpis{gap:12px;}
     .kpi{padding:12px 13px;border-radius:18px;gap:10px;}
-    .kpi-icon{font-size:34px;width:44px;min-width:44px;}
-    .kpi-title{font-size:13px;}.kpi-value{font-size:26px;}.kpi-note{font-size:12px;}
+    .kpi-icon{font-size:38px;width:48px;min-width:48px;}
+    .kpi-title{font-size:14px;}.kpi-value{font-size:29px;}.kpi-note{font-size:13px;}
     .dashboard-grid{gap:12px;}
     .card,.full-card{padding:12px;border-radius:18px;}
-    .card-title{font-size:18px;margin-bottom:9px;}
+    .card-title{font-size:21px;margin-bottom:10px;}
     .chart-wrap{height:39%;min-height:135px;}
-    th,td{font-size:12px;padding:6px 7px;}
+    th,td{font-size:13.5px;padding:7px 8px;}
     .impacto-card{padding:9px;min-height:75px;}
     .impacto-rank{width:22px;height:22px;font-size:12px;}
-    .impacto-nome{font-size:12px;margin-top:5px;}
-    .impacto-valor{font-size:15px;margin-top:5px;}
+    .impacto-nome{font-size:13.5px;margin-top:5px;}
+    .impacto-valor{font-size:17px;margin-top:5px;}
     .fluxo-box{min-height:82px;padding:11px 6px;}
-    .fluxo-numero{font-size:27px;}.fluxo-label{font-size:12px;}.fluxo-seta{font-size:24px;}
-    .progress-area{margin-top:10px;}.progress-main{font-size:16px;}.progress-sub{font-size:12px;}
+    .fluxo-numero{font-size:30px;}.fluxo-label{font-size:13.5px;}.fluxo-seta{font-size:25px;}
+    .progress-area{margin-top:10px;}.progress-main{font-size:17px;}.progress-sub{font-size:13px;}
     .table-scroll{margin-top:9px;}
-    .esfig-datas{margin-top:9px;}.esfig-data-label{font-size:10px;}.esfig-data-value{font-size:15px;}
+    .esfig-datas{margin-top:9px;}.esfig-data-label{font-size:11px;}.esfig-data-value{font-size:16px;}
     .amostra-row{padding:6px 3px;}.amostra-rank{width:26px;height:26px;min-width:26px;font-size:12px;}
-    .amostra-sku{font-size:13px;}.amostra-desc{font-size:10px;}.amostra-qtd{font-size:19px;}
+    .amostra-sku{font-size:14px;}.amostra-desc{font-size:11px;}.amostra-qtd{font-size:21px;}
 }
 
 @media (max-width:1100px){
@@ -313,7 +330,6 @@ td{
                 <div class="logo-big">Labor</div>
                 <div class="logo-small">Health Supply</div>
             </div>
-            <div class="brand-text">Painel da Qualidade<br>Atualização a cada 2 min</div>
         </div>
 
         <div class="title-area">
