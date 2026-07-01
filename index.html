@@ -1646,6 +1646,484 @@ th,td{
     }
 }
 
+
+
+/* ==========================================================
+   AJUSTE FINAL 100% NOTEBOOK
+   Objetivo: abrir no navegador em zoom 100% e exibir o painel completo
+   sem corte de informações em telas de notebook, especialmente 1366x768.
+   ========================================================== */
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+body{
+    margin:0;
+}
+
+.page{
+    width:100vw;
+    height:100vh;
+    max-width:none;
+    display:grid;
+    grid-template-rows:92px minmax(0,1fr);
+    overflow:hidden;
+}
+
+.topbar{
+    height:92px;
+    min-height:92px;
+    padding:10px 22px;
+    display:grid;
+    grid-template-columns:220px minmax(0,1fr) 300px;
+    gap:14px;
+    align-items:center;
+}
+
+.brand-logo{
+    align-items:flex-start;
+    justify-content:center;
+}
+
+.brand-logo .big{
+    font-size:43px;
+    line-height:.9;
+    letter-spacing:4px;
+}
+
+.brand-logo .small{
+    font-size:13px;
+    margin-top:4px;
+    letter-spacing:2px;
+}
+
+.header-center{
+    text-align:center;
+}
+
+.header-center h1,
+.topbar h1{
+    font-size:30px;
+    line-height:1;
+    margin:0;
+    text-align:center;
+}
+
+.subtitle{
+    font-size:14px;
+    line-height:1.15;
+    margin-top:5px;
+    text-align:center;
+}
+
+.header-right{
+    justify-content:flex-end;
+    gap:8px;
+}
+
+.status-box{
+    padding:8px 10px;
+    font-size:12px;
+    border-radius:12px;
+}
+
+.main{
+    height:100%;
+    min-height:0;
+    overflow:hidden;
+    padding:8px 10px 6px;
+    display:grid;
+    grid-template-rows:76px minmax(0,1fr) 168px 20px;
+    gap:8px;
+}
+
+.kpis,
+.grid,
+.bottom-grid{
+    margin:0 !important;
+    min-height:0;
+}
+
+.kpis{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:8px;
+    height:76px;
+}
+
+.kpi{
+    min-height:0;
+    height:76px;
+    padding:8px 10px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.kpi-icon{
+    font-size:29px;
+    width:36px;
+    min-width:36px;
+}
+
+.kpi-title{
+    font-size:12px;
+    line-height:1.05;
+}
+
+.kpi-value{
+    font-size:23px;
+    line-height:1;
+    margin-top:4px;
+}
+
+.kpi-note{
+    font-size:11px;
+    line-height:1.05;
+    margin-top:4px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:minmax(0,58%) minmax(0,42%);
+    gap:8px;
+    height:100%;
+}
+
+.bottom-grid{
+    display:grid;
+    grid-template-columns:minmax(0,55%) minmax(0,45%);
+    gap:8px;
+    height:168px;
+}
+
+.card,
+.full-card{
+    min-height:0;
+    height:100%;
+    overflow:hidden;
+    border-radius:18px;
+    padding:9px;
+    border:2px solid #1d4eff;
+}
+
+.card-title{
+    font-size:17px;
+    line-height:1.05;
+    margin:0 0 7px;
+    text-align:center;
+}
+
+.chart-wrap{
+    height:150px !important;
+    min-height:150px;
+}
+
+.chart-wrap-small{
+    height:122px !important;
+    min-height:122px;
+}
+
+.top-impactos{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;
+    margin-top:6px;
+}
+
+.impacto-card{
+    min-height:52px;
+    padding:6px 8px;
+    border-radius:12px;
+}
+
+.impacto-topo{
+    display:grid;
+    grid-template-columns:24px minmax(0,1fr);
+    gap:6px;
+    align-items:center;
+}
+
+.impacto-rank{
+    width:24px;
+    height:24px;
+    min-width:24px;
+    border-radius:8px;
+    font-size:13px;
+}
+
+.impacto-nome{
+    margin:0;
+    font-size:12px;
+    line-height:1.05;
+    white-space:normal;
+}
+
+.impacto-valor{
+    margin-top:5px;
+    padding-left:30px;
+    font-size:14px;
+    line-height:1;
+}
+
+.sku-table-box{
+    margin-top:6px;
+    height:118px;
+    min-height:0;
+    overflow:hidden;
+    border-radius:12px;
+}
+
+.sku-table-head{
+    height:28px;
+    display:grid;
+    grid-template-columns:18% 52% 30%;
+    align-items:center;
+    font-size:12px;
+    font-weight:900;
+}
+
+.scroll-skus{
+    height:90px;
+    max-height:90px;
+}
+
+.sku-row{
+    min-height:28px;
+    display:grid;
+    grid-template-columns:18% 52% 30%;
+    align-items:center;
+    font-size:12px;
+    line-height:1.05;
+    padding:4px 6px;
+}
+
+.fluxo-esfig{
+    grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr) 18px minmax(0,1fr);
+    gap:5px;
+    margin-top:4px;
+}
+
+.fluxo-box{
+    min-height:68px;
+    height:68px;
+    padding:8px 5px;
+    border-radius:15px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.fluxo-numero{
+    font-size:28px;
+    line-height:1;
+}
+
+.fluxo-label{
+    font-size:12px;
+    line-height:1;
+    margin-top:5px;
+    text-align:center;
+}
+
+.fluxo-label-linha{
+    white-space:normal;
+    max-width:100%;
+}
+
+.fluxo-seta{
+    font-size:20px;
+    text-align:center;
+}
+
+.progress-area{
+    margin-top:7px;
+}
+
+.progress-label{
+    font-size:12px;
+    margin-bottom:4px;
+}
+
+.progress-track{
+    height:11px;
+}
+
+.progress-main{
+    font-size:15px;
+    line-height:1;
+    margin-top:5px;
+}
+
+.progress-sub{
+    font-size:12px;
+    line-height:1;
+    margin-top:2px;
+}
+
+.esfig-table-wrap{
+    margin-top:6px;
+    height:125px;
+    max-height:125px;
+    overflow:hidden;
+}
+
+table{
+    font-size:12px;
+}
+
+th{
+    font-size:11px;
+    padding:5px 6px;
+}
+
+td{
+    font-size:11px;
+    padding:5px 6px;
+    line-height:1.05;
+}
+
+.esfig-datas{
+    margin-top:6px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+}
+
+.esfig-data-box{
+    min-height:40px;
+    padding:6px 8px;
+    border-radius:12px;
+}
+
+.esfig-data-label{
+    font-size:11px;
+    line-height:1;
+}
+
+.esfig-data-value{
+    font-size:15px;
+    line-height:1;
+    margin-top:4px;
+}
+
+.scroll-amostras{
+    height:126px;
+    max-height:126px;
+}
+
+.amostra-row{
+    min-height:31px;
+    padding:4px 4px;
+    gap:6px;
+}
+
+.amostra-rank{
+    width:22px;
+    height:22px;
+    min-width:22px;
+    font-size:12px;
+    border-radius:7px;
+}
+
+.amostra-sku{
+    font-size:12px;
+    line-height:1;
+}
+
+.amostra-desc{
+    font-size:10px;
+    line-height:1;
+    margin-top:2px;
+}
+
+.amostra-qtd{
+    font-size:16px;
+    min-width:34px;
+}
+
+.footer-update{
+    height:20px;
+    line-height:20px;
+    font-size:11px;
+    padding:0;
+    text-align:center;
+}
+
+canvas{
+    max-height:none !important;
+}
+
+@media (min-width:1500px){
+    .page{
+        grid-template-rows:100px minmax(0,1fr);
+    }
+
+    .topbar{
+        height:100px;
+        min-height:100px;
+    }
+
+    .main{
+        grid-template-rows:82px minmax(0,1fr) 185px 22px;
+        gap:10px;
+        padding:10px 14px 8px;
+    }
+
+    .kpis,
+    .kpi{
+        height:82px;
+    }
+
+    .chart-wrap{
+        height:175px !important;
+    }
+
+    .chart-wrap-small{
+        height:137px !important;
+    }
+
+    .bottom-grid{
+        height:185px;
+    }
+}
+
+@media (max-width:1200px){
+    html,body{
+        overflow:auto;
+    }
+    .page{
+        height:auto;
+        min-height:100vh;
+        grid-template-rows:auto auto;
+        overflow:visible;
+    }
+    .topbar,
+    .main,
+    .kpis,
+    .grid,
+    .bottom-grid,
+    .kpi,
+    .card,
+    .full-card{
+        height:auto;
+        overflow:visible;
+    }
+    .main{
+        display:block;
+    }
+    .kpis,
+    .grid,
+    .bottom-grid{
+        grid-template-columns:1fr;
+        margin-bottom:10px !important;
+    }
+}
+
 </style>
 </head>
 
