@@ -1269,6 +1269,206 @@ td{
     }
 }
 
+
+
+/* ==========================================================
+   AJUSTE SOLICITADO - NOTEBOOK / 67% / TÍTULOS CENTRALIZADOS
+   ========================================================== */
+
+/* Observação: o navegador não permite forçar o zoom real do Chrome/Edge.
+   O bloco abaixo simula abertura em 67% via CSS, mantendo o painel inteiro visível. */
+:root{
+    --painel-zoom: .67;
+}
+
+body{
+    overflow:hidden;
+}
+
+.page{
+    width:calc(100% / var(--painel-zoom));
+    height:calc(100vh / var(--painel-zoom));
+    min-height:calc(100vh / var(--painel-zoom));
+    transform:scale(var(--painel-zoom));
+    transform-origin:top left;
+}
+
+/* Todos os títulos dos painéis centralizados */
+.card-title{
+    text-align:center;
+    justify-content:center;
+}
+
+/* Redução adicional dos cards superiores sem perder leitura */
+.main{
+    height:calc((100vh / var(--painel-zoom)) - 100px);
+    grid-template-rows:82px minmax(0,1.34fr) minmax(0,.66fr) 24px;
+}
+
+.kpi{
+    height:82px;
+    min-height:82px;
+    padding:10px 15px;
+}
+
+.kpi-icon{
+    width:42px;
+    min-width:42px;
+    height:42px;
+    font-size:30px;
+}
+
+.kpi-title{
+    font-size:14px;
+}
+
+.kpi-value{
+    font-size:27px;
+    margin-top:4px;
+}
+
+.kpi-note{
+    font-size:11px;
+    margin-top:4px;
+}
+
+/* Painéis inferiores menores */
+.chart-wrap-small{
+    height:calc(100% - 30px);
+    min-height:155px;
+}
+
+.scroll-amostras{
+    height:calc(100% - 30px);
+    min-height:155px;
+}
+
+/* Mantém tabelas mais legíveis que os demais tópicos */
+th,td{
+    font-size:14px;
+    padding:8px 9px;
+}
+
+.sku-table-head{
+    font-size:14px;
+}
+
+.sku-table-row{
+    font-size:14px;
+    min-height:34px;
+}
+
+.amostra-sku{
+    font-size:15px;
+}
+
+.amostra-desc{
+    font-size:12px;
+}
+
+.amostra-qtd{
+    font-size:22px;
+}
+
+/* Ajuste especial para notebook até 1500px */
+@media (max-width:1500px){
+    .topbar{
+        height:84px;
+        min-height:84px;
+        grid-template-columns:230px 1fr 305px;
+        padding:10px 14px;
+    }
+
+    .main{
+        height:calc((100vh / var(--painel-zoom)) - 84px);
+        grid-template-rows:74px minmax(0,1.38fr) minmax(0,.62fr) 22px;
+        padding:9px 10px 6px;
+        gap:8px;
+    }
+
+    .kpi{
+        height:74px;
+        min-height:74px;
+        padding:8px 11px;
+        gap:9px;
+    }
+
+    .kpi-icon{
+        width:35px;
+        min-width:35px;
+        height:35px;
+        font-size:23px;
+    }
+
+    .kpi-title{
+        font-size:11px;
+    }
+
+    .kpi-value{
+        font-size:21px;
+        margin-top:3px;
+    }
+
+    .kpi-note{
+        font-size:9px;
+        margin-top:3px;
+    }
+
+    .card-title{
+        font-size:15px;
+        text-align:center;
+        margin-bottom:5px;
+    }
+
+    .chart-wrap{
+        height:168px;
+    }
+
+    .chart-wrap-small{
+        height:calc(100% - 26px);
+        min-height:128px;
+    }
+
+    .scroll-amostras{
+        height:calc(100% - 26px);
+        min-height:128px;
+    }
+
+    .scroll-skus{
+        height:116px;
+    }
+
+    th,td{
+        font-size:12px;
+        padding:6px 7px;
+    }
+
+    .sku-table-head{
+        font-size:12px;
+    }
+
+    .sku-table-row{
+        min-height:30px;
+        font-size:12px;
+    }
+
+    .amostra-row{
+        padding:6px 4px;
+    }
+
+    .amostra-sku{
+        font-size:12px;
+    }
+
+    .amostra-desc{
+        font-size:10px;
+    }
+
+    .amostra-qtd{
+        font-size:18px;
+    }
+}
+
 </style>
 </head>
 
