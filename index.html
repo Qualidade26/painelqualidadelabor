@@ -9,330 +9,724 @@
 <style>
 :root{
     --bg:#dfeeff;
-    --azul1:#0f3cc9;
-    --azul2:#1c57ff;
+    --top1:#0f3cc9;
+    --top2:#1c57ff;
     --card:#f8fbff;
+    --card2:#eef5ff;
     --primary:#1d4eff;
+    --secondary:#6b7cff;
     --pink:#f04dd8;
     --green:#22c55e;
+    --cyan:#38bdf8;
+    --purple:#8b5cf6;
     --text:#0f1f4d;
     --muted:#5c6c96;
     --line:#d6e5ff;
-    --shadow:0 8px 28px rgba(29,78,255,.16);
+    --shadow:0 8px 30px rgba(29,78,255,.15);
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{width:100%;height:100%;}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    min-height:100vh;
+}
+
 body{
     font-family:Arial, Helvetica, sans-serif;
     background:linear-gradient(135deg,#dfeeff,#edf6ff);
     color:var(--text);
-    overflow:hidden;
+    overflow-x:hidden;
 }
 
-.container{
+.page{
+    width:100%;
     min-height:100vh;
-    height:100vh;
-    display:grid;
-    grid-template-rows:108px 1fr;
+    display:flex;
+    flex-direction:column;
 }
 
 /* TOPO HORIZONTAL */
 .topbar{
-    background:linear-gradient(90deg,var(--azul1),var(--azul2));
+    height:76px;
+    background:linear-gradient(90deg,var(--top1),var(--top2));
     color:white;
     display:grid;
-    grid-template-columns:170px 1fr 390px;
+    grid-template-columns:170px 1fr 310px;
     align-items:center;
     gap:16px;
-    padding:14px 20px;
-    box-shadow:0 8px 28px rgba(15,60,201,.25);
+    padding:8px 14px;
+    box-shadow:0 8px 22px rgba(29,78,255,.22);
 }
 
-.brand{
-    display:flex;
-    align-items:center;
-    justify-content:flex-start;
-    gap:12px;
-    font-weight:900;
-}
-.logo-box{
+.logo-card{
     background:white;
     color:#1d4eff;
-    border-radius:18px;
-    width:118px;
-    height:76px;
+    border-radius:14px;
+    height:58px;
+    width:86px;
     display:flex;
-    flex-direction:column;
     align-items:center;
     justify-content:center;
+    flex-direction:column;
+    font-weight:900;
     box-shadow:0 6px 18px rgba(0,0,0,.12);
 }
-.logo-big{font-size:34px;line-height:1;font-weight:900;}
-.logo-small{font-size:14px;margin-top:3px;font-weight:900;}
-.brand-text{display:none;}
 
-.title-area{
+.logo-card .big{
+    font-size:23px;
+    line-height:1;
+}
+
+.logo-card .small{
+    font-size:8px;
+    margin-top:3px;
+}
+
+.header-center{
     text-align:center;
     min-width:0;
 }
-.title-area h1{
-    font-size:40px;
-    line-height:1.05;
+
+.header-center h1{
+    font-size:32px;
+    line-height:1;
     font-weight:900;
-    letter-spacing:.8px;
+    letter-spacing:.7px;
     text-transform:uppercase;
-    white-space:nowrap;
 }
+
 .subtitle{
-    font-size:16px;
-    margin-top:6px;
-    font-weight:700;
-    opacity:.9;
+    font-size:12px;
+    margin-top:8px;
+    font-weight:800;
+    opacity:.95;
 }
 
 .header-right{
     display:flex;
     justify-content:flex-end;
+    gap:8px;
     align-items:center;
-    gap:10px;
 }
+
 .status-box{
-    background:rgba(255,255,255,.96);
+    background:white;
     color:#0f1f4d;
-    padding:11px 13px;
-    border-radius:14px;
-    box-shadow:0 6px 18px rgba(0,0,0,.12);
-    font-size:14px;
+    padding:9px 12px;
+    border-radius:12px;
+    box-shadow:0 5px 16px rgba(0,0,0,.13);
+    font-size:12px;
     font-weight:900;
     white-space:nowrap;
 }
-.online-dot{width:11px;height:11px;border-radius:50%;display:inline-block;background:#22c55e;margin-right:8px;}
+
+.online-dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    display:inline-block;
+    background:#22c55e;
+    margin-right:6px;
+}
 
 .main{
-    height:calc(100vh - 108px);
-    padding:14px;
-    display:grid;
-    grid-template-rows:126px 1fr;
-    gap:14px;
-    padding-bottom:28px;
-    overflow:hidden;
+    flex:1;
+    padding:12px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
 }
 
-/* KPIs */
+/* KPI */
 .kpis{
     display:grid;
-    grid-template-columns:repeat(4,minmax(0,1fr));
-    gap:14px;
-    min-height:0;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
 }
+
 .kpi{
     background:var(--card);
-    border-radius:20px;
+    border-radius:18px;
     padding:14px 16px;
     box-shadow:var(--shadow);
+    min-height:100px;
     display:flex;
-    gap:12px;
+    gap:13px;
     align-items:center;
+}
+
+.kpi-icon{
+    font-size:36px;
+    width:46px;
+    min-width:46px;
+    text-align:center;
+}
+
+.kpi-content{
+    flex:1;
     min-width:0;
 }
-.kpi-icon{font-size:48px;width:60px;min-width:60px;text-align:center;}
-.kpi-content{flex:1;min-width:0;}
-.kpi-title{font-size:17px;font-weight:900;text-transform:uppercase;letter-spacing:.2px;}
-.kpi-value{font-size:36px;line-height:1.05;font-weight:900;margin-top:7px;white-space:nowrap;}
-.kpi-note{margin-top:7px;color:var(--muted);font-size:15px;font-weight:800;}
 
-/* ENQUADRAMENTO PRINCIPAL */
-.dashboard-grid{
+.kpi-title{
+    font-size:15px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.2px;
+}
+
+.kpi-value{
+    font-size:30px;
+    line-height:1.05;
+    font-weight:900;
+    margin-top:7px;
+    white-space:nowrap;
+}
+
+.kpi-note{
+    margin-top:7px;
+    color:var(--muted);
+    font-size:12px;
+    font-weight:800;
+}
+
+/* GRIDS */
+.grid{
     display:grid;
     grid-template-columns:minmax(0,58%) minmax(0,42%);
-    grid-template-rows:minmax(0,58%) minmax(0,42%);
-    gap:14px;
-    min-height:0;
-    height:100%;
+    gap:12px;
 }
+
+.bottom-grid{
+    display:grid;
+    grid-template-columns:minmax(0,58%) minmax(0,42%);
+    gap:12px;
+}
+
 .card,
 .full-card{
     background:var(--card);
-    border-radius:22px;
-    padding:15px;
+    border-radius:20px;
+    padding:14px;
     box-shadow:var(--shadow);
     overflow:hidden;
-    min-height:0;
-    display:flex;
-    flex-direction:column;
 }
+
 .card-title{
-    font-size:25px;
-    line-height:1.1;
+    font-size:20px;
+    line-height:1.15;
     font-weight:900;
     margin-bottom:12px;
     text-transform:uppercase;
-    letter-spacing:.3px;
+    letter-spacing:.25px;
     color:#1d4eff;
-    flex:0 0 auto;
 }
-
-.descarte-card{grid-column:1;grid-row:1;}
-.esfig-card{grid-column:2;grid-row:1;}
-.evolucao-card{grid-column:1;grid-row:2;}
-.top-card{grid-column:2;grid-row:2;}
 
 .chart-wrap{
     position:relative;
     width:100%;
-    height:42%;
-    min-height:155px;
-    flex:0 0 auto;
+    height:255px;
 }
+
 .chart-wrap-small{
     position:relative;
     width:100%;
-    flex:1 1 auto;
-    min-height:0;
+    height:285px;
 }
-canvas{width:100% !important;height:100% !important;}
+
+canvas{
+    width:100% !important;
+    height:100% !important;
+}
 
 /* TABELAS */
-table{width:100%;border-collapse:collapse;font-size:16px;}
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+}
+
 th{
     padding:9px 9px;
     text-align:left;
     color:#243b70;
     background:#eef4ff;
-    font-size:16px;
+    font-size:14px;
     font-weight:900;
     border-bottom:1px solid var(--line);
 }
+
 td{
-    padding:8px 9px;
+    padding:9px;
     border-bottom:1px solid var(--line);
-    font-size:16px;
+    font-size:14px;
     font-weight:800;
     vertical-align:middle;
 }
-.table-scroll{
-    margin-top:12px;
-    overflow:auto;
-    min-height:0;
-    flex:1 1 auto;
+
+/* SCROLL INFINITO */
+.scroll-infinito{
+    position:relative;
+    overflow:hidden;
 }
-.table-scroll thead{position:sticky;top:0;z-index:2;}
+
+.scroll-skus{
+    margin-top:12px;
+    height:122px;
+}
+
+.scroll-amostras{
+    height:265px;
+}
+
+.scroll-content{
+    display:flex;
+    flex-direction:column;
+    animation:scrollVertical 20s linear infinite;
+}
+
+.scroll-infinito:hover .scroll-content{
+    animation-play-state:paused;
+}
+
+@keyframes scrollVertical{
+    0%{
+        transform:translateY(0);
+    }
+    100%{
+        transform:translateY(-50%);
+    }
+}
+
+.scroll-table table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.scroll-table thead{
+    position:sticky;
+    top:0;
+    z-index:3;
+}
 
 /* TOP IMPACTOS */
 .top-impactos{
     display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-columns:repeat(3,1fr);
     gap:10px;
     margin-top:12px;
-    flex:0 0 auto;
 }
-.impacto-card{background:#eef4ff;padding:12px;border-radius:15px;min-height:92px;}
-.impacto-rank{width:26px;height:26px;border-radius:9px;background:#1d4eff;color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;}
-.impacto-nome{margin-top:7px;font-size:16px;line-height:1.15;font-weight:900;}
-.impacto-valor{margin-top:7px;font-size:21px;line-height:1.1;font-weight:900;}
 
-/* ESFIG */
-.fluxo-esfig{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:9px;align-items:center;margin-top:4px;flex:0 0 auto;}
-.fluxo-box{padding:15px 8px;border-radius:18px;text-align:center;min-height:98px;}
-.fluxo-numero{font-size:40px;line-height:1;font-weight:900;}
-.fluxo-label{margin-top:7px;font-size:16px;font-weight:900;line-height:1.12;}
-.fluxo-seta{font-size:30px;font-weight:900;}
-.progress-area{margin-top:15px;flex:0 0 auto;}
-.progress-label{font-size:17px;font-weight:900;margin-bottom:7px;}
-.progress-track{width:100%;height:17px;background:#dce8ff;border-radius:20px;overflow:hidden;}
-.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#1d4eff,#60a5fa);}
-.progress-main{color:#1d4eff;font-size:22px;font-weight:900;margin-top:8px;}
-.progress-sub{color:#22c55e;font-size:16px;font-weight:900;margin-top:2px;}
-.esfig-datas{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:0 0 auto;}
-.esfig-data-box{background:#eef4ff;border:1px solid #d6e5ff;border-radius:15px;padding:10px 12px;}
-.esfig-data-label{font-size:14px;color:#5c6c96;font-weight:900;text-transform:uppercase;letter-spacing:.2px;}
-.esfig-data-value{margin-top:5px;font-size:20px;color:#0f1f4d;font-weight:900;}
+.impacto-card{
+    background:#eef4ff;
+    padding:12px;
+    border-radius:15px;
+    min-height:88px;
+}
 
-/* TOP AMOSTRAS */
-.amostras-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;height:100%;}
-.amostra-row{display:flex;justify-content:space-between;align-items:center;padding:8px 4px;border-bottom:1px solid #dce8ff;gap:10px;}
-.amostra-rank{width:30px;height:30px;min-width:30px;border-radius:9px;background:linear-gradient(135deg,#1d4eff,#60a5fa);color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;}
-.amostra-info{flex:1;min-width:0;}
-.amostra-sku{font-weight:900;font-size:18px;line-height:1.1;}
-.amostra-desc{color:#5c6c96;font-size:14px;font-weight:800;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.amostra-qtd{font-size:28px;font-weight:900;color:#1d4eff;min-width:50px;text-align:right;}
-
-
-.update-footer{
-    position:fixed;
-    left:18px;
-    bottom:6px;
-    background:rgba(15,60,201,.92);
+.impacto-rank{
+    width:25px;
+    height:25px;
+    border-radius:8px;
+    background:#1d4eff;
     color:white;
-    padding:7px 14px;
-    border-radius:14px 14px 0 0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     font-size:13px;
     font-weight:900;
-    box-shadow:0 -4px 16px rgba(15,60,201,.22);
-    z-index:20;
 }
 
-/* NOTEBOOKS MENORES */
+.impacto-nome{
+    margin-top:7px;
+    font-size:14px;
+    line-height:1.2;
+    font-weight:900;
+}
+
+.impacto-valor{
+    margin-top:7px;
+    font-size:18px;
+    line-height:1.1;
+    font-weight:900;
+}
+
+/* ESFIG */
+.fluxo-esfig{
+    display:grid;
+    grid-template-columns:1fr auto 1fr auto 1fr;
+    gap:10px;
+    align-items:center;
+    margin-top:8px;
+}
+
+.fluxo-box{
+    padding:16px 10px;
+    border-radius:18px;
+    text-align:center;
+    min-height:95px;
+}
+
+.fluxo-numero{
+    font-size:33px;
+    line-height:1;
+    font-weight:900;
+}
+
+.fluxo-label{
+    margin-top:7px;
+    font-size:13px;
+    font-weight:900;
+    line-height:1.15;
+}
+
+.fluxo-seta{
+    font-size:30px;
+    font-weight:900;
+}
+
+.progress-area{
+    margin-top:15px;
+}
+
+.progress-label{
+    font-size:14px;
+    font-weight:900;
+    margin-bottom:7px;
+}
+
+.progress-track{
+    width:100%;
+    height:17px;
+    background:#dce8ff;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#1d4eff,#60a5fa);
+}
+
+.progress-main{
+    color:#1d4eff;
+    font-size:18px;
+    font-weight:900;
+    margin-top:8px;
+}
+
+.progress-sub{
+    color:#22c55e;
+    font-size:14px;
+    font-weight:900;
+    margin-top:2px;
+}
+
+.esfig-table-wrap{
+    margin-top:12px;
+    max-height:130px;
+    overflow:auto;
+}
+
+.esfig-datas{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:12px;
+}
+
+.esfig-data-box{
+    background:#eef4ff;
+    border:1px solid #cfe0ff;
+    border-radius:14px;
+    padding:10px 12px;
+}
+
+.esfig-data-label{
+    font-size:12px;
+    color:#1d4eff;
+    font-weight:900;
+    text-transform:uppercase;
+}
+
+.esfig-data-value{
+    font-size:15px;
+    color:#0f1f4d;
+    font-weight:900;
+    margin-top:5px;
+}
+
+/* TOP AMOSTRAS */
+.amostra-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 4px;
+    border-bottom:1px solid #dce8ff;
+    gap:12px;
+}
+
+.amostra-rank{
+    width:31px;
+    height:31px;
+    min-width:31px;
+    border-radius:9px;
+    background:linear-gradient(135deg,#1d4eff,#60a5fa);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+    font-size:14px;
+}
+
+.amostra-info{
+    flex:1;
+    min-width:0;
+}
+
+.amostra-sku{
+    font-weight:900;
+    font-size:15px;
+    line-height:1.1;
+}
+
+.amostra-desc{
+    color:#5c6c96;
+    font-size:12px;
+    font-weight:800;
+    margin-top:3px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.amostra-qtd{
+    font-size:22px;
+    font-weight:900;
+    color:#1d4eff;
+    min-width:50px;
+    text-align:right;
+}
+
+.footer-update{
+    text-align:center;
+    color:#334a7d;
+    font-size:12px;
+    font-weight:900;
+    padding:0 0 4px;
+}
+
 @media (max-width:1500px){
-    .container{grid-template-rows:96px 1fr;}
-    .topbar{grid-template-columns:150px 1fr 350px;padding:12px 14px;}
-    .logo-box{width:100px;height:66px;border-radius:16px;}
-    .logo-big{font-size:28px;}.logo-small{font-size:12px;}
-    .brand-text{display:none;}
-    .title-area h1{font-size:34px;}
-    .subtitle{font-size:13px;}
-    .status-box{font-size:12px;padding:9px 11px;}
-    .main{height:calc(100vh - 96px);padding:12px;grid-template-rows:112px 1fr;gap:12px;padding-bottom:30px;}
-    .kpis{gap:12px;}
-    .kpi{padding:12px 13px;border-radius:18px;gap:10px;}
-    .kpi-icon{font-size:38px;width:48px;min-width:48px;}
-    .kpi-title{font-size:14px;}.kpi-value{font-size:29px;}.kpi-note{font-size:13px;}
-    .dashboard-grid{gap:12px;}
-    .card,.full-card{padding:12px;border-radius:18px;}
-    .card-title{font-size:21px;margin-bottom:10px;}
-    .chart-wrap{height:39%;min-height:135px;}
-    th,td{font-size:13.5px;padding:7px 8px;}
-    .impacto-card{padding:9px;min-height:75px;}
-    .impacto-rank{width:22px;height:22px;font-size:12px;}
-    .impacto-nome{font-size:13.5px;margin-top:5px;}
-    .impacto-valor{font-size:17px;margin-top:5px;}
-    .fluxo-box{min-height:82px;padding:11px 6px;}
-    .fluxo-numero{font-size:30px;}.fluxo-label{font-size:13.5px;}.fluxo-seta{font-size:25px;}
-    .progress-area{margin-top:10px;}.progress-main{font-size:17px;}.progress-sub{font-size:13px;}
-    .table-scroll{margin-top:9px;}
-    .esfig-datas{margin-top:9px;}.esfig-data-label{font-size:11px;}.esfig-data-value{font-size:16px;}
-    .amostra-row{padding:6px 3px;}.amostra-rank{width:26px;height:26px;min-width:26px;font-size:12px;}
-    .amostra-sku{font-size:14px;}.amostra-desc{font-size:11px;}.amostra-qtd{font-size:21px;}
+    .topbar{
+        height:68px;
+        grid-template-columns:130px 1fr 285px;
+        padding:7px 10px;
+    }
+
+    .logo-card{
+        height:52px;
+        width:74px;
+    }
+
+    .logo-card .big{
+        font-size:19px;
+    }
+
+    .header-center h1{
+        font-size:27px;
+    }
+
+    .subtitle{
+        font-size:10px;
+        margin-top:6px;
+    }
+
+    .status-box{
+        padding:8px 10px;
+        font-size:10px;
+    }
+
+    .main{
+        padding:8px;
+        gap:8px;
+    }
+
+    .kpis,
+    .grid,
+    .bottom-grid{
+        gap:8px;
+    }
+
+    .kpi{
+        min-height:84px;
+        padding:10px 12px;
+    }
+
+    .kpi-icon{
+        font-size:28px;
+        width:34px;
+        min-width:34px;
+    }
+
+    .kpi-title{
+        font-size:12px;
+    }
+
+    .kpi-value{
+        font-size:24px;
+    }
+
+    .kpi-note{
+        font-size:10px;
+    }
+
+    .card,.full-card{
+        padding:10px;
+        border-radius:16px;
+    }
+
+    .card-title{
+        font-size:16px;
+        margin-bottom:8px;
+    }
+
+    .chart-wrap{
+        height:210px;
+    }
+
+    .chart-wrap-small{
+        height:235px;
+    }
+
+    th,td{
+        font-size:11px;
+        padding:6px;
+    }
+
+    .top-impactos{
+        gap:8px;
+        margin-top:8px;
+    }
+
+    .impacto-card{
+        padding:8px;
+        min-height:72px;
+    }
+
+    .impacto-nome{
+        font-size:11px;
+    }
+
+    .impacto-valor{
+        font-size:14px;
+    }
+
+    .fluxo-box{
+        min-height:76px;
+        padding:12px 8px;
+    }
+
+    .fluxo-numero{
+        font-size:25px;
+    }
+
+    .fluxo-label{
+        font-size:10px;
+    }
+
+    .fluxo-seta{
+        font-size:22px;
+    }
+
+    .progress-main{
+        font-size:15px;
+    }
+
+    .progress-sub{
+        font-size:11px;
+    }
+
+    .esfig-table-wrap{
+        max-height:105px;
+    }
+
+    .esfig-data-label{
+        font-size:9px;
+    }
+
+    .esfig-data-value{
+        font-size:11px;
+    }
+
+    .scroll-skus{
+        height:96px;
+    }
+
+    .scroll-amostras{
+        height:215px;
+    }
+
+    .amostra-row{
+        padding:7px 4px;
+    }
+
+    .amostra-rank{
+        width:24px;
+        height:24px;
+        min-width:24px;
+        font-size:11px;
+    }
+
+    .amostra-sku{
+        font-size:12px;
+    }
+
+    .amostra-desc{
+        font-size:9px;
+    }
+
+    .amostra-qtd{
+        font-size:17px;
+    }
 }
 
-@media (max-width:1100px){
-    body{overflow:auto;}
-    .container{height:auto;min-height:100vh;grid-template-rows:auto 1fr;}
-    .topbar{grid-template-columns:1fr;gap:10px;text-align:center;}
-    .brand{justify-content:center;}.header-right{justify-content:center;flex-wrap:wrap;}
-    .main{height:auto;display:block;overflow:visible;}
-    .kpis,.dashboard-grid{grid-template-columns:1fr;display:grid;height:auto;}
-    .dashboard-grid{grid-template-rows:auto;}
-    .descarte-card,.esfig-card,.evolucao-card,.top-card{grid-column:auto;grid-row:auto;}
-    .card,.full-card{margin-bottom:12px;}
-    .chart-wrap,.chart-wrap-small{height:260px;}
-    .amostras-grid{grid-template-columns:1fr;}
+@media (max-width:1200px){
+    .topbar{
+        grid-template-columns:90px 1fr;
+        height:auto;
+        min-height:76px;
+    }
+
+    .header-right{
+        grid-column:1 / -1;
+        justify-content:center;
+    }
+
+    .grid,
+    .bottom-grid,
+    .kpis{
+        grid-template-columns:1fr;
+    }
 }
 </style>
 </head>
 
 <body>
-<div class="container">
+<div class="page">
+
     <header class="topbar">
-        <div class="brand">
-            <div class="logo-box">
-                <div class="logo-big">Labor</div>
-                <div class="logo-small">Health Supply</div>
-            </div>
+        <div class="logo-card">
+            <div class="big">Labor</div>
+            <div class="small">Health Supply</div>
         </div>
 
-        <div class="title-area">
+        <div class="header-center">
             <h1>PAINEL ESTRATÉGICO DA QUALIDADE</h1>
             <div class="subtitle">Indicadores operacionais em tempo real</div>
         </div>
@@ -345,7 +739,8 @@ td{
     </header>
 
     <main class="main">
-        <div class="kpis">
+
+        <section class="kpis">
             <div class="kpi">
                 <div class="kpi-icon">🗑️</div>
                 <div class="kpi-content">
@@ -381,34 +776,50 @@ td{
                     <div class="kpi-note">SKUs em monitoramento</div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="dashboard-grid">
-            <div class="card descarte-card">
+        <section class="grid">
+            <div class="card">
                 <div class="card-title">📊 DESCARTE POR ORIGEM</div>
-                <div class="chart-wrap"><canvas id="descarteChart"></canvas></div>
+
+                <div class="chart-wrap">
+                    <canvas id="descarteChart"></canvas>
+                </div>
+
                 <div class="top-impactos" id="topImpactos"></div>
-                <div class="table-scroll">
+
+                <div class="scroll-infinito scroll-skus scroll-table">
                     <table>
-                        <thead><tr><th>SKU</th><th>Descrição</th><th>Valor</th></tr></thead>
-                        <tbody id="descarteTable"></tbody>
+                        <thead>
+                            <tr>
+                                <th>SKU</th>
+                                <th>Descrição</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
                     </table>
+                    <div id="descarteTableScroll" class="scroll-content"></div>
                 </div>
             </div>
 
-            <div class="card esfig-card">
+            <div class="card">
                 <div class="card-title">🕛 ESFIGMOMANÔMETRO - FLUXO OPERACIONAL</div>
+
                 <div class="fluxo-esfig">
                     <div class="fluxo-box" style="background:#eef4ff;">
                         <div class="fluxo-numero" style="color:#1d4eff" id="aguardandoTotal">0</div>
                         <div class="fluxo-label">Aguardando<br>Desmontagem</div>
                     </div>
+
                     <div class="fluxo-seta">→</div>
+
                     <div class="fluxo-box" style="background:#fff0ff;">
                         <div class="fluxo-numero" style="color:#d946ef" id="desmontadoTotal">0</div>
                         <div class="fluxo-label">Desmontado</div>
                     </div>
+
                     <div class="fluxo-seta">→</div>
+
                     <div class="fluxo-box" style="background:#edfff3;">
                         <div class="fluxo-numero" style="color:#22c55e" id="aferidosTotal">0</div>
                         <div class="fluxo-label">Aferidos</div>
@@ -417,15 +828,18 @@ td{
 
                 <div class="progress-area">
                     <div class="progress-label">Progresso geral</div>
-                    <div class="progress-track"><div id="progressBar" class="progress-fill"></div></div>
+                    <div class="progress-track">
+                        <div id="progressBar" class="progress-fill"></div>
+                    </div>
                     <div id="progressText"></div>
                 </div>
 
-                <div class="table-scroll">
+                <div class="esfig-table-wrap">
                     <table>
                         <thead>
                             <tr>
-                                <th>SKU</th><th>Descrição</th>
+                                <th>SKU</th>
+                                <th>Descrição</th>
                                 <th style="text-align:center">Aguard.</th>
                                 <th style="text-align:center">Desm.</th>
                                 <th style="text-align:center">Afer.</th>
@@ -447,17 +861,26 @@ td{
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="full-card evolucao-card">
+        <section class="bottom-grid">
+            <div class="full-card">
                 <div class="card-title">📈 EVOLUÇÃO DE AMOSTRAS POR MÊS</div>
-                <div class="chart-wrap-small"><canvas id="amostraChart"></canvas></div>
+                <div class="chart-wrap-small">
+                    <canvas id="amostraChart"></canvas>
+                </div>
             </div>
 
-            <div class="full-card top-card">
+            <div class="full-card">
                 <div class="card-title">🏆 TOP 10 AMOSTRAS MAIS SOLICITADAS</div>
-                <div id="amostrasTable"></div>
+                <div class="scroll-infinito scroll-amostras">
+                    <div id="amostrasTable" class="scroll-content"></div>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <div class="footer-update">🔄 Atualização automática a cada 2 minutos</div>
+
     </main>
 </div>
 
@@ -465,202 +888,378 @@ td{
 let descarteChart;
 let amostraChart;
 
-const labelPlugin = {
-    id:'labelPlugin',
-    afterDatasetsDraw:function(chart){
-        const ctx = chart.ctx;
-        ctx.save();
-        chart.data.datasets.forEach(function(dataset, datasetIndex){
-            const meta = chart.getDatasetMeta(datasetIndex);
-            meta.data.forEach(function(point, index){
-                const value = dataset.data[index];
-                if(value === null || value === undefined) return;
-                ctx.font = '900 16px Arial';
-                ctx.fillStyle = '#1d4eff';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'bottom';
-                ctx.fillText(Number(value).toLocaleString('pt-BR'), point.x, point.y - 10);
-            });
-        });
-        ctx.restore();
-    }
-};
-
-function numeroSeguro(value){
-    if(typeof value === 'number') return value;
-    if(typeof value === 'string'){
-        const limpo = value.replace(/R\$\s?/g,'').replace(/\./g,'').replace(',','.');
-        const convertido = Number(limpo);
-        return isNaN(convertido) ? 0 : convertido;
-    }
-    return 0;
-}
-
 function formatMoney(value){
-    return numeroSeguro(value).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+    const numero = Number(value) || 0;
+
+    return numero.toLocaleString('pt-BR',{
+        style:'currency',
+        currency:'BRL'
+    });
 }
 
 function ajustarNomeOrigem(nome){
-    if(!nome) return '';
-    const n = nome.trim().toLowerCase();
-    if(n === 'devolução avaria' || n === 'devolucao avaria' || n === 'devolução de avaria' || n === 'devolucao de avaria') return 'Avaria de Devolução';
-    if(n === 'destinados por emanuel' || n === 'destinado por emanuel' || n === 'destinada por emanuel') return 'Destinados pela Empresa';
+    if(!nome) return "";
+
+    const texto = nome
+        .toString()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
+
+    if(texto.includes("emanuel")){
+        return "Destinados pela Empresa";
+    }
+
+    if(texto.includes("devolucao") && texto.includes("avaria")){
+        return "Avaria de Devolução";
+    }
+
     return nome;
 }
 
 function atualizarRelogio(){
     const agora = new Date();
-    document.getElementById('dataAtual').innerText = agora.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
-    document.getElementById('horaAtual').innerText = agora.toLocaleTimeString('pt-BR');
+
+    document.getElementById("dataAtual").innerText =
+        agora.toLocaleDateString('pt-BR',{
+            day:'2-digit',
+            month:'long',
+            year:'numeric'
+        });
+
+    document.getElementById("horaAtual").innerText =
+        agora.toLocaleTimeString('pt-BR');
 }
 
 function buscarCampoData(data, nomesPossiveis){
-    for(let i=0;i<nomesPossiveis.length;i++){
-        const nome = nomesPossiveis[i];
-        if(data && data[nome]) return data[nome];
-        if(data && data.esfigAfericao && data.esfigAfericao[nome]) return data.esfigAfericao[nome];
-        if(data && data.afericao && data.afericao[nome]) return data.afericao[nome];
-        if(data && data.esfig_datas && data.esfig_datas[nome]) return data.esfig_datas[nome];
+    for(const nome of nomesPossiveis){
+        if(data[nome]) return data[nome];
     }
-    return '--/--/----';
+
+    if(data.esfigAfericao){
+        for(const nome of nomesPossiveis){
+            if(data.esfigAfericao[nome]) return data.esfigAfericao[nome];
+        }
+    }
+
+    if(data.afericao){
+        for(const nome of nomesPossiveis){
+            if(data.afericao[nome]) return data.afericao[nome];
+        }
+    }
+
+    return "--/--/----";
 }
 
-function statusEsfig(item){
-    if(numeroSeguro(item.aferidos) > 0) return '<span style="color:#22c55e;font-weight:900">Aferido</span>';
-    if(numeroSeguro(item.desmontado) > 0) return '<span style="color:#d946ef;font-weight:900">Desmontando</span>';
-    if(numeroSeguro(item.aguardando) > 0) return '<span style="color:#f59e0b;font-weight:900">Aguardando</span>';
-    return '<span style="color:#64748b;font-weight:900">Em estoque</span>';
-}
+const lineLabelPlugin = {
+    id:'lineLabelPlugin',
+    afterDatasetsDraw(chart){
+        const {ctx} = chart;
+        ctx.save();
+
+        chart.data.datasets.forEach((dataset,datasetIndex)=>{
+            const meta = chart.getDatasetMeta(datasetIndex);
+
+            meta.data.forEach((point,index)=>{
+                const value = dataset.data[index];
+                ctx.font = '900 14px Arial';
+                ctx.fillStyle = '#1d4eff';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(value.toLocaleString('pt-BR'), point.x, point.y - 10);
+            });
+        });
+
+        ctx.restore();
+    }
+};
+
+const barMoneyLabelPlugin = {
+    id:'barMoneyLabelPlugin',
+    afterDatasetsDraw(chart){
+        const {ctx} = chart;
+        ctx.save();
+
+        ctx.font = '900 12px Arial';
+        ctx.fillStyle = '#0f1f4d';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+
+        chart.data.datasets.forEach((dataset,datasetIndex)=>{
+            const meta = chart.getDatasetMeta(datasetIndex);
+
+            meta.data.forEach((bar,index)=>{
+                const value = dataset.data[index];
+                ctx.fillText(formatMoney(value), bar.x + 8, bar.y);
+            });
+        });
+
+        ctx.restore();
+    }
+};
 
 async function carregarDados(){
     try{
         const response = await fetch('./data.json?t=' + Date.now());
         const data = await response.json();
 
-        document.getElementById('totalDescarte').innerText = formatMoney(data.descarte.total);
-        document.getElementById('ultimoDescarte').innerText = formatMoney(data.descarte.ultimoDescarte);
+        document.getElementById("totalDescarte").innerText =
+            formatMoney(data.descarte.total);
 
-        const totalAmostras = data.amostras.mensal.reduce(function(acc,item){return acc + numeroSeguro(item.valor);},0);
-        document.getElementById('totalAmostras').innerText = totalAmostras.toLocaleString('pt-BR');
-        document.getElementById('totalEsfig').innerText = data.esfig.length.toLocaleString('pt-BR');
+        document.getElementById("ultimoDescarte").innerText =
+            formatMoney(data.descarte.ultimoDescarte);
 
-        document.getElementById('ultimaAfericao').innerText = buscarCampoData(data,['ultima_afericao','ultimaAfericao','data_ultima_afericao','dataUltimaAfericao']);
-        document.getElementById('proximaAfericao').innerText = buscarCampoData(data,['proxima_afericao','proximaAfericao','previsao_proxima_afericao','previsaoProximaAfericao','data_proxima_afericao','dataProximaAfericao']);
+        const totalAmostras =
+            data.amostras.mensal.reduce((acc,item)=>acc + (Number(item.valor) || 0),0);
 
-        document.getElementById('descarteTable').innerHTML = data.descarte.top10.map(function(item){
-            return '<tr><td>'+item.sku+'</td><td>'+item.descricao+'</td><td>'+formatMoney(item.valor)+'</td></tr>';
-        }).join('');
+        document.getElementById("totalAmostras").innerText =
+            totalAmostras.toLocaleString('pt-BR');
 
-        const top3 = data.descarte.origens.slice().map(function(item){
-            return {nome:ajustarNomeOrigem(item.nome), valor:numeroSeguro(item.valor)};
-        }).sort(function(a,b){return b.valor-a.valor;}).slice(0,3);
+        document.getElementById("totalEsfig").innerText =
+            data.esfig.length.toLocaleString('pt-BR');
 
-        document.getElementById('topImpactos').innerHTML = top3.map(function(item,index){
-            return '<div class="impacto-card"><div class="impacto-rank">'+(index+1)+'</div><div class="impacto-nome">'+item.nome+'</div><div class="impacto-valor">'+formatMoney(item.valor)+'</div></div>';
-        }).join('');
+        document.getElementById("ultimaAfericao").innerText =
+            buscarCampoData(data,[
+                'ultima_afericao',
+                'ultimaAfericao',
+                'data_ultima_afericao',
+                'dataUltimaAfericao'
+            ]);
 
-        const aguardando = data.esfig.reduce(function(a,b){return a + numeroSeguro(b.aguardando);},0);
-        const desmontado = data.esfig.reduce(function(a,b){return a + numeroSeguro(b.desmontado);},0);
-        const aferidos = data.esfig.reduce(function(a,b){return a + numeroSeguro(b.aferidos);},0);
+        document.getElementById("proximaAfericao").innerText =
+            buscarCampoData(data,[
+                'proxima_afericao',
+                'proximaAfericao',
+                'previsao_proxima_afericao',
+                'previsaoProximaAfericao',
+                'data_proxima_afericao',
+                'dataProximaAfericao'
+            ]);
 
-        document.getElementById('aguardandoTotal').innerText = aguardando.toLocaleString('pt-BR');
-        document.getElementById('desmontadoTotal').innerText = desmontado.toLocaleString('pt-BR');
-        document.getElementById('aferidosTotal').innerText = aferidos.toLocaleString('pt-BR');
+        const descarteRows = data.descarte.top10.map(item=>`
+            <table>
+                <tbody>
+                    <tr>
+                        <td>${item.sku}</td>
+                        <td>${item.descricao}</td>
+                        <td>${formatMoney(item.valor)}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `).join('');
+
+        document.getElementById("descarteTableScroll").innerHTML =
+            descarteRows + descarteRows;
+
+        const top3 = [...data.descarte.origens]
+            .map(item=>({
+                ...item,
+                nome: ajustarNomeOrigem(item.nome)
+            }))
+            .sort((a,b)=>b.valor-a.valor)
+            .slice(0,3);
+
+        document.getElementById("topImpactos").innerHTML =
+            top3.map((item,index)=>`
+                <div class="impacto-card">
+                    <div class="impacto-rank">${index+1}</div>
+                    <div class="impacto-nome">${item.nome}</div>
+                    <div class="impacto-valor">${formatMoney(item.valor)}</div>
+                </div>
+            `).join('');
+
+        const aguardando = data.esfig.reduce((a,b)=>a + (Number(b.aguardando) || 0),0);
+        const desmontado = data.esfig.reduce((a,b)=>a + (Number(b.desmontado) || 0),0);
+        const aferidos = data.esfig.reduce((a,b)=>a + (Number(b.aferidos) || 0),0);
+
+        document.getElementById("aguardandoTotal").innerText = aguardando.toLocaleString('pt-BR');
+        document.getElementById("desmontadoTotal").innerText = desmontado.toLocaleString('pt-BR');
+        document.getElementById("aferidosTotal").innerText = aferidos.toLocaleString('pt-BR');
 
         const totalProcesso = aguardando + desmontado + aferidos;
-        const progressoProcessado = totalProcesso > 0 ? Math.round(((desmontado + aferidos) / totalProcesso) * 100) : 0;
-        const progressoConcluido = totalProcesso > 0 ? Math.round((aferidos / totalProcesso) * 100) : 0;
 
-        document.getElementById('progressBar').style.width = progressoProcessado + '%';
-        document.getElementById('progressText').innerHTML = '<div class="progress-main">'+progressoProcessado+'% em processamento</div><div class="progress-sub">'+progressoConcluido+'% concluído</div>';
+        const progressoProcessado =
+            totalProcesso > 0
+                ? Math.round(((desmontado + aferidos) / totalProcesso) * 100)
+                : 0;
 
-        document.getElementById('esfigTable').innerHTML = data.esfig.map(function(item){
-            return '<tr><td>'+item.sku+'</td><td>'+item.descricao+'</td><td style="text-align:center">'+item.aguardando+'</td><td style="text-align:center">'+item.desmontado+'</td><td style="text-align:center">'+item.aferidos+'</td><td>'+statusEsfig(item)+'</td></tr>';
-        }).join('');
+        const progressoConcluido =
+            totalProcesso > 0
+                ? Math.round((aferidos / totalProcesso) * 100)
+                : 0;
 
-        const amostrasEsquerda = data.amostras.top10.slice(0,5);
-        const amostrasDireita = data.amostras.top10.slice(5,10);
+        document.getElementById("progressBar").style.width = progressoProcessado + "%";
 
-        function montarAmostra(item,index){
-            return '<div class="amostra-row"><div class="amostra-rank">'+index+'</div><div class="amostra-info"><div class="amostra-sku">'+item.sku+'</div><div class="amostra-desc">'+item.descricao+'</div></div><div class="amostra-qtd">'+item.quantidade+'</div></div>';
+        document.getElementById("progressText").innerHTML = `
+            <div class="progress-main">${progressoProcessado}% em processamento</div>
+            <div class="progress-sub">${progressoConcluido}% concluído</div>
+        `;
+
+        function statusEsfig(item){
+            if(Number(item.aferidos) > 0){
+                return '<span style="color:#22c55e;font-weight:900">Aferido</span>';
+            }
+            if(Number(item.desmontado) > 0){
+                return '<span style="color:#d946ef;font-weight:900">Desmontando</span>';
+            }
+            if(Number(item.aguardando) > 0){
+                return '<span style="color:#f59e0b;font-weight:900">Aguardando</span>';
+            }
+            return '<span style="color:#64748b;font-weight:900">Em estoque</span>';
         }
 
-        document.getElementById('amostrasTable').innerHTML = '<div class="amostras-grid"><div>'+
-            amostrasEsquerda.map(function(item,index){return montarAmostra(item,index+1);}).join('')+
-            '</div><div>'+
-            amostrasDireita.map(function(item,index){return montarAmostra(item,index+6);}).join('')+
-            '</div></div>';
+        document.getElementById("esfigTable").innerHTML =
+            data.esfig.map(item => `
+                <tr>
+                    <td>${item.sku}</td>
+                    <td>${item.descricao}</td>
+                    <td style="text-align:center">${item.aguardando}</td>
+                    <td style="text-align:center">${item.desmontado}</td>
+                    <td style="text-align:center">${item.aferidos}</td>
+                    <td>${statusEsfig(item)}</td>
+                </tr>
+            `).join('');
+
+        const amostrasRows = data.amostras.top10.map((item,index)=>`
+            <div class="amostra-row">
+                <div class="amostra-rank">${index+1}</div>
+                <div class="amostra-info">
+                    <div class="amostra-sku">${item.sku}</div>
+                    <div class="amostra-desc">${item.descricao}</div>
+                </div>
+                <div class="amostra-qtd">${item.quantidade}</div>
+            </div>
+        `).join('');
+
+        document.getElementById("amostrasTable").innerHTML =
+            amostrasRows + amostrasRows;
 
         if(descarteChart) descarteChart.destroy();
-        descarteChart = new Chart(document.getElementById('descarteChart'),{
-            type:'bar',
-            data:{
-                labels:data.descarte.origens.map(function(x){return ajustarNomeOrigem(x.nome);}),
-                datasets:[{
-                    data:data.descarte.origens.map(function(x){return numeroSeguro(x.valor);}),
-                    backgroundColor:['#1d4eff','#60a5fa','#8b5cf6','#f04dd8','#22c55e','#38bdf8','#7c3aed'],
-                    borderRadius:12
-                }]
-            },
-            options:{
-                responsive:true,
-                maintainAspectRatio:false,
-                indexAxis:'y',
-                plugins:{
-                    legend:{display:false},
-                    tooltip:{
-                        titleFont:{size:16,weight:'bold'},
-                        bodyFont:{size:15,weight:'bold'},
-                        callbacks:{label:function(context){return formatMoney(context.raw);}}
+
+        descarteChart = new Chart(
+            document.getElementById('descarteChart'),
+            {
+                type:'bar',
+                data:{
+                    labels:data.descarte.origens.map(x=>ajustarNomeOrigem(x.nome)),
+                    datasets:[{
+                        data:data.descarte.origens.map(x=>Number(x.valor) || 0),
+                        backgroundColor:[
+                            '#1d4eff',
+                            '#60a5fa',
+                            '#8b5cf6',
+                            '#f04dd8',
+                            '#22c55e',
+                            '#38bdf8',
+                            '#7c3aed'
+                        ],
+                        borderRadius:10
+                    }]
+                },
+                options:{
+                    responsive:true,
+                    maintainAspectRatio:false,
+                    indexAxis:'y',
+                    layout:{
+                        padding:{right:105}
+                    },
+                    plugins:{
+                        legend:{display:false},
+                        tooltip:{
+                            titleFont:{size:14,weight:'bold'},
+                            bodyFont:{size:13,weight:'bold'},
+                            callbacks:{
+                                label:function(context){
+                                    return formatMoney(context.raw);
+                                }
+                            }
+                        }
+                    },
+                    scales:{
+                        x:{
+                            grid:{display:false},
+                            ticks:{
+                                font:{size:11,weight:'bold'},
+                                color:'#243b70',
+                                callback:function(value){
+                                    return value.toLocaleString('pt-BR');
+                                }
+                            }
+                        },
+                        y:{
+                            grid:{display:false},
+                            ticks:{
+                                font:{size:12,weight:'bold'},
+                                color:'#243b70'
+                            }
+                        }
                     }
                 },
-                scales:{
-                    x:{grid:{display:false},ticks:{font:{size:14,weight:'bold'},color:'#334a7d',callback:function(value){return value.toLocaleString('pt-BR');}}},
-                    y:{grid:{display:false},ticks:{font:{size:15,weight:'bold'},color:'#243b70'}}
-                }
+                plugins:[barMoneyLabelPlugin]
             }
-        });
+        );
 
         if(amostraChart) amostraChart.destroy();
-        amostraChart = new Chart(document.getElementById('amostraChart'),{
-            type:'line',
-            data:{
-                labels:data.amostras.mensal.map(function(x){return x.mes;}),
-                datasets:[{
-                    data:data.amostras.mensal.map(function(x){return numeroSeguro(x.valor);}),
-                    borderColor:'#1d4eff',
-                    backgroundColor:'rgba(29,78,255,.15)',
-                    fill:true,
-                    tension:.4,
-                    pointRadius:5,
-                    pointHoverRadius:7,
-                    borderWidth:3
-                }]
-            },
-            options:{
-                responsive:true,
-                maintainAspectRatio:false,
-                layout:{padding:{top:25,right:15,left:10,bottom:5}},
-                plugins:{
-                    legend:{display:false},
-                    tooltip:{titleFont:{size:16,weight:'bold'},bodyFont:{size:15,weight:'bold'}}
+
+        amostraChart = new Chart(
+            document.getElementById('amostraChart'),
+            {
+                type:'line',
+                data:{
+                    labels:data.amostras.mensal.map(x=>x.mes),
+                    datasets:[{
+                        data:data.amostras.mensal.map(x=>Number(x.valor) || 0),
+                        borderColor:'#1d4eff',
+                        backgroundColor:'rgba(29,78,255,.15)',
+                        fill:true,
+                        tension:.4,
+                        pointRadius:4,
+                        pointHoverRadius:6,
+                        borderWidth:3
+                    }]
                 },
-                scales:{
-                    x:{ticks:{font:{size:15,weight:'bold'},color:'#243b70'},grid:{color:'rgba(92,108,150,.14)'}},
-                    y:{ticks:{font:{size:14,weight:'bold'},color:'#243b70'},grid:{color:'rgba(92,108,150,.14)'}}
-                }
-            },
-            plugins:[labelPlugin]
-        });
+                options:{
+                    responsive:true,
+                    maintainAspectRatio:false,
+                    layout:{
+                        padding:{top:24,right:14,left:8,bottom:4}
+                    },
+                    plugins:{
+                        legend:{display:false},
+                        tooltip:{
+                            titleFont:{size:14,weight:'bold'},
+                            bodyFont:{size:13,weight:'bold'}
+                        }
+                    },
+                    scales:{
+                        x:{
+                            ticks:{font:{size:12,weight:'bold'},color:'#243b70'},
+                            grid:{color:'rgba(92,108,150,.14)'}
+                        },
+                        y:{
+                            ticks:{font:{size:11,weight:'bold'},color:'#243b70'},
+                            grid:{color:'rgba(92,108,150,.14)'}
+                        }
+                    }
+                },
+                plugins:[lineLabelPlugin]
+            }
+        );
 
     }catch(error){
-        console.error('Erro ao carregar JSON:', error);
+        console.error("Erro ao carregar JSON:", error);
     }
 }
 
 atualizarRelogio();
 carregarDados();
-setInterval(function(){atualizarRelogio();carregarDados();},120000);
+
+setInterval(()=>{
+    atualizarRelogio();
+    carregarDados();
+},120000);
 </script>
+
 </body>
 </html>
