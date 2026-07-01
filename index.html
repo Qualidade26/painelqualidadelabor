@@ -739,6 +739,536 @@ td{
         grid-template-columns:1fr;
     }
 }
+
+
+/* AJUSTES FINAIS - NOTEBOOK, LEGIBILIDADE E CONTORNO DOS PAINÉIS */
+html,body{
+    height:100vh;
+    overflow:hidden;
+}
+
+.page{
+    height:100vh;
+    overflow:hidden;
+}
+
+.topbar{
+    height:100px;
+    min-height:100px;
+    padding:14px 24px;
+    grid-template-columns:280px 1fr 350px;
+}
+
+.brand-logo{
+    height:70px;
+}
+
+.brand-logo .big{
+    font-size:44px;
+    letter-spacing:5px;
+}
+
+.brand-logo .small{
+    font-size:13px;
+    letter-spacing:6px;
+}
+
+.header-center h1{
+    font-size:33px;
+}
+
+.subtitle{
+    font-size:15px;
+}
+
+.main{
+    height:calc(100vh - 100px);
+    padding:12px 16px 8px;
+    display:grid;
+    grid-template-rows:92px minmax(0,1.22fr) minmax(0,.84fr) 24px;
+    gap:10px;
+    overflow:hidden;
+}
+
+.kpis,
+.grid,
+.bottom-grid{
+    min-height:0;
+}
+
+.kpi,
+.card,
+.full-card{
+    border:2px solid rgba(29,78,255,.42);
+    box-shadow:0 8px 24px rgba(29,78,255,.13);
+}
+
+.kpi{
+    min-height:0;
+    height:92px;
+    padding:12px 16px;
+    border-radius:18px;
+}
+
+.kpi-icon{
+    width:48px;
+    min-width:48px;
+    height:48px;
+    font-size:34px;
+}
+
+.kpi-title{
+    font-size:15px;
+}
+
+.kpi-value{
+    font-size:29px;
+    margin-top:5px;
+}
+
+.kpi-note{
+    font-size:12px;
+    margin-top:5px;
+}
+
+.card,
+.full-card{
+    padding:13px;
+    border-radius:20px;
+    min-height:0;
+}
+
+.card-title{
+    font-size:18px;
+    margin-bottom:8px;
+    line-height:1.1;
+}
+
+.chart-wrap{
+    height:205px;
+}
+
+.chart-wrap-small{
+    height:calc(100% - 34px);
+    min-height:190px;
+}
+
+.top-impactos{
+    gap:8px;
+    margin-top:8px;
+}
+
+.impacto-card{
+    min-height:64px;
+    padding:9px 10px;
+    border:1px solid #cfe0ff;
+}
+
+.impacto-rank{
+    width:22px;
+    height:22px;
+    font-size:12px;
+}
+
+.impacto-nome{
+    font-size:13px;
+    margin-top:5px;
+}
+
+.impacto-valor{
+    font-size:16px;
+    margin-top:5px;
+}
+
+/* Tabela de SKUs do descarte com divisórias */
+.sku-table-box{
+    margin-top:8px;
+    border:1px solid #bcd3ff;
+    border-radius:12px;
+    overflow:hidden;
+    background:#ffffff66;
+}
+
+.sku-table-head,
+.sku-table-row{
+    display:grid;
+    grid-template-columns:18% 52% 30%;
+    align-items:center;
+}
+
+.sku-table-head{
+    background:#eaf2ff;
+    color:#0f3cc9;
+    font-size:15px;
+    font-weight:900;
+    text-transform:uppercase;
+}
+
+.sku-table-head div,
+.sku-table-row div{
+    padding:8px 10px;
+    border-right:1px solid #c7dcff;
+}
+
+.sku-table-head div:last-child,
+.sku-table-row div:last-child{
+    border-right:0;
+}
+
+.sku-table-row{
+    min-height:36px;
+    border-top:1px solid #d6e5ff;
+    font-size:15px;
+    font-weight:900;
+    color:#0f1f4d;
+}
+
+.sku-table-row div:nth-child(3){
+    color:#0f3cc9;
+}
+
+.scroll-skus{
+    height:145px;
+    margin-top:0;
+}
+
+.scroll-amostras{
+    height:calc(100% - 34px);
+    min-height:190px;
+}
+
+.amostra-row{
+    padding:9px 4px;
+}
+
+.amostra-sku{
+    font-size:16px;
+}
+
+.amostra-desc{
+    font-size:13px;
+}
+
+.amostra-qtd{
+    font-size:24px;
+}
+
+.fluxo-box{
+    min-height:78px;
+    padding:12px 8px;
+}
+
+.fluxo-numero{
+    font-size:30px;
+}
+
+.fluxo-label{
+    font-size:12px;
+}
+
+.progress-area{
+    margin-top:10px;
+}
+
+.progress-label{
+    font-size:14px;
+}
+
+.progress-main{
+    font-size:17px;
+    margin-top:6px;
+}
+
+.progress-sub{
+    font-size:13px;
+}
+
+.esfig-table-wrap{
+    margin-top:8px;
+    max-height:150px;
+    border:1px solid #bcd3ff;
+    border-radius:12px;
+    overflow:auto;
+}
+
+th{
+    font-size:14px;
+    padding:8px 9px;
+    color:#0f3cc9;
+}
+
+td{
+    font-size:14px;
+    padding:8px 9px;
+}
+
+.esfig-datas{
+    margin-top:8px;
+}
+
+.esfig-data-box{
+    padding:8px 10px;
+}
+
+.esfig-data-label{
+    font-size:11px;
+}
+
+.esfig-data-value{
+    font-size:14px;
+}
+
+.footer-update{
+    border:1px solid rgba(29,78,255,.28);
+    background:rgba(248,251,255,.8);
+    border-radius:12px;
+    padding:5px 8px;
+    font-size:12px;
+}
+
+@media (max-width:1500px){
+    .topbar{
+        height:88px;
+        min-height:88px;
+        grid-template-columns:230px 1fr 300px;
+        padding:10px 14px;
+    }
+
+    .brand-logo{
+        height:58px;
+        padding-right:14px;
+    }
+
+    .brand-logo .big{
+        font-size:36px;
+        letter-spacing:4px;
+    }
+
+    .brand-logo .small{
+        font-size:10px;
+        letter-spacing:5px;
+        margin-top:7px;
+    }
+
+    .header-center h1{
+        font-size:28px;
+    }
+
+    .subtitle{
+        font-size:12px;
+        margin-top:5px;
+    }
+
+    .status-box{
+        font-size:11px;
+        padding:8px 10px;
+    }
+
+    .main{
+        height:calc(100vh - 88px);
+        grid-template-rows:82px minmax(0,1.18fr) minmax(0,.82fr) 22px;
+        padding:9px 10px 6px;
+        gap:8px;
+    }
+
+    .kpis{
+        gap:8px;
+    }
+
+    .kpi{
+        height:82px;
+        padding:9px 12px;
+        gap:10px;
+    }
+
+    .kpi-icon{
+        width:40px;
+        min-width:40px;
+        height:40px;
+        font-size:28px;
+    }
+
+    .kpi-title{
+        font-size:12px;
+    }
+
+    .kpi-value{
+        font-size:24px;
+    }
+
+    .kpi-note{
+        font-size:10px;
+    }
+
+    .grid,
+    .bottom-grid{
+        gap:8px;
+    }
+
+    .card,
+    .full-card{
+        padding:10px;
+        border-radius:16px;
+    }
+
+    .card-title{
+        font-size:15px;
+        margin-bottom:6px;
+    }
+
+    .chart-wrap{
+        height:165px;
+    }
+
+    .chart-wrap-small{
+        min-height:160px;
+    }
+
+    .scroll-skus{
+        height:112px;
+    }
+
+    .scroll-amostras{
+        min-height:165px;
+    }
+
+    .sku-table-head{
+        font-size:12px;
+    }
+
+    .sku-table-head div,
+    .sku-table-row div{
+        padding:6px 8px;
+    }
+
+    .sku-table-row{
+        min-height:29px;
+        font-size:12px;
+    }
+
+    .top-impactos{
+        margin-top:6px;
+    }
+
+    .impacto-card{
+        min-height:55px;
+        padding:7px 8px;
+    }
+
+    .impacto-rank{
+        width:18px;
+        height:18px;
+        font-size:10px;
+    }
+
+    .impacto-nome{
+        font-size:11px;
+        margin-top:4px;
+    }
+
+    .impacto-valor{
+        font-size:13px;
+        margin-top:3px;
+    }
+
+    .fluxo-esfig{
+        gap:7px;
+    }
+
+    .fluxo-box{
+        min-height:66px;
+        padding:9px 6px;
+        border-radius:14px;
+    }
+
+    .fluxo-numero{
+        font-size:24px;
+    }
+
+    .fluxo-label{
+        font-size:10px;
+    }
+
+    .fluxo-seta{
+        font-size:22px;
+    }
+
+    .progress-area{
+        margin-top:8px;
+    }
+
+    .progress-label{
+        font-size:12px;
+    }
+
+    .progress-track{
+        height:13px;
+    }
+
+    .progress-main{
+        font-size:14px;
+    }
+
+    .progress-sub{
+        font-size:11px;
+    }
+
+    .esfig-table-wrap{
+        max-height:112px;
+    }
+
+    th,td{
+        font-size:11px;
+        padding:5px 7px;
+    }
+
+    .esfig-datas{
+        gap:7px;
+        margin-top:6px;
+    }
+
+    .esfig-data-box{
+        padding:6px 8px;
+        border-radius:10px;
+    }
+
+    .esfig-data-label{
+        font-size:9px;
+    }
+
+    .esfig-data-value{
+        font-size:11px;
+    }
+
+    .amostra-row{
+        padding:6px 4px;
+    }
+
+    .amostra-rank{
+        width:24px;
+        height:24px;
+        min-width:24px;
+        font-size:11px;
+    }
+
+    .amostra-sku{
+        font-size:12px;
+    }
+
+    .amostra-desc{
+        font-size:10px;
+    }
+
+    .amostra-qtd{
+        font-size:18px;
+    }
+
+    .footer-update{
+        font-size:10px;
+        padding:4px 6px;
+    }
+}
+
 </style>
 </head>
 
@@ -813,17 +1343,15 @@ td{
 
                 <div class="top-impactos" id="topImpactos"></div>
 
-                <div class="scroll-infinito scroll-skus scroll-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>SKU</th>
-                                <th>Descrição</th>
-                                <th>Valor</th>
-                            </tr>
-                        </thead>
-                    </table>
-                    <div id="descarteTableScroll" class="scroll-content"></div>
+                <div class="sku-table-box">
+                    <div class="sku-table-head">
+                        <div>SKU</div>
+                        <div>Descrição</div>
+                        <div>Valor</div>
+                    </div>
+                    <div class="scroll-infinito scroll-skus">
+                        <div id="descarteTableScroll" class="scroll-content"></div>
+                    </div>
                 </div>
             </div>
 
@@ -1069,15 +1597,11 @@ async function carregarDados(){
             ]);
 
         const descarteRows = data.descarte.top10.map(item=>`
-            <table>
-                <tbody>
-                    <tr>
-                        <td>${item.sku}</td>
-                        <td>${item.descricao}</td>
-                        <td>${formatMoney(item.valor)}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="sku-table-row">
+                <div>${item.sku}</div>
+                <div>${item.descricao}</div>
+                <div>${formatMoney(item.valor)}</div>
+            </div>
         `).join('');
 
         document.getElementById("descarteTableScroll").innerHTML =
