@@ -284,6 +284,11 @@ td{
     overflow-x:hidden;
     scroll-behavior:auto;
     scrollbar-width:thin;
+    overscroll-behavior:contain;
+}
+
+.scroll-infinito:hover{
+    cursor:grab;
 }
 
 .scroll-infinito::-webkit-scrollbar{
@@ -1824,25 +1829,11 @@ let amostraChart;
 let scrollInfinitoAtivado = false;
 
 function iniciarScrollInfinitoManual(){
+    if(scrollInfinitoAtivado) return;
+    scrollInfinitoAtivado = true;
+
     document.querySelectorAll(".scroll-infinito").forEach(box=>{
-        if(box.dataset.scrollAtivado === "true") return;
-        box.dataset.scrollAtivado = "true";
-
         let mouseEmCima = false;
-        let usuarioRolando = false;
-        let tempoUsuario;
-
-        function chegouNoFinal(){
-            return box.scrollTop + box.clientHeight >= box.scrollHeight - 2;
-        }
-
-        function voltarAoInicioSeNecessario(){
-            if(box.scrollHeight <= box.clientHeight) return;
-
-            if(chegouNoFinal()){
-                box.scrollTop = 0;
-            }
-        }
 
         box.addEventListener("mouseenter",()=>{
             mouseEmCima = true;
@@ -1850,29 +1841,17 @@ function iniciarScrollInfinitoManual(){
 
         box.addEventListener("mouseleave",()=>{
             mouseEmCima = false;
-            usuarioRolando = false;
-        });
-
-        box.addEventListener("wheel",()=>{
-            usuarioRolando = true;
-            clearTimeout(tempoUsuario);
-
-            tempoUsuario = setTimeout(()=>{
-                usuarioRolando = false;
-                voltarAoInicioSeNecessario();
-            },1200);
-        },{passive:true});
-
-        box.addEventListener("scroll",()=>{
-            voltarAoInicioSeNecessario();
         });
 
         setInterval(()=>{
-            if(mouseEmCima || usuarioRolando) return;
+            if(mouseEmCima) return;
             if(box.scrollHeight <= box.clientHeight) return;
 
             box.scrollTop += 1;
-            voltarAoInicioSeNecessario();
+
+            if(box.scrollTop + box.clientHeight >= box.scrollHeight - 1){
+                box.scrollTop = 0;
+            }
         },40);
     });
 }
@@ -2045,7 +2024,7 @@ async function carregarDados(){
         `).join('');
 
         document.getElementById("descarteTableScroll").innerHTML =
-            descarteRows;
+            descarteRows + descarteRows;
 
         const top3 = [...data.descarte.origens]
             .map(item=>({
@@ -2130,7 +2109,7 @@ async function carregarDados(){
         `).join('');
 
         document.getElementById("amostrasTable").innerHTML =
-            amostrasRows;
+            amostrasRows + amostrasRows;
 
         if(descarteChart) descarteChart.destroy();
 
