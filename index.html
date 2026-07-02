@@ -277,17 +277,14 @@ td{
     vertical-align:middle;
 }
 
-/* SCROLL INFINITO + ROLAGEM MANUAL NO MOUSE */
+/* SCROLL INFINITO COM ROLAGEM MANUAL */
 .scroll-infinito{
     position:relative;
-    overflow:hidden;
-    scroll-behavior:smooth;
-    overscroll-behavior:contain;
-}
-
-.scroll-infinito:hover{
     overflow-y:auto;
     overflow-x:hidden;
+    overscroll-behavior:contain;
+    scroll-behavior:auto;
+    padding-right:4px;
 }
 
 .scroll-infinito::-webkit-scrollbar{
@@ -295,13 +292,17 @@ td{
 }
 
 .scroll-infinito::-webkit-scrollbar-track{
-    background:#e7f0ff;
-    border-radius:10px;
+    background:#e6f0ff;
+    border-radius:20px;
 }
 
 .scroll-infinito::-webkit-scrollbar-thumb{
     background:#1d4eff;
-    border-radius:10px;
+    border-radius:20px;
+}
+
+.scroll-infinito::-webkit-scrollbar-thumb:hover{
+    background:#0f3cc9;
 }
 
 .scroll-skus{
@@ -316,7 +317,6 @@ td{
 .scroll-content{
     display:flex;
     flex-direction:column;
-    transform:none;
 }
 
 .scroll-table table{
@@ -1733,7 +1733,7 @@ th,td{
                         <div>Descrição</div>
                         <div>Valor</div>
                     </div>
-                    <div class="scroll-infinito scroll-skus">
+                    <div class="scroll-infinito scroll-skus" id="scrollDescarteSkus">
                         <div id="descarteTableScroll" class="scroll-content"></div>
                     </div>
                 </div>
@@ -1810,7 +1810,7 @@ th,td{
 
             <div class="full-card">
                 <div class="card-title">🏆 TOP 10 AMOSTRAS MAIS SOLICITADAS</div>
-                <div class="scroll-infinito scroll-amostras">
+                <div class="scroll-infinito scroll-amostras" id="scrollAmostrasTop10">
                     <div id="amostrasTable" class="scroll-content"></div>
                 </div>
             </div>
@@ -1824,6 +1824,8 @@ th,td{
 <script>
 let descarteChart;
 let amostraChart;
+let scrollControllers = {};
+
 
 function formatMoney(value){
     const numero = Number(value) || 0;
@@ -1869,58 +1871,107 @@ function atualizarRelogio(){
         agora.toLocaleTimeString('pt-BR');
 }
 
-function buscarDataAtualizacaoJson(data){
-    return (
-        data.updated_at ||
-        data.atualizacao ||
-        data.ultima_atualizacao ||
-        data.data_atualizacao ||
-        data.dataAtualizacao ||
-        data.updatedAt ||
-        data.last_update ||
-        data.lastUpdate ||
-        ""
-    );
-}
+function obterAtualizacaoJson(data){
+    const camposPossiveis = [
+        'updated_at',
+        'atualizacao',
+        'ultima_atualizacao',
+        'ultimaAtualizacao',
+        'data_atualizacao',
+        'dataAtualizacao',
+        'updatedAt'
+    ];
 
-function aplicarDataHoraAtualizacao(data){
-    const valor = buscarDataAtualizacaoJson(data);
-
-    if(!valor){
-        return;
-    }
-
-    const texto = String(valor).trim();
-    let dataFormatada = texto;
-    let horaFormatada = "";
-
-    const partesBR = texto.match(/(\d{2}\/\d{2}\/\d{4})\s*(?:-|às|as)?\s*(\d{2}:\d{2}(?::\d{2})?)/i);
-
-    if(partesBR){
-        dataFormatada = partesBR[1];
-        horaFormatada = partesBR[2];
-    }else{
-        const dataISO = new Date(texto);
-
-        if(!isNaN(dataISO.getTime())){
-            dataFormatada = dataISO.toLocaleDateString('pt-BR',{
-                day:'2-digit',
-                month:'long',
-                year:'numeric'
-            });
-
-            horaFormatada = dataISO.toLocaleTimeString('pt-BR');
+    for(const campo of camposPossiveis){
+        if(data && data[campo]){
+            return data[campo].toString();
         }
     }
 
-    document.getElementById("dataAtual").innerText = dataFormatada;
-    document.getElementById("horaAtual").innerText = horaFormatada || "Atualizado";
+    return '';
+}
 
-    const campoUltimaAtualizacao = document.getElementById("ultimaAtualizacaoPainel");
+function aplicarDataHoraJson(data){
+    const valorAtualizacao = obterAtualizacaoJson(data);
 
-    if(campoUltimaAtualizacao){
-        campoUltimaAtualizacao.innerText = texto;
+    if(!valorAtualizacao){
+        atualizarRelogio();
+        return;
     }
+
+    const partes = valorAtualizacao.trim().split(/\s+/);
+    const dataTexto = partes[0] || valorAtualizacao;
+    const horaTexto = partes[1] || '';
+
+    document.getElementById("dataAtual").innerText = "Atualizado: " + dataTexto;
+    document.getElementById("horaAtual").innerText = horaTexto ? "Hora: " + horaTexto : "Hora: --:--";
+}
+
+function iniciarScrollInfinitoManual(containerId, velocidade = 0.35){
+    const container = document.getElementById(containerId);
+    if(!container) return;
+
+    if(scrollControllers[containerId]){
+        cancelAnimationFrame(scrollControllers[containerId].frame);
+        clearTimeout(scrollControllers[containerId].timer);
+    }
+
+    const controller = {
+        frame:null,
+        pausado:false,
+        timer:null,
+        ultimoScrollTop:container.scrollTop
+    };
+
+    scrollControllers[containerId] = controller;
+
+    function metadeScroll(){
+        return container.scrollHeight / 2;
+    }
+
+    function normalizarPosicao(){
+        const metade = metadeScroll();
+
+        if(metade <= container.clientHeight) return;
+
+        if(container.scrollTop >= metade){
+            container.scrollTop = container.scrollTop - metade;
+        }
+
+        if(container.scrollTop < 0){
+            container.scrollTop = 0;
+        }
+    }
+
+    function pausarPorUsoManual(){
+        controller.pausado = true;
+        clearTimeout(controller.timer);
+        controller.timer = setTimeout(()=>{
+            controller.pausado = false;
+        },3000);
+    }
+
+    container.addEventListener('wheel', pausarPorUsoManual, {passive:true});
+    container.addEventListener('touchstart', pausarPorUsoManual, {passive:true});
+    container.addEventListener('mousedown', pausarPorUsoManual);
+    container.addEventListener('scroll', ()=>{
+        normalizarPosicao();
+        controller.ultimoScrollTop = container.scrollTop;
+    }, {passive:true});
+
+    function animar(){
+        const metade = metadeScroll();
+
+        if(!controller.pausado && metade > container.clientHeight){
+            container.scrollTop += velocidade;
+            normalizarPosicao();
+        }
+
+        controller.frame = requestAnimationFrame(animar);
+    }
+
+    container.scrollTop = 0;
+    controller.frame = requestAnimationFrame(animar);
 }
 
 function buscarCampoData(data, nomesPossiveis){
@@ -1994,62 +2045,17 @@ const barMoneyLabelPlugin = {
     }
 };
 
-function configurarScrollManualEAutomatico(){
-    document.querySelectorAll('.scroll-infinito').forEach(container=>{
-        if(container.dataset.scrollConfigurado === "true"){
-            return;
-        }
-
-        container.dataset.scrollConfigurado = "true";
-        container.dataset.pausado = "false";
-
-        container.addEventListener('mouseenter',()=>{
-            container.dataset.pausado = "true";
-        });
-
-        container.addEventListener('mouseleave',()=>{
-            container.dataset.pausado = "false";
-        });
-
-        container.addEventListener('wheel',()=>{
-            container.dataset.pausado = "true";
-            clearTimeout(container._retomarScrollTimer);
-
-            container._retomarScrollTimer = setTimeout(()=>{
-                if(!container.matches(':hover')){
-                    container.dataset.pausado = "false";
-                }
-            },2500);
-        },{passive:true});
-    });
-}
-
-setInterval(()=>{
-    document.querySelectorAll('.scroll-infinito').forEach(container=>{
-        if(container.dataset.pausado === "true"){
-            return;
-        }
-
-        if(container.scrollHeight <= container.clientHeight){
-            return;
-        }
-
-        const limite = container.scrollHeight / 2;
-
-        container.scrollTop += 1;
-
-        if(container.scrollTop >= limite){
-            container.scrollTop = 0;
-        }
-    });
-},45);
-
 async function carregarDados(){
     try{
         const response = await fetch('./data.json?t=' + Date.now());
         const data = await response.json();
 
-        aplicarDataHoraAtualizacao(data);
+        aplicarDataHoraJson(data);
+
+        const campoUltimaAtualizacao = document.getElementById("ultimaAtualizacaoPainel");
+        if(campoUltimaAtualizacao){
+            campoUltimaAtualizacao.innerText = obterAtualizacaoJson(data) || new Date().toLocaleString('pt-BR');
+        }
 
         document.getElementById("totalDescarte").innerText =
             formatMoney(data.descarte.total);
@@ -2094,6 +2100,8 @@ async function carregarDados(){
 
         document.getElementById("descarteTableScroll").innerHTML =
             descarteRows + descarteRows;
+
+        iniciarScrollInfinitoManual("scrollDescarteSkus", 0.28);
 
         const top3 = [...data.descarte.origens]
             .map(item=>({
@@ -2180,7 +2188,7 @@ async function carregarDados(){
         document.getElementById("amostrasTable").innerHTML =
             amostrasRows + amostrasRows;
 
-        configurarScrollManualEAutomatico();
+        iniciarScrollInfinitoManual("scrollAmostrasTop10", 0.32);
 
         if(descarteChart) descarteChart.destroy();
 
