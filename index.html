@@ -1821,6 +1821,7 @@ th,td{
 <script>
 let descarteChart;
 let amostraChart;
+let scrollInfinitoAtivado = false;
 
 function iniciarScrollInfinitoManual(){
     document.querySelectorAll(".scroll-infinito").forEach(box=>{
@@ -1829,7 +1830,19 @@ function iniciarScrollInfinitoManual(){
 
         let mouseEmCima = false;
         let usuarioRolando = false;
-        let timerUsuario = null;
+        let tempoUsuario;
+
+        function chegouNoFinal(){
+            return box.scrollTop + box.clientHeight >= box.scrollHeight - 2;
+        }
+
+        function voltarAoInicioSeNecessario(){
+            if(box.scrollHeight <= box.clientHeight) return;
+
+            if(chegouNoFinal()){
+                box.scrollTop = 0;
+            }
+        }
 
         box.addEventListener("mouseenter",()=>{
             mouseEmCima = true;
@@ -1842,22 +1855,24 @@ function iniciarScrollInfinitoManual(){
 
         box.addEventListener("wheel",()=>{
             usuarioRolando = true;
-            clearTimeout(timerUsuario);
+            clearTimeout(tempoUsuario);
 
-            timerUsuario = setTimeout(()=>{
+            tempoUsuario = setTimeout(()=>{
                 usuarioRolando = false;
-            },1800);
+                voltarAoInicioSeNecessario();
+            },1200);
         },{passive:true});
+
+        box.addEventListener("scroll",()=>{
+            voltarAoInicioSeNecessario();
+        });
 
         setInterval(()=>{
             if(mouseEmCima || usuarioRolando) return;
             if(box.scrollHeight <= box.clientHeight) return;
 
             box.scrollTop += 1;
-
-            if(box.scrollTop + box.clientHeight >= box.scrollHeight - 1){
-                box.scrollTop = 0;
-            }
+            voltarAoInicioSeNecessario();
         },40);
     });
 }
@@ -2030,7 +2045,7 @@ async function carregarDados(){
         `).join('');
 
         document.getElementById("descarteTableScroll").innerHTML =
-            descarteRows + descarteRows;
+            descarteRows;
 
         const top3 = [...data.descarte.origens]
             .map(item=>({
@@ -2115,7 +2130,7 @@ async function carregarDados(){
         `).join('');
 
         document.getElementById("amostrasTable").innerHTML =
-            amostrasRows + amostrasRows;
+            amostrasRows;
 
         if(descarteChart) descarteChart.destroy();
 
@@ -2245,16 +2260,12 @@ async function carregarDados(){
 
 atualizarRelogio();
 carregarDados().then(()=>{
-    setTimeout(()=>{
-        iniciarScrollInfinitoManual();
-    },300);
+    iniciarScrollInfinitoManual();
 });
 
 setInterval(()=>{
     atualizarRelogio();
-    carregarDados().then(()=>{
-        iniciarScrollInfinitoManual();
-    });
+    carregarDados();
 },120000);
 </script>
 
