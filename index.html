@@ -836,7 +836,10 @@ function iniciarScrollInfinitoManual(containerId, contentId, velocidade = 0.35){
     if(!container || !content) return;
 
     if(scrollManagers[contentId]){
-        scrollManagers[contentId].recalcular();
+        requestAnimationFrame(()=>{
+            scrollManagers[contentId].recalcular();
+            scrollManagers[contentId].aplicarTransform();
+        });
         return;
     }
 
@@ -903,12 +906,17 @@ function iniciarScrollInfinitoManual(containerId, contentId, velocidade = 0.35){
 
     scrollManagers[contentId] = {
         recalcular,
+        aplicarTransform,
         parar(){
             if(rafId) cancelAnimationFrame(rafId);
         }
     };
 
-    recalcular();
+    requestAnimationFrame(()=>{
+        recalcular();
+        aplicarTransform();
+    });
+
     animar();
 }
 
@@ -1055,7 +1063,9 @@ async function carregarDados(){
             </div>
         `).join('');
         document.getElementById("descarteTableScroll").innerHTML = descarteRows + descarteRows;
-        iniciarScrollInfinitoManual("descarteScrollBox","descarteTableScroll",0.35);
+        requestAnimationFrame(()=>{
+            iniciarScrollInfinitoManual("descarteScrollBox","descarteTableScroll",0.35);
+        });
 
         const aguardando = data.esfig.reduce((a,b)=>a+(Number(b.aguardando)||0),0);
         const desmontado = data.esfig.reduce((a,b)=>a+(Number(b.desmontado)||0),0);
@@ -1104,7 +1114,9 @@ async function carregarDados(){
             </div>
         `).join('');
         document.getElementById("amostrasTable").innerHTML = amostrasRows + amostrasRows;
-        iniciarScrollInfinitoManual("amostrasScrollBox","amostrasTable",0.35);
+        requestAnimationFrame(()=>{
+            iniciarScrollInfinitoManual("amostrasScrollBox","amostrasTable",0.35);
+        });
 
         if(amostraChart) amostraChart.destroy();
         amostraChart = new Chart(document.getElementById('amostraChart'),{
