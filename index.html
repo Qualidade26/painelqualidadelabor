@@ -1646,6 +1646,38 @@ th,td{
     }
 }
 
+
+/* ==========================================================
+   CORREÇÃO FINAL - FIXAR TODOS OS TÓPICOS DO GRÁFICO DESCARTE
+   ========================================================== */
+.chart-wrap{
+    height:245px !important;
+}
+
+/* Mantém a tabela SKU visível mesmo com o gráfico maior */
+.scroll-skus{
+    height:105px !important;
+}
+
+/* Evita que os textos do eixo Y fiquem comprimidos */
+#descarteChart{
+    min-height:245px !important;
+}
+
+@media (max-width:1500px){
+    .chart-wrap{
+        height:230px !important;
+    }
+
+    #descarteChart{
+        min-height:230px !important;
+    }
+
+    .scroll-skus{
+        height:96px !important;
+    }
+}
+
 </style>
 </head>
 
@@ -2088,7 +2120,11 @@ async function carregarDados(){
                             '#38bdf8',
                             '#7c3aed'
                         ],
-                        borderRadius:10
+                        borderRadius:10,
+                        barThickness:14,
+                        maxBarThickness:14,
+                        categoryPercentage:.55,
+                        barPercentage:.75
                     }]
                 },
                 options:{
@@ -2096,7 +2132,7 @@ async function carregarDados(){
                     maintainAspectRatio:false,
                     indexAxis:'y',
                     layout:{
-                        padding:{right:105}
+                        padding:{top:10,right:160,bottom:10,left:10}
                     },
                     plugins:{
                         legend:{display:false},
@@ -2122,9 +2158,12 @@ async function carregarDados(){
                             }
                         },
                         y:{
+                            offset:true,
                             grid:{display:false},
                             ticks:{
-                                font:{size:14,weight:'bold'},
+                                autoSkip:false,
+                                padding:8,
+                                font:{size:15,weight:'bold'},
                                 color:'#243b70'
                             }
                         }
