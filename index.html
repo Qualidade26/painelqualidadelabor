@@ -405,6 +405,8 @@ body{
 .scroll-infinito{
     position:relative;
     overflow:hidden;
+    overscroll-behavior:contain;
+    cursor:default;
 }
 
 .scroll-skus{
@@ -414,16 +416,12 @@ body{
 .scroll-content{
     display:flex;
     flex-direction:column;
-    animation:scrollVertical 20s linear infinite;
+    will-change:transform;
+    transform:translateY(0);
 }
 
-.scroll-infinito:hover .scroll-content{
-    animation-play-state:paused;
-}
-
-@keyframes scrollVertical{
-    0%{transform:translateY(0);}
-    100%{transform:translateY(-50%);}
+.scroll-infinito:hover{
+    overflow:hidden;
 }
 
 /* ESFIG */
@@ -742,7 +740,7 @@ canvas{
                 <div>Descrição</div>
                 <div>Valor</div>
             </div>
-            <div class="scroll-infinito scroll-skus">
+            <div id="descarteScrollBox" class="scroll-infinito scroll-skus">
                 <div id="descarteTableScroll" class="scroll-content"></div>
             </div>
         </div>
@@ -815,7 +813,7 @@ canvas{
 
     <div class="full-card">
         <div class="card-title">🏆 TOP 10 AMOSTRAS MAIS SOLICITADAS</div>
-        <div class="scroll-infinito scroll-amostras">
+        <div id="amostrasScrollBox" class="scroll-infinito scroll-amostras">
             <div id="amostrasTable" class="scroll-content"></div>
         </div>
     </div>
@@ -828,6 +826,92 @@ canvas{
 
 <script>
 let amostraChart;
+
+const scrollManagers = {};
+
+function iniciarScrollInfinitoManual(containerId, contentId, velocidade = 0.35){
+    const container = document.getElementById(containerId);
+    const content = document.getElementById(contentId);
+
+    if(!container || !content) return;
+
+    if(scrollManagers[contentId]){
+        scrollManagers[contentId].recalcular();
+        return;
+    }
+
+    let posicao = 0;
+    let pausado = false;
+    let metadeAltura = 0;
+    let rafId = null;
+
+    function recalcular(){
+        metadeAltura = content.scrollHeight / 2;
+        if(!metadeAltura || metadeAltura <= container.clientHeight){
+            posicao = 0;
+            content.style.transform = 'translateY(0px)';
+        }else if(posicao >= metadeAltura){
+            posicao = 0;
+        }
+    }
+
+    function aplicarTransform(){
+        if(!metadeAltura) recalcular();
+        content.style.transform = `translateY(${-posicao}px)`;
+    }
+
+    function normalizarPosicao(){
+        if(!metadeAltura) return;
+
+        while(posicao >= metadeAltura){
+            posicao -= metadeAltura;
+        }
+
+        while(posicao < 0){
+            posicao += metadeAltura;
+        }
+    }
+
+    function animar(){
+        if(!pausado && metadeAltura > container.clientHeight){
+            posicao += velocidade;
+            normalizarPosicao();
+            aplicarTransform();
+        }
+
+        rafId = requestAnimationFrame(animar);
+    }
+
+    container.addEventListener('mouseenter',()=>{
+        pausado = true;
+    });
+
+    container.addEventListener('mouseleave',()=>{
+        pausado = false;
+    });
+
+    container.addEventListener('wheel',(event)=>{
+        if(metadeAltura <= container.clientHeight) return;
+
+        event.preventDefault();
+        posicao += event.deltaY;
+        normalizarPosicao();
+        aplicarTransform();
+    },{passive:false});
+
+    window.addEventListener('resize',recalcular);
+
+    scrollManagers[contentId] = {
+        recalcular,
+        parar(){
+            if(rafId) cancelAnimationFrame(rafId);
+        }
+    };
+
+    recalcular();
+    animar();
+}
+
 
 function formatMoney(value){
     const numero = Number(value) || 0;
@@ -971,6 +1055,7 @@ async function carregarDados(){
             </div>
         `).join('');
         document.getElementById("descarteTableScroll").innerHTML = descarteRows + descarteRows;
+        iniciarScrollInfinitoManual("descarteScrollBox","descarteTableScroll",0.35);
 
         const aguardando = data.esfig.reduce((a,b)=>a+(Number(b.aguardando)||0),0);
         const desmontado = data.esfig.reduce((a,b)=>a+(Number(b.desmontado)||0),0);
@@ -1019,6 +1104,7 @@ async function carregarDados(){
             </div>
         `).join('');
         document.getElementById("amostrasTable").innerHTML = amostrasRows + amostrasRows;
+        iniciarScrollInfinitoManual("amostrasScrollBox","amostrasTable",0.35);
 
         if(amostraChart) amostraChart.destroy();
         amostraChart = new Chart(document.getElementById('amostraChart'),{
