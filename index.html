@@ -277,10 +277,31 @@ td{
     vertical-align:middle;
 }
 
-/* SCROLL INFINITO */
+/* SCROLL INFINITO + ROLAGEM MANUAL NO MOUSE */
 .scroll-infinito{
     position:relative;
     overflow:hidden;
+    scroll-behavior:smooth;
+    overscroll-behavior:contain;
+}
+
+.scroll-infinito:hover{
+    overflow-y:auto;
+    overflow-x:hidden;
+}
+
+.scroll-infinito::-webkit-scrollbar{
+    width:8px;
+}
+
+.scroll-infinito::-webkit-scrollbar-track{
+    background:#e7f0ff;
+    border-radius:10px;
+}
+
+.scroll-infinito::-webkit-scrollbar-thumb{
+    background:#1d4eff;
+    border-radius:10px;
 }
 
 .scroll-skus{
@@ -295,20 +316,7 @@ td{
 .scroll-content{
     display:flex;
     flex-direction:column;
-    animation:scrollVertical 20s linear infinite;
-}
-
-.scroll-infinito:hover .scroll-content{
-    animation-play-state:paused;
-}
-
-@keyframes scrollVertical{
-    0%{
-        transform:translateY(0);
-    }
-    100%{
-        transform:translateY(-50%);
-    }
+    transform:none;
 }
 
 .scroll-table table{
@@ -1861,6 +1869,60 @@ function atualizarRelogio(){
         agora.toLocaleTimeString('pt-BR');
 }
 
+function buscarDataAtualizacaoJson(data){
+    return (
+        data.updated_at ||
+        data.atualizacao ||
+        data.ultima_atualizacao ||
+        data.data_atualizacao ||
+        data.dataAtualizacao ||
+        data.updatedAt ||
+        data.last_update ||
+        data.lastUpdate ||
+        ""
+    );
+}
+
+function aplicarDataHoraAtualizacao(data){
+    const valor = buscarDataAtualizacaoJson(data);
+
+    if(!valor){
+        return;
+    }
+
+    const texto = String(valor).trim();
+    let dataFormatada = texto;
+    let horaFormatada = "";
+
+    const partesBR = texto.match(/(\d{2}\/\d{2}\/\d{4})\s*(?:-|às|as)?\s*(\d{2}:\d{2}(?::\d{2})?)/i);
+
+    if(partesBR){
+        dataFormatada = partesBR[1];
+        horaFormatada = partesBR[2];
+    }else{
+        const dataISO = new Date(texto);
+
+        if(!isNaN(dataISO.getTime())){
+            dataFormatada = dataISO.toLocaleDateString('pt-BR',{
+                day:'2-digit',
+                month:'long',
+                year:'numeric'
+            });
+
+            horaFormatada = dataISO.toLocaleTimeString('pt-BR');
+        }
+    }
+
+    document.getElementById("dataAtual").innerText = dataFormatada;
+    document.getElementById("horaAtual").innerText = horaFormatada || "Atualizado";
+
+    const campoUltimaAtualizacao = document.getElementById("ultimaAtualizacaoPainel");
+
+    if(campoUltimaAtualizacao){
+        campoUltimaAtualizacao.innerText = texto;
+    }
+}
+
 function buscarCampoData(data, nomesPossiveis){
     for(const nome of nomesPossiveis){
         if(data[nome]) return data[nome];
@@ -1932,16 +1994,62 @@ const barMoneyLabelPlugin = {
     }
 };
 
+function configurarScrollManualEAutomatico(){
+    document.querySelectorAll('.scroll-infinito').forEach(container=>{
+        if(container.dataset.scrollConfigurado === "true"){
+            return;
+        }
+
+        container.dataset.scrollConfigurado = "true";
+        container.dataset.pausado = "false";
+
+        container.addEventListener('mouseenter',()=>{
+            container.dataset.pausado = "true";
+        });
+
+        container.addEventListener('mouseleave',()=>{
+            container.dataset.pausado = "false";
+        });
+
+        container.addEventListener('wheel',()=>{
+            container.dataset.pausado = "true";
+            clearTimeout(container._retomarScrollTimer);
+
+            container._retomarScrollTimer = setTimeout(()=>{
+                if(!container.matches(':hover')){
+                    container.dataset.pausado = "false";
+                }
+            },2500);
+        },{passive:true});
+    });
+}
+
+setInterval(()=>{
+    document.querySelectorAll('.scroll-infinito').forEach(container=>{
+        if(container.dataset.pausado === "true"){
+            return;
+        }
+
+        if(container.scrollHeight <= container.clientHeight){
+            return;
+        }
+
+        const limite = container.scrollHeight / 2;
+
+        container.scrollTop += 1;
+
+        if(container.scrollTop >= limite){
+            container.scrollTop = 0;
+        }
+    });
+},45);
+
 async function carregarDados(){
     try{
         const response = await fetch('./data.json?t=' + Date.now());
         const data = await response.json();
 
-        const agoraPainel = new Date();
-        const campoUltimaAtualizacao = document.getElementById("ultimaAtualizacaoPainel");
-        if(campoUltimaAtualizacao){
-            campoUltimaAtualizacao.innerText = agoraPainel.toLocaleString('pt-BR');
-        }
+        aplicarDataHoraAtualizacao(data);
 
         document.getElementById("totalDescarte").innerText =
             formatMoney(data.descarte.total);
@@ -2071,6 +2179,8 @@ async function carregarDados(){
 
         document.getElementById("amostrasTable").innerHTML =
             amostrasRows + amostrasRows;
+
+        configurarScrollManualEAutomatico();
 
         if(descarteChart) descarteChart.destroy();
 
@@ -2202,7 +2312,6 @@ atualizarRelogio();
 carregarDados();
 
 setInterval(()=>{
-    atualizarRelogio();
     carregarDados();
 },120000);
 </script>
