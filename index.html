@@ -18,7 +18,6 @@ function ativarScrollManual(selector, velocidade=0.25){
             clearTimeout(container._tmr);
             container._tmr=setTimeout(()=>pausado=false,3000);
         });
-
         function loop(){
             if(!pausado){
                 container.scrollTop += velocidade;
