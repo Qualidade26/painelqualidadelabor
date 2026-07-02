@@ -1818,54 +1818,48 @@ th,td{
     </main>
 </div>
 
-let scrollInfinitoAtivado = false;
+<script>
+let descarteChart;
+let amostraChart;
 
 function iniciarScrollInfinitoManual(){
-
-    if(scrollInfinitoAtivado) return;
-    scrollInfinitoAtivado = true;
-
     document.querySelectorAll(".scroll-infinito").forEach(box=>{
+        if(box.dataset.scrollAtivado === "true") return;
+        box.dataset.scrollAtivado = "true";
 
-        let pausado = false;
-        let timer;
+        let mouseEmCima = false;
+        let usuarioRolando = false;
+        let timerUsuario = null;
 
         box.addEventListener("mouseenter",()=>{
-            pausado = true;
+            mouseEmCima = true;
         });
 
         box.addEventListener("mouseleave",()=>{
-            pausado = false;
+            mouseEmCima = false;
+            usuarioRolando = false;
         });
 
         box.addEventListener("wheel",()=>{
+            usuarioRolando = true;
+            clearTimeout(timerUsuario);
 
-            pausado = true;
-
-            clearTimeout(timer);
-
-            timer = setTimeout(()=>{
-                pausado = false;
-            },1500);
-
+            timerUsuario = setTimeout(()=>{
+                usuarioRolando = false;
+            },1800);
         },{passive:true});
 
         setInterval(()=>{
-
-            if(pausado) return;
-
+            if(mouseEmCima || usuarioRolando) return;
             if(box.scrollHeight <= box.clientHeight) return;
 
             box.scrollTop += 1;
 
-            if(box.scrollTop >= (box.scrollHeight - box.clientHeight)){
+            if(box.scrollTop + box.clientHeight >= box.scrollHeight - 1){
                 box.scrollTop = 0;
             }
-
-        },35);
-
+        },40);
     });
-
 }
 
 function formatMoney(value){
@@ -2251,12 +2245,16 @@ async function carregarDados(){
 
 atualizarRelogio();
 carregarDados().then(()=>{
-    iniciarScrollInfinitoManual();
+    setTimeout(()=>{
+        iniciarScrollInfinitoManual();
+    },300);
 });
 
 setInterval(()=>{
     atualizarRelogio();
-    carregarDados();
+    carregarDados().then(()=>{
+        iniciarScrollInfinitoManual();
+    });
 },120000);
 </script>
 
