@@ -277,14 +277,14 @@ td{
     vertical-align:middle;
 }
 
-/* SCROLL INFINITO COM ROLAGEM MANUAL */
+/* SCROLL INFINITO + ROLAGEM MANUAL */
 .scroll-infinito{
     position:relative;
     overflow-y:auto;
     overflow-x:hidden;
     overscroll-behavior:contain;
-    scroll-behavior:auto;
-    padding-right:4px;
+    scrollbar-width:thin;
+    scrollbar-color:#1d4eff #eaf2ff;
 }
 
 .scroll-infinito::-webkit-scrollbar{
@@ -292,17 +292,13 @@ td{
 }
 
 .scroll-infinito::-webkit-scrollbar-track{
-    background:#e6f0ff;
-    border-radius:20px;
+    background:#eaf2ff;
+    border-radius:10px;
 }
 
 .scroll-infinito::-webkit-scrollbar-thumb{
     background:#1d4eff;
-    border-radius:20px;
-}
-
-.scroll-infinito::-webkit-scrollbar-thumb:hover{
-    background:#0f3cc9;
+    border-radius:10px;
 }
 
 .scroll-skus{
@@ -1733,7 +1729,7 @@ th,td{
                         <div>Descrição</div>
                         <div>Valor</div>
                     </div>
-                    <div class="scroll-infinito scroll-skus" id="scrollDescarteSkus">
+                    <div class="scroll-infinito scroll-skus">
                         <div id="descarteTableScroll" class="scroll-content"></div>
                     </div>
                 </div>
@@ -1810,7 +1806,7 @@ th,td{
 
             <div class="full-card">
                 <div class="card-title">🏆 TOP 10 AMOSTRAS MAIS SOLICITADAS</div>
-                <div class="scroll-infinito scroll-amostras" id="scrollAmostrasTop10">
+                <div class="scroll-infinito scroll-amostras">
                     <div id="amostrasTable" class="scroll-content"></div>
                 </div>
             </div>
@@ -1824,8 +1820,6 @@ th,td{
 <script>
 let descarteChart;
 let amostraChart;
-let scrollControllers = {};
-
 
 function formatMoney(value){
     const numero = Number(value) || 0;
@@ -1858,120 +1852,16 @@ function ajustarNomeOrigem(nome){
 }
 
 function atualizarRelogio(){
-    const agora = new Date();
+    const dataBox = document.getElementById("dataAtual");
+    const horaBox = document.getElementById("horaAtual");
 
-    document.getElementById("dataAtual").innerText =
-        agora.toLocaleDateString('pt-BR',{
-            day:'2-digit',
-            month:'long',
-            year:'numeric'
-        });
-
-    document.getElementById("horaAtual").innerText =
-        agora.toLocaleTimeString('pt-BR');
-}
-
-function obterAtualizacaoJson(data){
-    const camposPossiveis = [
-        'updated_at',
-        'atualizacao',
-        'ultima_atualizacao',
-        'ultimaAtualizacao',
-        'data_atualizacao',
-        'dataAtualizacao',
-        'updatedAt'
-    ];
-
-    for(const campo of camposPossiveis){
-        if(data && data[campo]){
-            return data[campo].toString();
-        }
+    if(dataBox && !dataBox.innerText){
+        dataBox.innerText = "Atualização JSON";
     }
 
-    return '';
-}
-
-function aplicarDataHoraJson(data){
-    const valorAtualizacao = obterAtualizacaoJson(data);
-
-    if(!valorAtualizacao){
-        atualizarRelogio();
-        return;
+    if(horaBox && !horaBox.innerText){
+        horaBox.innerText = "Carregando...";
     }
-
-    const partes = valorAtualizacao.trim().split(/\s+/);
-    const dataTexto = partes[0] || valorAtualizacao;
-    const horaTexto = partes[1] || '';
-
-    document.getElementById("dataAtual").innerText = "Atualizado: " + dataTexto;
-    document.getElementById("horaAtual").innerText = horaTexto ? "Hora: " + horaTexto : "Hora: --:--";
-}
-
-function iniciarScrollInfinitoManual(containerId, velocidade = 0.35){
-    const container = document.getElementById(containerId);
-    if(!container) return;
-
-    if(scrollControllers[containerId]){
-        cancelAnimationFrame(scrollControllers[containerId].frame);
-        clearTimeout(scrollControllers[containerId].timer);
-    }
-
-    const controller = {
-        frame:null,
-        pausado:false,
-        timer:null,
-        ultimoScrollTop:container.scrollTop
-    };
-
-    scrollControllers[containerId] = controller;
-
-    function metadeScroll(){
-        return container.scrollHeight / 2;
-    }
-
-    function normalizarPosicao(){
-        const metade = metadeScroll();
-
-        if(metade <= container.clientHeight) return;
-
-        if(container.scrollTop >= metade){
-            container.scrollTop = container.scrollTop - metade;
-        }
-
-        if(container.scrollTop < 0){
-            container.scrollTop = 0;
-        }
-    }
-
-    function pausarPorUsoManual(){
-        controller.pausado = true;
-        clearTimeout(controller.timer);
-        controller.timer = setTimeout(()=>{
-            controller.pausado = false;
-        },3000);
-    }
-
-    container.addEventListener('wheel', pausarPorUsoManual, {passive:true});
-    container.addEventListener('touchstart', pausarPorUsoManual, {passive:true});
-    container.addEventListener('mousedown', pausarPorUsoManual);
-    container.addEventListener('scroll', ()=>{
-        normalizarPosicao();
-        controller.ultimoScrollTop = container.scrollTop;
-    }, {passive:true});
-
-    function animar(){
-        const metade = metadeScroll();
-
-        if(!controller.pausado && metade > container.clientHeight){
-            container.scrollTop += velocidade;
-            normalizarPosicao();
-        }
-
-        controller.frame = requestAnimationFrame(animar);
-    }
-
-    container.scrollTop = 0;
-    controller.frame = requestAnimationFrame(animar);
 }
 
 function buscarCampoData(data, nomesPossiveis){
@@ -1992,6 +1882,106 @@ function buscarCampoData(data, nomesPossiveis){
     }
 
     return "--/--/----";
+}
+
+function buscarAtualizacaoJson(data){
+    const campos = [
+        'updated_at',
+        'atualizacao',
+        'ultima_atualizacao',
+        'ultimaAtualizacao',
+        'data_atualizacao',
+        'dataAtualizacao',
+        'data_hora',
+        'dataHora'
+    ];
+
+    for(const campo of campos){
+        if(data && data[campo]) return data[campo];
+    }
+
+    if(data && data.kpis){
+        for(const campo of campos){
+            if(data.kpis[campo]) return data.kpis[campo];
+        }
+    }
+
+    return "--/--/---- --:--:--";
+}
+
+function iniciarScrollInfinitoManual(contentId, rowsHtml){
+    const content = document.getElementById(contentId);
+    if(!content) return;
+
+    const box = content.closest('.scroll-infinito');
+    if(!box) return;
+
+    content.innerHTML = rowsHtml + rowsHtml + rowsHtml;
+
+    if(box._scrollFrame){
+        cancelAnimationFrame(box._scrollFrame);
+    }
+
+    box._manualAte = 0;
+    box._corrigindo = false;
+
+    requestAnimationFrame(()=>{
+        const alturaBloco = content.scrollHeight / 3;
+        box._alturaBloco = alturaBloco;
+        box.scrollTop = alturaBloco;
+
+        function corrigirLoop(){
+            if(!box._alturaBloco) return;
+
+            if(box._corrigindo) return;
+
+            box._corrigindo = true;
+
+            if(box.scrollTop >= box._alturaBloco * 2){
+                box.scrollTop = box.scrollTop - box._alturaBloco;
+            }
+
+            if(box.scrollTop <= 1){
+                box.scrollTop = box.scrollTop + box._alturaBloco;
+            }
+
+            box._corrigindo = false;
+        }
+
+        if(!box._eventosScrollManual){
+            box.addEventListener('wheel', ()=>{
+                box._manualAte = Date.now() + 3500;
+            }, {passive:true});
+
+            box.addEventListener('touchstart', ()=>{
+                box._manualAte = Date.now() + 3500;
+            }, {passive:true});
+
+            box.addEventListener('mousedown', ()=>{
+                box._manualAte = Date.now() + 3500;
+            });
+
+            box.addEventListener('scroll', ()=>{
+                box._manualAte = Date.now() + 1800;
+                corrigirLoop();
+            });
+
+            box._eventosScrollManual = true;
+        }
+
+        function animar(){
+            const usuarioInteragindo = box.matches(':hover') || Date.now() < box._manualAte;
+
+            if(!usuarioInteragindo){
+                box.scrollTop += 0.45;
+                corrigirLoop();
+            }
+
+            box._scrollFrame = requestAnimationFrame(animar);
+        }
+
+        animar();
+    });
 }
 
 const lineLabelPlugin = {
@@ -2050,11 +2040,14 @@ async function carregarDados(){
         const response = await fetch('./data.json?t=' + Date.now());
         const data = await response.json();
 
-        aplicarDataHoraJson(data);
+        const atualizacaoJson = buscarAtualizacaoJson(data);
+
+        document.getElementById("dataAtual").innerText = "Atualização JSON";
+        document.getElementById("horaAtual").innerText = atualizacaoJson;
 
         const campoUltimaAtualizacao = document.getElementById("ultimaAtualizacaoPainel");
         if(campoUltimaAtualizacao){
-            campoUltimaAtualizacao.innerText = obterAtualizacaoJson(data) || new Date().toLocaleString('pt-BR');
+            campoUltimaAtualizacao.innerText = atualizacaoJson;
         }
 
         document.getElementById("totalDescarte").innerText =
@@ -2098,10 +2091,7 @@ async function carregarDados(){
             </div>
         `).join('');
 
-        document.getElementById("descarteTableScroll").innerHTML =
-            descarteRows + descarteRows;
-
-        iniciarScrollInfinitoManual("scrollDescarteSkus", 0.28);
+        iniciarScrollInfinitoManual("descarteTableScroll", descarteRows);
 
         const top3 = [...data.descarte.origens]
             .map(item=>({
@@ -2185,10 +2175,7 @@ async function carregarDados(){
             </div>
         `).join('');
 
-        document.getElementById("amostrasTable").innerHTML =
-            amostrasRows + amostrasRows;
-
-        iniciarScrollInfinitoManual("scrollAmostrasTop10", 0.32);
+        iniciarScrollInfinitoManual("amostrasTable", amostrasRows);
 
         if(descarteChart) descarteChart.destroy();
 
@@ -2320,6 +2307,7 @@ atualizarRelogio();
 carregarDados();
 
 setInterval(()=>{
+    atualizarRelogio();
     carregarDados();
 },120000);
 </script>
