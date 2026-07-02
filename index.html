@@ -4,7 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Labor | Painel Estratégico da Qualidade</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js">
+// ===== Scroll automático + rolagem manual =====
+function ativarScrollManual(selector, velocidade=0.35){
+    document.querySelectorAll(selector).forEach(container=>{
+        let pausado=false;
+
+        container.addEventListener("mouseenter",()=>pausado=true);
+        container.addEventListener("mouseleave",()=>pausado=false);
+
+        container.addEventListener("wheel",()=>{
+            pausado=true;
+            clearTimeout(container._tmr);
+            container._tmr=setTimeout(()=>pausado=false,3000);
+        });
+
+        function loop(){
+            if(!pausado){
+                container.scrollTop += velocidade;
+                if(container.scrollTop >= (container.scrollHeight-container.clientHeight-1)){
+                    container.scrollTop=0;
+                }
+            }
+            requestAnimationFrame(loop);
+        }
+        requestAnimationFrame(loop);
+    });
+}
+
+ativarScrollManual(".scroll-skus");
+ativarScrollManual(".scroll-amostras");
+
+</script>
 
 <style>
 :root{
@@ -281,7 +312,22 @@ td{
 /* SCROLL INFINITO */
 .scroll-infinito{
     position:relative;
-    overflow:hidden;
+    overflow-y:auto;
+    overflow-x:hidden;
+    scrollbar-width:thin;
+    scroll-behavior:smooth;
+}
+
+.scroll-infinito:hover{
+    cursor:ns-resize;
+}
+
+.scroll-infinito::-webkit-scrollbar{
+    width:8px;
+}
+
+.scroll-infinito::-webkit-scrollbar-thumb{
+    border-radius:8px;
 }
 
 .scroll-skus{
@@ -2193,6 +2239,37 @@ setInterval(()=>{
     atualizarRelogio();
     carregarDados();
 },120000);
+
+// ===== Scroll automático + rolagem manual =====
+function ativarScrollManual(selector, velocidade=0.35){
+    document.querySelectorAll(selector).forEach(container=>{
+        let pausado=false;
+
+        container.addEventListener("mouseenter",()=>pausado=true);
+        container.addEventListener("mouseleave",()=>pausado=false);
+
+        container.addEventListener("wheel",()=>{
+            pausado=true;
+            clearTimeout(container._tmr);
+            container._tmr=setTimeout(()=>pausado=false,3000);
+        });
+
+        function loop(){
+            if(!pausado){
+                container.scrollTop += velocidade;
+                if(container.scrollTop >= (container.scrollHeight-container.clientHeight-1)){
+                    container.scrollTop=0;
+                }
+            }
+            requestAnimationFrame(loop);
+        }
+        requestAnimationFrame(loop);
+    });
+}
+
+ativarScrollManual(".scroll-skus");
+ativarScrollManual(".scroll-amostras");
+
 </script>
 
 </body>
