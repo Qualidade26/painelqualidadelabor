@@ -1818,17 +1818,17 @@ th,td{
     </main>
 </div>
 
-<script>
-let descarteChart;
-let amostraChart;
 let scrollInfinitoAtivado = false;
 
 function iniciarScrollInfinitoManual(){
+
     if(scrollInfinitoAtivado) return;
     scrollInfinitoAtivado = true;
 
     document.querySelectorAll(".scroll-infinito").forEach(box=>{
+
         let pausado = false;
+        let timer;
 
         box.addEventListener("mouseenter",()=>{
             pausado = true;
@@ -1839,20 +1839,33 @@ function iniciarScrollInfinitoManual(){
         });
 
         box.addEventListener("wheel",()=>{
+
             pausado = true;
+
+            clearTimeout(timer);
+
+            timer = setTimeout(()=>{
+                pausado = false;
+            },1500);
+
         },{passive:true});
 
         setInterval(()=>{
+
             if(pausado) return;
+
             if(box.scrollHeight <= box.clientHeight) return;
 
             box.scrollTop += 1;
 
-            if(box.scrollTop >= box.scrollHeight / 2){
+            if(box.scrollTop >= (box.scrollHeight - box.clientHeight)){
                 box.scrollTop = 0;
             }
-        },40);
+
+        },35);
+
     });
+
 }
 
 function formatMoney(value){
