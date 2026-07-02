@@ -277,14 +277,13 @@ td{
     vertical-align:middle;
 }
 
-/* SCROLL INFINITO + ROLAGEM MANUAL */
+/* SCROLL INFINITO COM ROLAGEM MANUAL */
 .scroll-infinito{
     position:relative;
     overflow-y:auto;
     overflow-x:hidden;
-    overscroll-behavior:contain;
+    scroll-behavior:auto;
     scrollbar-width:thin;
-    scrollbar-color:#1d4eff #eaf2ff;
 }
 
 .scroll-infinito::-webkit-scrollbar{
@@ -297,7 +296,7 @@ td{
 }
 
 .scroll-infinito::-webkit-scrollbar-thumb{
-    background:#1d4eff;
+    background:#9bbcff;
     border-radius:10px;
 }
 
@@ -313,6 +312,8 @@ td{
 .scroll-content{
     display:flex;
     flex-direction:column;
+    animation:none !important;
+    transform:none !important;
 }
 
 .scroll-table table{
@@ -1820,6 +1821,39 @@ th,td{
 <script>
 let descarteChart;
 let amostraChart;
+let scrollInfinitoAtivado = false;
+
+function iniciarScrollInfinitoManual(){
+    if(scrollInfinitoAtivado) return;
+    scrollInfinitoAtivado = true;
+
+    document.querySelectorAll(".scroll-infinito").forEach(box=>{
+        let pausado = false;
+
+        box.addEventListener("mouseenter",()=>{
+            pausado = true;
+        });
+
+        box.addEventListener("mouseleave",()=>{
+            pausado = false;
+        });
+
+        box.addEventListener("wheel",()=>{
+            pausado = true;
+        },{passive:true});
+
+        setInterval(()=>{
+            if(pausado) return;
+            if(box.scrollHeight <= box.clientHeight) return;
+
+            box.scrollTop += 1;
+
+            if(box.scrollTop >= box.scrollHeight / 2){
+                box.scrollTop = 0;
+            }
+        },40);
+    });
+}
 
 function formatMoney(value){
     const numero = Number(value) || 0;
@@ -1852,16 +1886,17 @@ function ajustarNomeOrigem(nome){
 }
 
 function atualizarRelogio(){
-    const dataBox = document.getElementById("dataAtual");
-    const horaBox = document.getElementById("horaAtual");
+    const agora = new Date();
 
-    if(dataBox && !dataBox.innerText){
-        dataBox.innerText = "Atualização JSON";
-    }
+    document.getElementById("dataAtual").innerText =
+        agora.toLocaleDateString('pt-BR',{
+            day:'2-digit',
+            month:'long',
+            year:'numeric'
+        });
 
-    if(horaBox && !horaBox.innerText){
-        horaBox.innerText = "Carregando...";
-    }
+    document.getElementById("horaAtual").innerText =
+        agora.toLocaleTimeString('pt-BR');
 }
 
 function buscarCampoData(data, nomesPossiveis){
@@ -1882,106 +1917,6 @@ function buscarCampoData(data, nomesPossiveis){
     }
 
     return "--/--/----";
-}
-
-function buscarAtualizacaoJson(data){
-    const campos = [
-        'updated_at',
-        'atualizacao',
-        'ultima_atualizacao',
-        'ultimaAtualizacao',
-        'data_atualizacao',
-        'dataAtualizacao',
-        'data_hora',
-        'dataHora'
-    ];
-
-    for(const campo of campos){
-        if(data && data[campo]) return data[campo];
-    }
-
-    if(data && data.kpis){
-        for(const campo of campos){
-            if(data.kpis[campo]) return data.kpis[campo];
-        }
-    }
-
-    return "--/--/---- --:--:--";
-}
-
-function iniciarScrollInfinitoManual(contentId, rowsHtml){
-    const content = document.getElementById(contentId);
-    if(!content) return;
-
-    const box = content.closest('.scroll-infinito');
-    if(!box) return;
-
-    content.innerHTML = rowsHtml + rowsHtml + rowsHtml;
-
-    if(box._scrollFrame){
-        cancelAnimationFrame(box._scrollFrame);
-    }
-
-    box._manualAte = 0;
-    box._corrigindo = false;
-
-    requestAnimationFrame(()=>{
-        const alturaBloco = content.scrollHeight / 3;
-        box._alturaBloco = alturaBloco;
-        box.scrollTop = alturaBloco;
-
-        function corrigirLoop(){
-            if(!box._alturaBloco) return;
-
-            if(box._corrigindo) return;
-
-            box._corrigindo = true;
-
-            if(box.scrollTop >= box._alturaBloco * 2){
-                box.scrollTop = box.scrollTop - box._alturaBloco;
-            }
-
-            if(box.scrollTop <= 1){
-                box.scrollTop = box.scrollTop + box._alturaBloco;
-            }
-
-            box._corrigindo = false;
-        }
-
-        if(!box._eventosScrollManual){
-            box.addEventListener('wheel', ()=>{
-                box._manualAte = Date.now() + 3500;
-            }, {passive:true});
-
-            box.addEventListener('touchstart', ()=>{
-                box._manualAte = Date.now() + 3500;
-            }, {passive:true});
-
-            box.addEventListener('mousedown', ()=>{
-                box._manualAte = Date.now() + 3500;
-            });
-
-            box.addEventListener('scroll', ()=>{
-                box._manualAte = Date.now() + 1800;
-                corrigirLoop();
-            });
-
-            box._eventosScrollManual = true;
-        }
-
-        function animar(){
-            const usuarioInteragindo = box.matches(':hover') || Date.now() < box._manualAte;
-
-            if(!usuarioInteragindo){
-                box.scrollTop += 0.45;
-                corrigirLoop();
-            }
-
-            box._scrollFrame = requestAnimationFrame(animar);
-        }
-
-        animar();
-    });
 }
 
 const lineLabelPlugin = {
@@ -2040,14 +1975,10 @@ async function carregarDados(){
         const response = await fetch('./data.json?t=' + Date.now());
         const data = await response.json();
 
-        const atualizacaoJson = buscarAtualizacaoJson(data);
-
-        document.getElementById("dataAtual").innerText = "Atualização JSON";
-        document.getElementById("horaAtual").innerText = atualizacaoJson;
-
+        const agoraPainel = new Date();
         const campoUltimaAtualizacao = document.getElementById("ultimaAtualizacaoPainel");
         if(campoUltimaAtualizacao){
-            campoUltimaAtualizacao.innerText = atualizacaoJson;
+            campoUltimaAtualizacao.innerText = agoraPainel.toLocaleString('pt-BR');
         }
 
         document.getElementById("totalDescarte").innerText =
@@ -2091,7 +2022,8 @@ async function carregarDados(){
             </div>
         `).join('');
 
-        iniciarScrollInfinitoManual("descarteTableScroll", descarteRows);
+        document.getElementById("descarteTableScroll").innerHTML =
+            descarteRows + descarteRows;
 
         const top3 = [...data.descarte.origens]
             .map(item=>({
@@ -2175,7 +2107,8 @@ async function carregarDados(){
             </div>
         `).join('');
 
-        iniciarScrollInfinitoManual("amostrasTable", amostrasRows);
+        document.getElementById("amostrasTable").innerHTML =
+            amostrasRows + amostrasRows;
 
         if(descarteChart) descarteChart.destroy();
 
@@ -2304,7 +2237,9 @@ async function carregarDados(){
 }
 
 atualizarRelogio();
-carregarDados();
+carregarDados().then(()=>{
+    iniciarScrollInfinitoManual();
+});
 
 setInterval(()=>{
     atualizarRelogio();
