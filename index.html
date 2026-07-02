@@ -287,10 +287,6 @@ td{
     overscroll-behavior:contain;
 }
 
-.scroll-infinito:hover{
-    cursor:grab;
-}
-
 .scroll-infinito::-webkit-scrollbar{
     width:8px;
 }
@@ -1829,10 +1825,10 @@ let amostraChart;
 let scrollInfinitoAtivado = false;
 
 function iniciarScrollInfinitoManual(){
-    if(scrollInfinitoAtivado) return;
-    scrollInfinitoAtivado = true;
-
     document.querySelectorAll(".scroll-infinito").forEach(box=>{
+        if(box.dataset.scrollAtivado === "true") return;
+        box.dataset.scrollAtivado = "true";
+
         let mouseEmCima = false;
 
         box.addEventListener("mouseenter",()=>{
@@ -1843,16 +1839,21 @@ function iniciarScrollInfinitoManual(){
             mouseEmCima = false;
         });
 
-        setInterval(()=>{
-            if(mouseEmCima) return;
-            if(box.scrollHeight <= box.clientHeight) return;
+        function rolarAutomatico(){
+            if(!mouseEmCima && box.scrollHeight > box.clientHeight){
+                box.scrollTop += 1;
 
-            box.scrollTop += 1;
-
-            if(box.scrollTop + box.clientHeight >= box.scrollHeight - 1){
-                box.scrollTop = 0;
+                if(box.scrollTop + box.clientHeight >= box.scrollHeight - 1){
+                    box.scrollTop = 0;
+                }
             }
-        },40);
+
+            requestAnimationFrame(()=>{
+                setTimeout(rolarAutomatico,40);
+            });
+        }
+
+        rolarAutomatico();
     });
 }
 
@@ -2239,12 +2240,16 @@ async function carregarDados(){
 
 atualizarRelogio();
 carregarDados().then(()=>{
-    iniciarScrollInfinitoManual();
+    setTimeout(()=>{
+        iniciarScrollInfinitoManual();
+    },300);
 });
 
 setInterval(()=>{
     atualizarRelogio();
-    carregarDados();
+    carregarDados().then(()=>{
+        iniciarScrollInfinitoManual();
+    });
 },120000);
 </script>
 
