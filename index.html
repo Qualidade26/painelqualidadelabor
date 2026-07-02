@@ -277,28 +277,10 @@ td{
     vertical-align:middle;
 }
 
-/* SCROLL INFINITO COM ROLAGEM MANUAL */
+/* SCROLL INFINITO */
 .scroll-infinito{
     position:relative;
-    overflow-y:auto;
-    overflow-x:hidden;
-    scroll-behavior:auto;
-    scrollbar-width:thin;
-    overscroll-behavior:contain;
-}
-
-.scroll-infinito::-webkit-scrollbar{
-    width:8px;
-}
-
-.scroll-infinito::-webkit-scrollbar-track{
-    background:#eaf2ff;
-    border-radius:10px;
-}
-
-.scroll-infinito::-webkit-scrollbar-thumb{
-    background:#9bbcff;
-    border-radius:10px;
+    overflow:hidden;
 }
 
 .scroll-skus{
@@ -313,8 +295,20 @@ td{
 .scroll-content{
     display:flex;
     flex-direction:column;
-    animation:none !important;
-    transform:none !important;
+    animation:scrollVertical 20s linear infinite;
+}
+
+.scroll-infinito:hover .scroll-content{
+    animation-play-state:paused;
+}
+
+@keyframes scrollVertical{
+    0%{
+        transform:translateY(0);
+    }
+    100%{
+        transform:translateY(-50%);
+    }
 }
 
 .scroll-table table{
@@ -1701,7 +1695,7 @@ th,td{
                 <div class="kpi-content">
                     <div class="kpi-title" style="color:#f04dd8">TOTAL AMOSTRAS</div>
                     <div class="kpi-value" id="totalAmostras">...</div>
-                    <div class="kpi-note">Amostras solicitadas no ano</div>
+                    <div class="kpi-note">Amostras analisadas no ano</div>
                 </div>
             </div>
 
@@ -1822,40 +1816,6 @@ th,td{
 <script>
 let descarteChart;
 let amostraChart;
-let scrollInfinitoAtivado = false;
-
-function iniciarScrollInfinitoManual(){
-    document.querySelectorAll(".scroll-infinito").forEach(box=>{
-        if(box.dataset.scrollAtivado === "true") return;
-        box.dataset.scrollAtivado = "true";
-
-        let mouseEmCima = false;
-
-        box.addEventListener("mouseenter",()=>{
-            mouseEmCima = true;
-        });
-
-        box.addEventListener("mouseleave",()=>{
-            mouseEmCima = false;
-        });
-
-        function rolarAutomatico(){
-            if(!mouseEmCima && box.scrollHeight > box.clientHeight){
-                box.scrollTop += 1;
-
-                if(box.scrollTop + box.clientHeight >= box.scrollHeight - 1){
-                    box.scrollTop = 0;
-                }
-            }
-
-            requestAnimationFrame(()=>{
-                setTimeout(rolarAutomatico,40);
-            });
-        }
-
-        rolarAutomatico();
-    });
-}
 
 function formatMoney(value){
     const numero = Number(value) || 0;
@@ -2239,17 +2199,11 @@ async function carregarDados(){
 }
 
 atualizarRelogio();
-carregarDados().then(()=>{
-    setTimeout(()=>{
-        iniciarScrollInfinitoManual();
-    },300);
-});
+carregarDados();
 
 setInterval(()=>{
     atualizarRelogio();
-    carregarDados().then(()=>{
-        iniciarScrollInfinitoManual();
-    });
+    carregarDados();
 },120000);
 </script>
 
