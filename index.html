@@ -18,6 +18,7 @@
     --green:#22c55e;
     --cyan:#38bdf8;
     --purple:#7c3aed;
+    --text:#0f1f4d;
     --muted:#5c6c96;
     --line:#cfe0ff;
     --shadow:0 8px 24px rgba(29,78,255,.13);
@@ -834,46 +835,48 @@ function iniciarScrollInfinitoManual(containerId, contentId, velocidade = 0.35){
 
     if(!container || !content) return;
 
-    if(scrollManagers[containerId]){
-        scrollManagers[containerId].recalcular();
+    if(scrollManagers[contentId]){
+        scrollManagers[contentId].recalcular();
         return;
     }
 
+    let posicao = 0;
     let pausado = false;
     let metadeAltura = 0;
     let rafId = null;
-    let userScrolling = false;
-    let userTimer = null;
 
     function recalcular(){
         metadeAltura = content.scrollHeight / 2;
-
         if(!metadeAltura || metadeAltura <= container.clientHeight){
-            container.scrollTop = 0;
-        }
-
-        if(container.scrollTop >= metadeAltura){
-            container.scrollTop = container.scrollTop - metadeAltura;
+            posicao = 0;
+            content.style.transform = 'translateY(0px)';
+        }else if(posicao >= metadeAltura){
+            posicao = 0;
         }
     }
 
-    function normalizarScroll(){
+    function aplicarTransform(){
         if(!metadeAltura) recalcular();
+        content.style.transform = `translateY(${-posicao}px)`;
+    }
+
+    function normalizarPosicao(){
         if(!metadeAltura) return;
 
-        if(container.scrollTop >= metadeAltura){
-            container.scrollTop = container.scrollTop - metadeAltura;
+        while(posicao >= metadeAltura){
+            posicao -= metadeAltura;
         }
 
-        if(container.scrollTop < 0){
-            container.scrollTop = metadeAltura + container.scrollTop;
+        while(posicao < 0){
+            posicao += metadeAltura;
         }
     }
 
     function animar(){
-        if(!pausado && !userScrolling && metadeAltura > container.clientHeight){
-            container.scrollTop += velocidade;
-            normalizarScroll();
+        if(!pausado && metadeAltura > container.clientHeight){
+            posicao += velocidade;
+            normalizarPosicao();
+            aplicarTransform();
         }
 
         rafId = requestAnimationFrame(animar);
@@ -885,34 +888,28 @@ function iniciarScrollInfinitoManual(containerId, contentId, velocidade = 0.35){
 
     container.addEventListener('mouseleave',()=>{
         pausado = false;
-        userScrolling = false;
     });
 
-    container.addEventListener('scroll',()=>{
-        normalizarScroll();
-    });
+    container.addEventListener('wheel',(event)=>{
+        if(metadeAltura <= container.clientHeight) return;
 
-    container.addEventListener('wheel',()=>{
-        userScrolling = true;
-        clearTimeout(userTimer);
-        userTimer = setTimeout(()=>{
-            userScrolling = false;
-        },900);
-    },{passive:true});
+        event.preventDefault();
+        posicao += event.deltaY;
+        normalizarPosicao();
+        aplicarTransform();
+    },{passive:false});
 
     window.addEventListener('resize',recalcular);
 
-    scrollManagers[containerId] = {
+    scrollManagers[contentId] = {
         recalcular,
         parar(){
             if(rafId) cancelAnimationFrame(rafId);
         }
     };
 
-    setTimeout(()=>{
-        recalcular();
-        animar();
-    },50);
+    recalcular();
+    animar();
 }
 
 
@@ -1058,9 +1055,7 @@ async function carregarDados(){
             </div>
         `).join('');
         document.getElementById("descarteTableScroll").innerHTML = descarteRows + descarteRows;
-        requestAnimationFrame(()=>{
-            iniciarScrollInfinitoManual("descarteScrollBox","descarteTableScroll",0.35);
-        });
+        iniciarScrollInfinitoManual("descarteScrollBox","descarteTableScroll",0.35);
 
         const aguardando = data.esfig.reduce((a,b)=>a+(Number(b.aguardando)||0),0);
         const desmontado = data.esfig.reduce((a,b)=>a+(Number(b.desmontado)||0),0);
@@ -1109,9 +1104,7 @@ async function carregarDados(){
             </div>
         `).join('');
         document.getElementById("amostrasTable").innerHTML = amostrasRows + amostrasRows;
-        requestAnimationFrame(()=>{
-            iniciarScrollInfinitoManual("amostrasScrollBox","amostrasTable",0.35);
-        });
+        iniciarScrollInfinitoManual("amostrasScrollBox","amostrasTable",0.35);
 
         if(amostraChart) amostraChart.destroy();
         amostraChart = new Chart(document.getElementById('amostraChart'),{
