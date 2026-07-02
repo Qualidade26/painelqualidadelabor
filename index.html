@@ -196,7 +196,6 @@ body{
     margin-top:7px;
     white-space:nowrap;
 }
-
 .kpi-note{
     margin-top:8px;
     color:var(--muted);
@@ -278,10 +277,27 @@ td{
     vertical-align:middle;
 }
 
-/* SCROLL INFINITO */
+/* SCROLL INFINITO COM ROLAGEM MANUAL */
 .scroll-infinito{
     position:relative;
-    overflow:hidden;
+    overflow-y:auto;
+    overflow-x:hidden;
+    scroll-behavior:auto;
+    scrollbar-width:thin;
+}
+
+.scroll-infinito::-webkit-scrollbar{
+    width:8px;
+}
+
+.scroll-infinito::-webkit-scrollbar-track{
+    background:#eaf2ff;
+    border-radius:10px;
+}
+
+.scroll-infinito::-webkit-scrollbar-thumb{
+    background:#9bbcff;
+    border-radius:10px;
 }
 
 .scroll-skus{
@@ -296,20 +312,8 @@ td{
 .scroll-content{
     display:flex;
     flex-direction:column;
-    animation:scrollVertical 20s linear infinite;
-}
-
-.scroll-infinito:hover .scroll-content{
-    animation-play-state:paused;
-}
-
-@keyframes scrollVertical{
-    0%{
-        transform:translateY(0);
-    }
-    100%{
-        transform:translateY(-50%);
-    }
+    animation:none !important;
+    transform:none !important;
 }
 
 .scroll-table table{
@@ -1817,6 +1821,81 @@ th,td{
 <script>
 let descarteChart;
 let amostraChart;
+let scrollInfinitoAtivado = false;
+
+function iniciarScrollInfinitoManual(){
+    if(scrollInfinitoAtivado) return;
+    scrollInfinitoAtivado = true;
+
+    document.querySelectorAll(".scroll-infinito").forEach(box=>{
+        let mouseEmCima = false;
+
+        function metadeScroll(){
+            return box.scrollHeight / 2;
+        }
+
+        function corrigirLoop(){
+            const metade = metadeScroll();
+
+            if(box.scrollHeight <= box.clientHeight) return;
+
+            /*
+              Como o conteúdo é duplicado no HTML pelo JavaScript,
+              a metade do scroll representa o fim da primeira lista.
+              Ao chegar ali, voltamos para o começo sem travar.
+            */
+            if(box.scrollTop >= metade){
+                box.scrollTop = box.scrollTop - metade;
+            }
+
+            if(box.scrollTop < 0){
+                box.scrollTop = metade + box.scrollTop;
+            }
+        }
+
+        box.addEventListener("mouseenter",()=>{
+            mouseEmCima = true;
+        });
+
+        box.addEventListener("mouseleave",()=>{
+            mouseEmCima = false;
+        });
+
+        /*
+          ROLAGEM MANUAL REAL COM MOUSE:
+          enquanto o mouse estiver sobre o quadro, o automático pausa
+          e o usuário consegue rolar com o scroll do mouse.
+        */
+        box.addEventListener("wheel",(event)=>{
+            if(box.scrollHeight <= box.clientHeight) return;
+
+            event.preventDefault();
+
+            const metade = metadeScroll();
+            box.scrollTop += event.deltaY;
+
+            if(box.scrollTop >= metade){
+                box.scrollTop = box.scrollTop - metade;
+            }
+
+            if(box.scrollTop <= 0 && event.deltaY < 0){
+                box.scrollTop = metade + box.scrollTop;
+            }
+        },{passive:false});
+
+        /*
+          SCROLL INFINITO AUTOMÁTICO:
+          roda sozinho somente quando o mouse não está em cima.
+        */
+        setInterval(()=>{
+            if(mouseEmCima) return;
+            if(box.scrollHeight <= box.clientHeight) return;
+
+            box.scrollTop += 1;
+            corrigirLoop();
+        },40);
+    });
+}
 
 function formatMoney(value){
     const numero = Number(value) || 0;
@@ -1912,17 +1991,21 @@ const barMoneyLabelPlugin = {
         ctx.save();
 
         ctx.font = '900 15px Arial';
-        ctx.fillStyle = '#0f1f4d';
+        ctx.fillStyle = '#102a72';
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
 
-        chart.data.datasets.forEach((dataset,datasetIndex)=>{
-            const meta = chart.getDatasetMeta(datasetIndex);
+        const meta = chart.getDatasetMeta(0);
 
-            meta.data.forEach((bar,index)=>{
-                const value = dataset.data[index];
-                ctx.fillText(formatMoney(value), bar.x + 8, bar.y);
-            });
+        meta.data.forEach((bar,index)=>{
+            const valor = chart.data.datasets[0].data[index];
+
+            // Valor simples, sem balão, sem fundo e sem contorno
+            ctx.fillText(
+                formatMoney(valor),
+                bar.x + 10,
+                bar.y
+            );
         });
 
         ctx.restore();
@@ -2088,7 +2171,14 @@ async function carregarDados(){
                             '#38bdf8',
                             '#7c3aed'
                         ],
-                        borderRadius:10
+                        borderRadius:8,
+                        borderSkipped:false,
+                        pointRadius:0,
+                        pointHoverRadius:0,
+                        barThickness:16,
+                        maxBarThickness:16,
+                        categoryPercentage:0.70,
+                        barPercentage:0.85
                     }]
                 },
                 options:{
@@ -2096,7 +2186,7 @@ async function carregarDados(){
                     maintainAspectRatio:false,
                     indexAxis:'y',
                     layout:{
-                        padding:{right:105}
+                        padding:{top:8,right:150,bottom:8,left:8}
                     },
                     plugins:{
                         legend:{display:false},
@@ -2124,6 +2214,8 @@ async function carregarDados(){
                         y:{
                             grid:{display:false},
                             ticks:{
+                                autoSkip:false,
+                                padding:8,
                                 font:{size:14,weight:'bold'},
                                 color:'#243b70'
                             }
@@ -2187,7 +2279,9 @@ async function carregarDados(){
 }
 
 atualizarRelogio();
-carregarDados();
+carregarDados().then(()=>{
+    iniciarScrollInfinitoManual();
+});
 
 setInterval(()=>{
     atualizarRelogio();
