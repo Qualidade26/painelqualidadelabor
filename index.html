@@ -1828,29 +1828,71 @@ function iniciarScrollInfinitoManual(){
     scrollInfinitoAtivado = true;
 
     document.querySelectorAll(".scroll-infinito").forEach(box=>{
-        let pausado = false;
+        let mouseEmCima = false;
+
+        function metadeScroll(){
+            return box.scrollHeight / 2;
+        }
+
+        function corrigirLoop(){
+            const metade = metadeScroll();
+
+            if(box.scrollHeight <= box.clientHeight) return;
+
+            /*
+              Como o conteúdo é duplicado no HTML pelo JavaScript,
+              a metade do scroll representa o fim da primeira lista.
+              Ao chegar ali, voltamos para o começo sem travar.
+            */
+            if(box.scrollTop >= metade){
+                box.scrollTop = box.scrollTop - metade;
+            }
+
+            if(box.scrollTop < 0){
+                box.scrollTop = metade + box.scrollTop;
+            }
+        }
 
         box.addEventListener("mouseenter",()=>{
-            pausado = true;
+            mouseEmCima = true;
         });
 
         box.addEventListener("mouseleave",()=>{
-            pausado = false;
+            mouseEmCima = false;
         });
 
-        box.addEventListener("wheel",()=>{
-            pausado = true;
-        },{passive:true});
+        /*
+          ROLAGEM MANUAL REAL COM MOUSE:
+          enquanto o mouse estiver sobre o quadro, o automático pausa
+          e o usuário consegue rolar com o scroll do mouse.
+        */
+        box.addEventListener("wheel",(event)=>{
+            if(box.scrollHeight <= box.clientHeight) return;
 
+            event.preventDefault();
+
+            const metade = metadeScroll();
+            box.scrollTop += event.deltaY;
+
+            if(box.scrollTop >= metade){
+                box.scrollTop = box.scrollTop - metade;
+            }
+
+            if(box.scrollTop <= 0 && event.deltaY < 0){
+                box.scrollTop = metade + box.scrollTop;
+            }
+        },{passive:false});
+
+        /*
+          SCROLL INFINITO AUTOMÁTICO:
+          roda sozinho somente quando o mouse não está em cima.
+        */
         setInterval(()=>{
-            if(pausado) return;
+            if(mouseEmCima) return;
             if(box.scrollHeight <= box.clientHeight) return;
 
             box.scrollTop += 1;
-
-            if(box.scrollTop >= box.scrollHeight / 2){
-                box.scrollTop = 0;
-            }
+            corrigirLoop();
         },40);
     });
 }
