@@ -52,11 +52,23 @@
         "sku": "AM5468",
         "descricao": "ELETRODO ECG",
         "quantidade": 124
+      },    {
+        "sku": "AM5468",
+        "descricao": "ELETRODO ECG",
+        "quantidade": 124
+      },    {
+        "sku": "AM487",
+        "descricao": "EQUIPO",
+        "quantidade": 50
+      },    {
+        "sku": "AM5401",
+        "descricao": "EQUIPO L2",
+        "quantidade": 200
       },
       {
-        "sku": "AM3942",
-        "descricao": "CATETER 24G",
-        "quantidade": 118
+        "sku": "AM4951",
+        "descricao": "BOLSA COLETORA",
+        "quantidade": 58
       }
     ]
   }
