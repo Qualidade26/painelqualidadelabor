@@ -1907,43 +1907,25 @@ const lineLabelPlugin = {
 const barMoneyLabelPlugin = {
     id:'barMoneyLabelPlugin',
     afterDatasetsDraw(chart){
-        const {ctx, chartArea} = chart;
+        const {ctx} = chart;
         ctx.save();
 
-        chart.data.datasets.forEach((dataset,datasetIndex)=>{
-            const meta = chart.getDatasetMeta(datasetIndex);
+        ctx.font = '900 15px Arial';
+        ctx.fillStyle = '#102a72';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
 
-            meta.data.forEach((bar,index)=>{
-                const value = Number(dataset.data[index]) || 0;
-                const label = formatMoney(value);
+        const meta = chart.getDatasetMeta(0);
 
-                ctx.font = '900 15px Arial';
+        meta.data.forEach((bar,index)=>{
+            const valor = chart.data.datasets[0].data[index];
 
-                const textWidth = ctx.measureText(label).width;
-                const boxWidth = textWidth + 18;
-                const boxHeight = 22;
-
-                let x = bar.x + 10;
-                let y = bar.y - (boxHeight / 2);
-
-                if(x + boxWidth > chartArea.right){
-                    x = chartArea.right - boxWidth - 4;
-                }
-
-                ctx.fillStyle = 'rgba(255,255,255,.92)';
-                ctx.strokeStyle = 'rgba(29,78,255,.35)';
-                ctx.lineWidth = 1;
-
-                ctx.beginPath();
-                ctx.roundRect(x, y, boxWidth, boxHeight, 7);
-                ctx.fill();
-                ctx.stroke();
-
-                ctx.fillStyle = '#0f1f4d';
-                ctx.textAlign = 'left';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(label, x + 9, bar.y);
-            });
+            // Valor simples, sem balão, sem fundo e sem contorno
+            ctx.fillText(
+                formatMoney(valor),
+                bar.x + 10,
+                bar.y
+            );
         });
 
         ctx.restore();
@@ -2109,11 +2091,14 @@ async function carregarDados(){
                             '#38bdf8',
                             '#7c3aed'
                         ],
-                        borderRadius:10,
-                        barThickness:14,
-                        maxBarThickness:14,
-                        categoryPercentage:.55,
-                        barPercentage:.75
+                        borderRadius:8,
+                        borderSkipped:false,
+                        pointRadius:0,
+                        pointHoverRadius:0,
+                        barThickness:16,
+                        maxBarThickness:16,
+                        categoryPercentage:0.70,
+                        barPercentage:0.85
                     }]
                 },
                 options:{
@@ -2121,7 +2106,7 @@ async function carregarDados(){
                     maintainAspectRatio:false,
                     indexAxis:'y',
                     layout:{
-                        padding:{top:8,right:170,bottom:8,left:8}
+                        padding:{top:8,right:150,bottom:8,left:8}
                     },
                     plugins:{
                         legend:{display:false},
