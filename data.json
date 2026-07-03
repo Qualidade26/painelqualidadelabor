@@ -1,3 +1,4 @@
+
 {
   "descarte": {
     "total":662803.52,
@@ -35,7 +36,7 @@
 
   {"sku":"267",  "descricao": "UN-ESFIGM.(MED.PRES.ART.)SOLIDOR-VELCRO",   "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "" },
   {"sku":"268",  "descricao": "UN-ESFIGM.(MED.PRES.ART.)SOLIDOR-METAL",  "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "" },
-  {"sku":"558",  "descricao": "PT-KIT VELCRO ESFIGM (MED.PRES.ART.)SOLIDOR",  "aguardando":750,   "desmontado": 2250,    "aferidos": 600,       "ultimaAfericao": "03/07/2026" },
+  {"sku":"558",  "descricao": "PT-KIT VELCRO ESFIGM (MED.PRES.ART.)SOLIDOR",  "aguardando":0,   "desmontado": 1000,    "aferidos": 2600,       "ultimaAfericao": "03/07/2026" },
   {"sku":"560",  "descricao": "PT-KIT METAL ESFIGM (MED.PRES.ART.)SOLIDOR",  "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "" },
   {"sku":"308",  "descricao": "UN-MANOMETRO SOLIDOR",  "aguardando":0,   "desmontado": 2500,    "aferidos": 1000,       "ultimaAfericao": "03/07/2026" },
   {"sku":"721",  "descricao": "UN-ESFIGMOMANOMETRO PRETO VELCRO SOLIDOR",  "aguardando":0,   "desmontado": 0,    "aferidos": 10,       "ultimaAfericao": "" },
