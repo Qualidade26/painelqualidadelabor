@@ -338,6 +338,9 @@ td{
     height:265px;
 }
 
+.scroll-esfig{
+    height:150px;
+}
 .scroll-content{
     display:flex;
     flex-direction:column;
@@ -1030,10 +1033,11 @@ html,body{
 
 .esfig-table-wrap{
     margin-top:8px;
-    max-height:150px;
+    height:150px;
     border:1px solid #bcd3ff;
     border-radius:12px;
-    overflow:auto;
+    overflow-y:auto;
+    overflow-x:hidden;
 }
 
 th{
@@ -1809,7 +1813,7 @@ th,td{
                     <div id="progressText"></div>
                 </div>
 
-                <div class="esfig-table-wrap">
+                <div class="esfig-table-wrap scroll-infinito scroll-esfig">
                     <table>
                         <thead>
                             <tr>
@@ -2268,6 +2272,7 @@ function ativarScrollManual(selector, velocidade=0.35){
 
 ativarScrollManual(".scroll-skus");
 ativarScrollManual(".scroll-amostras");
+ativarScrollManual(".scroll-esfig");
 
 </script>
 
