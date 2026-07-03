@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Labor | Painel Estratégico da Qualidade</title>
     
-    <!-- Importação da CDN do Chart.js -->
+    <!-- Importação da CDN do Chart.js (Correta e Fechada) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -143,13 +143,12 @@
             margin-right:6px;
         }
 
-        /* AJUSTE AQUI: Mudança para distribuir perfeitamente as 3 linhas de conteúdo */
         .main{
             height:calc((100vh / var(--painel-zoom)) - 100px);
-            padding:12px 16px 12px;
+            padding:12px 16px 8px;
             display:grid;
-            grid-template-rows: auto 1.4fr 1fr auto; /* O segredo do preenchimento está aqui */
-            gap:14px;
+            grid-template-rows:82px minmax(0,1.34fr) minmax(0,.66fr) 24px;
+            gap:10px;
             overflow:hidden;
         }
 
@@ -158,6 +157,7 @@
             display:grid;
             grid-template-columns:repeat(4,1fr);
             gap:12px;
+            min-height:0;
         }
 
         .kpi{
@@ -165,7 +165,8 @@
             border:2px solid rgba(29,78,255,.42);
             box-shadow:0 8px 24px rgba(29,78,255,.13);
             border-radius:18px;
-            height:88px;
+            height:82px;
+            min-height:82px;
             padding:10px 15px;
             display:flex;
             gap:16px;
@@ -190,17 +191,34 @@
             min-width:0;
         }
 
-        .kpi-title{ font-size:14px; font-weight:900; text-transform:uppercase; letter-spacing:.2px; }
-        .kpi-value{ font-size:27px; line-height:1.05; font-weight:900; margin-top:4px; white-space:nowrap; }
-        .kpi-note{ margin-top:4px; color:var(--muted); font-size:11px; font-weight:800; }
+        .kpi-title{
+            font-size:14px;
+            font-weight:900;
+            text-transform:uppercase;
+            letter-spacing:.2px;
+        }
 
-        /* GRIDS FLEXÍVEIS PARA PREENCHER VERTICALMENTE */
+        .kpi-value{
+            font-size:27px;
+            line-height:1.05;
+            font-weight:900;
+            margin-top:4px;
+            white-space:nowrap;
+        }
+
+        .kpi-note{
+            margin-top:4px;
+            color:var(--muted);
+            font-size:11px;
+            font-weight:800;
+        }
+
+        /* GRIDS */
         .grid, .bottom-grid{
             display:grid;
-            grid-template-columns:minmax(0, 58%) minmax(0, 42%);
-            gap:14px;
-            height:100%;
-            min-height:0; /* Impede que estoure a tela */
+            grid-template-columns:minmax(0,58%) minmax(0,42%);
+            gap:12px;
+            min-height:0;
         }
 
         .card, .full-card{
@@ -208,18 +226,16 @@
             border:2px solid rgba(29,78,255,.42);
             box-shadow:0 8px 24px rgba(29,78,255,.13);
             border-radius:20px;
-            padding:14px;
-            display:flex;
-            flex-direction:column; /* Organiza o conteúdo interno em coluna flexível */
+            padding:13px;
             overflow:hidden;
-            height:100%;
+            min-height:0;
         }
 
         .card-title{
             font-size:18px;
             line-height:1.1;
             font-weight:900;
-            margin-bottom:10px;
+            margin-bottom:8px;
             text-transform:uppercase;
             letter-spacing:.25px;
             color:#1d4eff;
@@ -228,12 +244,17 @@
             justify-content:center;
         }
 
-        /* Gráficos agora se esticam dinamicamente para ocupar o espaço livre do card */
-        .chart-wrap, .chart-wrap-small{
+        .chart-wrap{
             position:relative;
             width:100%;
-            flex:1; 
-            min-height:0;
+            height:185px;
+        }
+
+        .chart-wrap-small{
+            position:relative;
+            width:100%;
+            height:calc(100% - 30px);
+            min-height:155px;
         }
 
         canvas{
@@ -254,23 +275,32 @@
             vertical-align:middle;
         }
 
-        th{ text-align:left; color:#0f3cc9; background:#eef4ff; font-weight:900; }
-        td{ font-weight:800; }
+        th{
+            text-align:left;
+            color:#0f3cc9;
+            background:#eef4ff;
+            font-weight:900;
+        }
 
-        /* SCROLL INFINITO ADAPTÁVEL */
+        td{
+            font-weight:800;
+        }
+
+        /* SCROLL INFINITO */
         .scroll-infinito{
             position:relative;
             overflow-y:auto;
             overflow-x:hidden;
             scrollbar-width:thin;
             scroll-behavior:smooth;
-            flex:1; /* Faz as listas internas crescerem conforme o tamanho do card */
-            min-height:0;
         }
 
         .scroll-infinito:hover{ cursor:ns-resize; }
         .scroll-infinito::-webkit-scrollbar{ width:8px; }
         .scroll-infinito::-webkit-scrollbar-thumb{ border-radius:8px; }
+
+        .scroll-skus{ height:145px; margin-top:0; }
+        .scroll-amostras{ height:calc(100% - 30px); min-height:155px; }
 
         .scroll-content{
             display:flex;
@@ -291,28 +321,57 @@
             grid-template-columns:repeat(3,1fr);
             gap:8px;
             margin-top:8px;
-            margin-bottom:8px;
         }
 
         .impacto-card{
             background:#eef4ff;
             padding:9px 10px;
             border-radius:15px;
+            min-height:66px;
             border:1px solid #cfe0ff;
         }
 
-        .impacto-topo{ display:flex; align-items:center; gap:8px; }
-        .impacto-rank{ width:24px; height:24px; min-width:24px; border-radius:8px; background:#1d4eff; color:white; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:900; }
-        .impacto-nome{ font-size:14px; line-height:1.12; font-weight:900; }
-        .impacto-valor{ font-size:17px; line-height:1.1; font-weight:900; margin-top:7px; padding-left:32px; }
+        .impacto-topo{
+            display:flex;
+            align-items:center;
+            gap:8px;
+        }
 
-        /* FLUXO ESFIG */
+        .impacto-rank{
+            width:24px;
+            height:24px;
+            min-width:24px;
+            border-radius:8px;
+            background:#1d4eff;
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:13px;
+            font-weight:900;
+        }
+
+        .impacto-nome{
+            font-size:14px;
+            line-height:1.12;
+            font-weight:900;
+        }
+
+        .impacto-valor{
+            font-size:17px;
+            line-height:1.1;
+            font-weight:900;
+            margin-top:7px;
+            padding-left:32px;
+        }
+
+        /* ESFIG */
         .fluxo-esfig{
             display:grid;
             grid-template-columns:1fr auto 1fr auto 1fr;
             gap:10px;
             align-items:center;
-            margin-top:4px;
+            margin-top:8px;
         }
 
         .fluxo-box{
@@ -325,50 +384,52 @@
             justify-content:center;
         }
 
-        .fluxo-numero{ font-size:31px; line-height:1; font-weight:900; }
-        .fluxo-label{ margin-top:7px; font-size:13px; font-weight:900; line-height:1.08; text-align:center; }
-        .fluxo-label-linha{ white-space:nowrap; font-size:12px; }
-        .fluxo-seta{ font-size:27px; font-weight:900; }
+        .fluxo-numero{
+            font-size:31px;
+            line-height:1;
+            font-weight:900;
+        }
 
-        .progress-area{ margin-top:12px; margin-bottom:8px; }
-        .progress-label{ font-size:14px; font-weight:900; margin-bottom:5px; }
+        .fluxo-label{
+            margin-top:7px;
+            font-size:13px;
+            font-weight:900;
+            line-height:1.08;
+            text-align:center;
+        }
+
+        .fluxo-label-linha{
+            white-space:nowrap;
+            font-size:12px;
+        }
+
+        .fluxo-seta{
+            font-size:27px;
+            font-weight:900;
+        }
+
+        .progress-area{ margin-top:10px; }
+        .progress-label{ font-size:14px; font-weight:900; margin-bottom:7px; }
         .progress-track{ width:100%; height:17px; background:#dce8ff; border-radius:20px; overflow:hidden; }
         .progress-fill{ height:100%; width:0%; background:linear-gradient(90deg,#1d4eff,#60a5fa); }
         .progress-main{ color:#1d4eff; font-size:17px; font-weight:900; margin-top:6px; }
+        .progress-sub{ color:#22c55e; font-size:13px; font-weight:900; margin-top:2px; }
 
-        .esfig-table-wrap{ 
-            margin-top:4px; 
-            flex:1; 
-            overflow:auto; 
-            border:1px solid #bcd3ff;
-            border-radius:12px;
-            min-height:0;
-        }
+        .esfig-table-wrap{ margin-top:8px; max-height:122px; overflow:auto; }
 
-        .esfig-datas{ display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:10px; }
+        .esfig-datas{ display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:8px; }
         .esfig-data-box{ background:#eef4ff; border:1px solid #cfe0ff; border-radius:14px; padding:9px 11px; }
         .esfig-data-label{ font-size:12px; color:#1d4eff; font-weight:900; text-transform:uppercase; letter-spacing:.2px; }
         .esfig-data-value{ font-size:16px; color:#0f1f4d; font-weight:900; margin-top:5px; }
 
         /* Tabela de SKUs do descarte */
-        .sku-table-box{ 
-            margin-top:4px; 
-            border:1px solid #bcd3ff; 
-            border-radius:12px; 
-            overflow:hidden; 
-            background:#ffffff66;
-            display:flex;
-            flex-direction:column;
-            flex:1;
-            min-height:0;
-        }
-        
+        .sku-table-box{ margin-top:8px; border:1px solid #bcd3ff; border-radius:12px; overflow:hidden; background:#ffffff66; }
         .sku-table-head, .sku-table-row{ display:grid; grid-template-columns:18% 52% 30%; align-items:center; }
         .sku-table-head{ background:#eaf2ff; color:#0f3cc9; font-size:14px; font-weight:900; text-transform:uppercase; }
         .sku-table-head div, .sku-table-row div{ padding:8px 10px; border-right:1px solid #c7dcff; }
         .sku-table-head div:last-child, .sku-table-row div:last-child{ border-right:0; }
         
-        .sku-table-row {
+        .sku-table-row{
             min-height:34px;
             border-top:1px solid #d6e5ff;
             font-size:14px;
@@ -386,6 +447,14 @@
         .amostra-qtd{ font-size:22px; font-weight:900; color:#1d4eff; min-width:50px; text-align:right; }
 
         .footer-update{ text-align:center; color:#334a7d; font-size:12px; font-weight:900; padding:5px 8px; border:1px solid rgba(29,78,255,.28); background:rgba(248,251,255,.8); border-radius:12px; }
+
+        /* Responsividade para Telas Menores */
+        @media (max-width:1200px){
+            .topbar{ grid-template-columns:1fr; height:auto; min-height:120px; }
+            .brand-logo{ align-items:center; border-right:0; padding-right:0; height:auto; }
+            .header-right{ grid-column:1 / -1; justify-content:center; }
+            .grid, .bottom-grid, .kpis{ grid-template-columns:1fr; }
+        }
     </style>
 </head>
 
@@ -417,7 +486,7 @@
                 <div class="kpi-icon">🗑️</div>
                 <div class="kpi-content">
                     <div class="kpi-title" style="color:#1d4eff">TOTAL DESCARTE</div>
-                    <div class="kpi-value" id="totalDescarte">R$ 14.250,00</div>
+                    <div class="kpi-value" id="totalDescarte">R$ 0,00</div>
                     <div class="kpi-note">Financeiro impactado</div>
                 </div>
             </div>
@@ -426,7 +495,7 @@
                 <div class="kpi-icon">📋</div>
                 <div class="kpi-content">
                     <div class="kpi-title" style="color:#6b5cff">ÚLTIMO DESCARTE</div>
-                    <div class="kpi-value" id="ultimoDescarte">SKU-992</div>
+                    <div class="kpi-value" id="ultimoDescarte">--</div>
                     <div class="kpi-note">Última operação registrada</div>
                 </div>
             </div>
@@ -435,7 +504,7 @@
                 <div class="kpi-icon">📦</div>
                 <div class="kpi-content">
                     <div class="kpi-title" style="color:#f04dd8">TOTAL AMOSTRAS</div>
-                    <div class="kpi-value" id="totalAmostras">1.240</div>
+                    <div class="kpi-value" id="totalAmostras">0</div>
                     <div class="kpi-note">Amostras solicitadas no ano</div>
                 </div>
             </div>
@@ -444,42 +513,20 @@
                 <div class="kpi-icon">🩺</div>
                 <div class="kpi-content">
                     <div class="kpi-title" style="color:#22c55e">SKUs ESFIG</div>
-                    <div class="kpi-value" id="totalEsfig">42</div>
+                    <div class="kpi-value" id="totalEsfig">0</div>
                     <div class="kpi-note">SKUs em monitoramento</div>
                 </div>
             </div>
         </section>
 
-        <!-- SEÇÃO GRID PRINCIPAL (LINHA DO MEIO) -->
+        <!-- SEÇÃO GRID PRINCIPAL -->
         <section class="grid">
             <div class="card">
                 <div class="card-title">📊 DESCARTE POR ORIGEM</div>
                 <div class="chart-wrap">
                     <canvas id="descarteChart"></canvas>
                 </div>
-                <div class="top-impactos" id="topImpactos">
-                    <div class="impacto-card">
-                        <div class="impacto-topo">
-                            <span class="impacto-rank">1º</span>
-                            <span class="impacto-nome">Almoxarifado</span>
-                        </div>
-                        <div class="impacto-valor">R$ 8.400</div>
-                    </div>
-                    <div class="impacto-card">
-                        <div class="impacto-topo">
-                            <span class="impacto-rank">2º</span>
-                            <span class="impacto-nome">Triagem</span>
-                        </div>
-                        <div class="impacto-valor">R$ 4.100</div>
-                    </div>
-                    <div class="impacto-card">
-                        <div class="impacto-topo">
-                            <span class="impacto-rank">3º</span>
-                            <span class="impacto-nome">Processo</span>
-                        </div>
-                        <div class="impacto-valor">R$ 1.750</div>
-                    </div>
-                </div>
+                <div class="top-impactos" id="topImpactos"></div>
                 <div class="sku-table-box">
                     <div class="sku-table-head">
                         <div>SKU</div>
@@ -488,13 +535,7 @@
                     </div>
                     <div class="scroll-infinito scroll-skus">
                         <div id="descarteTableScroll" class="scroll-content">
-                            <div class="sku-table-row"><div>SKU-102</div><div>Esfigmo Premium</div><div>R$ 4.500</div></div>
-                            <div class="sku-table-row"><div>SKU-405</div><div>Manguito Adulto</div><div>R$ 2.100</div></div>
-                            <div class="sku-table-row"><div>SKU-221</div><div>Válvula Inox</div><div>R$ 1.800</div></div>
-                            <!-- Duplicado para efeito de scroll infinito real -->
-                            <div class="sku-table-row"><div>SKU-102</div><div>Esfigmo Premium</div><div>R$ 4.500</div></div>
-                            <div class="sku-table-row"><div>SKU-405</div><div>Manguito Adulto</div><div>R$ 2.100</div></div>
-                            <div class="sku-table-row"><div>SKU-221</div><div>Válvula Inox</div><div>R$ 1.800</div></div>
+                            <!-- Inserido dinamicamente via JS -->
                         </div>
                     </div>
                 </div>
@@ -504,17 +545,17 @@
                 <div class="card-title">🔬 ESFIGMOMANÔMETRO - FLUXO OPERACIONAL</div>
                 <div class="fluxo-esfig">
                     <div class="fluxo-box" style="background:#eef4ff;">
-                        <div class="fluxo-numero" style="color:#1d4eff" id="aguardandoTotal">14</div>
+                        <div class="fluxo-numero" style="color:#1d4eff" id="aguardandoTotal">0</div>
                         <div class="fluxo-label fluxo-label-linha">Aguardando Desmontagem</div>
                     </div>
                     <div class="fluxo-seta">→</div>
                     <div class="fluxo-box" style="background:#fff0ff;">
-                        <div class="fluxo-numero" style="color:#d946ef" id="desmontadoTotal">8</div>
+                        <div class="fluxo-numero" style="color:#d946ef" id="desmontadoTotal">0</div>
                         <div class="fluxo-label">Desmontado</div>
                     </div>
                     <div class="fluxo-seta">→</div>
                     <div class="fluxo-box" style="background:#edfff3;">
-                        <div class="fluxo-numero" style="color:#22c55e" id="aferidosTotal">20</div>
+                        <div class="fluxo-numero" style="color:#22c55e" id="aferidosTotal">0</div>
                         <div class="fluxo-label">Aferidos</div>
                     </div>
                 </div>
@@ -522,9 +563,9 @@
                 <div class="progress-area">
                     <div class="progress-label">Progresso geral</div>
                     <div class="progress-track">
-                        <div id="progressBar" class="progress-fill" style="width: 47%"></div>
+                        <div id="progressBar" class="progress-fill"></div>
                     </div>
-                    <div id="progressText" class="progress-main">47% Concluído</div>
+                    <div id="progressText" class="progress-main">0% Concluído</div>
                 </div>
 
                 <div class="esfig-table-wrap">
@@ -540,8 +581,7 @@
                             </tr>
                         </thead>
                         <tbody id="esfigTable">
-                            <tr><td>SKU-102</td><td>Braçadeira Nylon</td><td align="center">5</td><td align="center">2</td><td align="center">10</td><td><span style="color:orange">Em Andamento</span></td></tr>
-                            <tr><td>SKU-301</td><td>Manômetro 300mmHg</td><td align="center">9</td><td align="center">6</td><td align="center">10</td><td><span style="color:orange">Em Andamento</span></td></tr>
+                            <!-- Inserido dinamicamente via JS -->
                         </tbody>
                     </table>
                 </div>
@@ -549,17 +589,17 @@
                 <div class="esfig-datas">
                     <div class="esfig-data-box">
                         <div class="esfig-data-label">Última data de aferição</div>
-                        <div class="esfig-data-value" id="ultimaAfericao">02/07/2026</div>
+                        <div class="esfig-data-value" id="ultimaAfericao">--/--/----</div>
                     </div>
                     <div class="esfig-data-box">
                         <div class="esfig-data-label">Previsão da próxima aferição</div>
-                        <div class="esfig-data-value" id="proximaAfericao">08/07/2026</div>
+                        <div class="esfig-data-value" id="proximaAfericao">--/--/----</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SEÇÃO GRID INFERIOR (LINHA DE BAIXO) -->
+        <!-- SEÇÃO GRID INFERIOR -->
         <section class="bottom-grid">
             <div class="full-card">
                 <div class="card-title">📈 EVOLUÇÃO DE AMOSTRAS POR MÊS</div>
@@ -572,13 +612,7 @@
                 <div class="card-title">📦 TOP AMOSTRAS SOLICITADAS</div>
                 <div class="scroll-infinito scroll-amostras">
                     <div id="amostrasTableScroll" class="scroll-content">
-                        <div class="amostra-row"><span class="amostra-rank">1</span><div class="amostra-info"><div class="amostra-sku">SKU-102</div><div class="amostra-desc">Esfigmomanômetro Aneróide</div></div><span class="amostra-qtd">340</span></div>
-                        <div class="amostra-row"><span class="amostra-rank">2</span><div class="amostra-info"><div class="amostra-sku">SKU-504</div><div class="amostra-desc">Estetoscópio Duplo</div></div><span class="amostra-qtd">285</span></div>
-                        <div class="amostra-row"><span class="amostra-rank">3</span><div class="amostra-info"><div class="amostra-sku">SKU-881</div><div class="amostra-desc">Termômetro Digital Clínico</div></div><span class="amostra-qtd">190</span></div>
-                        <!-- Duplicado para efeito de scroll infinito real -->
-                        <div class="amostra-row"><span class="amostra-rank">1</span><div class="amostra-info"><div class="amostra-sku">SKU-102</div><div class="amostra-desc">Esfigmomanômetro Aneróide</div></div><span class="amostra-qtd">340</span></div>
-                        <div class="amostra-row"><span class="amostra-rank">2</span><div class="amostra-info"><div class="amostra-sku">SKU-504</div><div class="amostra-desc">Estetoscópio Duplo</div></div><span class="amostra-qtd">285</span></div>
-                        <div class="amostra-row"><span class="amostra-rank">3</span><div class="amostra-info"><div class="amostra-sku">SKU-881</div><div class="amostra-desc">Termômetro Digital Clínico</div></div><span class="amostra-qtd">190</span></div>
+                        <!-- Inserido dinamicamente via JS -->
                     </div>
                 </div>
             </div>
@@ -591,7 +625,9 @@
     </main>
 </div>
 
+<!-- Bloco Script Separado para carregar as funções da página -->
 <script>
+    // ===== Scroll automático + rolagem manual =====
     function ativarScrollManual(selector, velocidade=0.25){
         document.querySelectorAll(selector).forEach(container=>{
             let pausado=false;
@@ -617,9 +653,10 @@
         });
     }
 
+    // Inicializa os scrolls após carregar o DOM
     window.addEventListener('DOMContentLoaded', () => {
-        ativarScrollManual(".scroll-skus", 0.2);
-        ativarScrollManual(".scroll-amostras", 0.25);
+        ativarScrollManual(".scroll-skus");
+        ativarScrollManual(".scroll-amostras");
         
         // Relógio e Data Simples
         setInterval(() => {
@@ -628,13 +665,13 @@
             document.getElementById('horaAtual').textContent = agora.toLocaleTimeString('pt-BR');
         }, 1000);
 
-        // Configuração dos Gráficos com redimensionamento automático habilitado
+        // Exemplo básico de Inicialização do Chart.js para evitar erros de Canvas vazio:
         const ctxDescarte = document.getElementById('descarteChart').getContext('2d');
         new Chart(ctxDescarte, {
             type: 'bar',
             data: {
-                labels: ['Almoxarifado', 'Triagem', 'Processo'],
-                datasets: [{ label: 'Descarte (R$)', data: [8400, 4100, 1750], backgroundColor: '#1d4eff' }]
+                labels: ['Origem A', 'Origem B', 'Origem C'],
+                datasets: [{ label: 'Descartes', data: [12, 19, 3], backgroundColor: '#1d4eff' }]
             },
             options: { responsive: true, maintainAspectRatio: false }
         });
@@ -643,8 +680,8 @@
         new Chart(ctxEvolucao, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
-                datasets: [{ label: 'Qtd Amostras', data: [150, 220, 180, 290, 310, 400], borderColor: '#f04dd8', tension: 0.3, fill: false }]
+                labels: ['Jan', 'Fev', 'Mar', 'Abr'],
+                datasets: [{ label: 'Amostras', data: [50, 75, 60, 92], borderColor: '#f04dd8', fill: false }]
             },
             options: { responsive: true, maintainAspectRatio: false }
         });
