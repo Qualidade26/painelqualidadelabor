@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Labor | Painel Estratégico da Qualidade</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js">
-  
-</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 :root{
@@ -313,20 +311,6 @@ td{
 .scroll-content{
     display:flex;
     flex-direction:column;
-    animation:scrollVertical 20s linear infinite;
-}
-
-.scroll-infinito:hover .scroll-content{
-    animation-play-state:paused;
-}
-
-@keyframes scrollVertical{
-    0%{
-        transform:translateY(0);
-    }
-    100%{
-        transform:translateY(-50%);
-    }
 }
 
 .scroll-table table{
@@ -1663,6 +1647,278 @@ th,td{
     }
 }
 
+
+/* AJUSTE DE SCROLL INFINITO + MANUAL SEM BARRA CINZA */
+.scroll-infinito{
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    scrollbar-width:none !important;
+    -ms-overflow-style:none !important;
+}
+
+.scroll-infinito::-webkit-scrollbar{
+    width:0 !important;
+    height:0 !important;
+    display:none !important;
+}
+
+.scroll-esfig{
+    max-height:122px;
+    height:122px;
+    margin-top:8px;
+    border:1px solid #bcd3ff;
+    border-radius:12px;
+    background:#ffffff66;
+}
+
+.scroll-esfig table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.scroll-esfig thead{
+    position:sticky;
+    top:0;
+    z-index:5;
+}
+
+@media (max-width:1500px){
+    .scroll-esfig{
+        max-height:112px;
+        height:112px;
+    }
+}
+
+
+/* ==========================================================
+   AJUSTE FINAL - OCUPAR ALTURA DOS PAINÉIS SEM SOBRA INFERIOR
+   Mantém scroll infinito + manual e scrollbar oculta
+   ========================================================== */
+.main{
+    grid-template-rows:74px minmax(0,1fr) minmax(0,.72fr) 22px !important;
+    gap:8px !important;
+}
+
+.grid,
+.bottom-grid{
+    height:100%;
+    min-height:0;
+}
+
+.card,
+.full-card{
+    height:100%;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+}
+
+.card-title{
+    flex:0 0 auto;
+}
+
+.chart-wrap{
+    flex:0 0 180px;
+    height:180px !important;
+    min-height:180px;
+}
+
+.top-impactos{
+    flex:0 0 auto;
+}
+
+.sku-table-box{
+    flex:1 1 auto;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+}
+
+.sku-table-head{
+    flex:0 0 auto;
+}
+
+.scroll-skus{
+    flex:1 1 auto;
+    height:auto !important;
+    min-height:0 !important;
+}
+
+.fluxo-esfig,
+.progress-area,
+.esfig-datas{
+    flex:0 0 auto;
+}
+
+.esfig-table-wrap,
+.scroll-esfig{
+    flex:1 1 auto;
+    height:auto !important;
+    max-height:none !important;
+    min-height:0 !important;
+    overflow-y:auto !important;
+}
+
+.chart-wrap-small{
+    flex:1 1 auto;
+    height:auto !important;
+    min-height:0 !important;
+}
+
+.scroll-amostras{
+    flex:1 1 auto;
+    height:auto !important;
+    min-height:0 !important;
+}
+
+.scroll-infinito{
+    scrollbar-width:none !important;
+    -ms-overflow-style:none !important;
+}
+
+.scroll-infinito::-webkit-scrollbar{
+    width:0 !important;
+    height:0 !important;
+    display:none !important;
+}
+
+@media (max-width:1500px){
+    .main{
+        grid-template-rows:74px minmax(0,1fr) minmax(0,.72fr) 22px !important;
+    }
+
+    .chart-wrap{
+        flex-basis:170px;
+        height:170px !important;
+        min-height:170px;
+    }
+}
+
+
+/* ==========================================================
+   AJUSTE FINAL - PAINÉIS PREENCHIDOS + SCROLL INVISÍVEL
+   ========================================================== */
+.scroll-infinito{
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    scrollbar-width:none !important;
+    -ms-overflow-style:none !important;
+}
+
+.scroll-infinito::-webkit-scrollbar{
+    width:0 !important;
+    height:0 !important;
+    display:none !important;
+}
+
+.scroll-content{
+    display:flex !important;
+    flex-direction:column !important;
+    animation:none !important;
+    transform:none !important;
+}
+
+.main{
+    grid-template-rows:74px minmax(0,1fr) minmax(0,.72fr) 22px !important;
+    gap:8px !important;
+}
+
+.grid,
+.bottom-grid{
+    height:100%;
+    min-height:0;
+}
+
+.card,
+.full-card{
+    height:100%;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+}
+
+.card-title{
+    flex:0 0 auto;
+}
+
+.chart-wrap{
+    flex:0 0 175px;
+    height:175px !important;
+    min-height:175px;
+}
+
+.top-impactos{
+    display:grid !important;
+    flex:0 0 auto !important;
+    min-height:66px;
+    margin-top:8px !important;
+    margin-bottom:8px !important;
+}
+
+.sku-table-box{
+    flex:1 1 auto;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+}
+
+.sku-table-head{
+    flex:0 0 auto;
+}
+
+.scroll-skus{
+    flex:1 1 auto;
+    height:auto !important;
+    min-height:0 !important;
+}
+
+.fluxo-esfig,
+.progress-area,
+.esfig-datas{
+    flex:0 0 auto;
+}
+
+.esfig-table-wrap,
+.scroll-esfig{
+    flex:1 1 auto;
+    height:auto !important;
+    max-height:none !important;
+    min-height:0 !important;
+    overflow-y:auto !important;
+}
+
+.scroll-esfig thead{
+    position:sticky;
+    top:0;
+    z-index:5;
+}
+
+.chart-wrap-small{
+    flex:1 1 auto;
+    height:auto !important;
+    min-height:0 !important;
+}
+
+.scroll-amostras{
+    flex:1 1 auto;
+    height:auto !important;
+    min-height:0 !important;
+}
+
+@media (max-width:1500px){
+    .main{
+        grid-template-rows:74px minmax(0,1fr) minmax(0,.72fr) 22px !important;
+    }
+
+    .chart-wrap{
+        flex-basis:165px;
+        height:165px !important;
+        min-height:165px;
+    }
+}
+
 </style>
 </head>
 
@@ -1781,7 +2037,7 @@ th,td{
                     <div id="progressText"></div>
                 </div>
 
-                <div class="esfig-table-wrap">
+                <div class="esfig-table-wrap scroll-infinito scroll-esfig">
                     <table>
                         <thead>
                             <tr>
@@ -2060,17 +2316,19 @@ async function carregarDados(){
             return '<span style="color:#64748b;font-weight:900">Em estoque</span>';
         }
 
+        const esfigRows = data.esfig.map(item => `
+            <tr>
+                <td>${item.sku}</td>
+                <td>${item.descricao}</td>
+                <td style="text-align:center">${item.aguardando}</td>
+                <td style="text-align:center">${item.desmontado}</td>
+                <td style="text-align:center">${item.aferidos}</td>
+                <td>${statusEsfig(item)}</td>
+            </tr>
+        `).join('');
+
         document.getElementById("esfigTable").innerHTML =
-            data.esfig.map(item => `
-                <tr>
-                    <td>${item.sku}</td>
-                    <td>${item.descricao}</td>
-                    <td style="text-align:center">${item.aguardando}</td>
-                    <td style="text-align:center">${item.desmontado}</td>
-                    <td style="text-align:center">${item.aferidos}</td>
-                    <td>${statusEsfig(item)}</td>
-                </tr>
-            `).join('');
+            esfigRows + esfigRows;
 
         const amostrasRows = data.amostras.top10.map((item,index)=>`
             <div class="amostra-row">
@@ -2214,6 +2472,9 @@ setInterval(()=>{
 // ===== Scroll automático + rolagem manual =====
 function ativarScrollManual(selector, velocidade=0.35){
     document.querySelectorAll(selector).forEach(container=>{
+        if(container.dataset.scrollAtivo === "true") return;
+        container.dataset.scrollAtivo = "true";
+
         let pausado=false;
 
         container.addEventListener("mouseenter",()=>pausado=true);
@@ -2222,26 +2483,29 @@ function ativarScrollManual(selector, velocidade=0.35){
         container.addEventListener("wheel",()=>{
             pausado=true;
             clearTimeout(container._tmr);
-            container._tmr=setTimeout(()=>pausado=false,3000);
+            container._tmr=setTimeout(()=>pausado=false,2500);
         });
 
         function loop(){
-            if(!pausado){
+            if(!pausado && container.scrollHeight > container.clientHeight){
                 container.scrollTop += velocidade;
-                if(container.scrollTop >= (container.scrollHeight-container.clientHeight-1)){
-                    container.scrollTop=0;
+
+                if(container.scrollTop >= container.scrollHeight / 2){
+                    container.scrollTop = 1;
                 }
             }
+
             requestAnimationFrame(loop);
         }
+
         requestAnimationFrame(loop);
     });
 }
 
-ativarScrollManual(".scroll-skus");
-ativarScrollManual(".scroll-amostras");
-ativarScrollManual(".scroll-esfig");
-    
+ativarScrollManual(".scroll-skus", 0.35);
+ativarScrollManual(".scroll-amostras", 0.35);
+ativarScrollManual(".scroll-esfig", 0.30);
+
 </script>
 
 </body>
