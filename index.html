@@ -4,7 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Labor | Painel Estratégico da Qualidade</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js">
+// ===== Scroll automático + rolagem manual =====
+function ativarScrollManual(selector, velocidade=0.25){
+    document.querySelectorAll(selector).forEach(container=>{
+        let pausado=false;
+
+        container.addEventListener("mouseenter",()=>pausado=true);
+        container.addEventListener("mouseleave",()=>pausado=false);
+
+        container.addEventListener("wheel",()=>{
+            pausado=true;
+            clearTimeout(container._tmr);
+            container._tmr=setTimeout(()=>pausado=false,3000);
+        });
+        function loop(){
+            if(!pausado){
+                container.scrollTop += velocidade;
+                if(container.scrollTop >= (container.scrollHeight-container.clientHeight-1)){
+                    container.scrollTop=0;
+                }
+            }
+            requestAnimationFrame(loop);
+        }
+        requestAnimationFrame(loop);
+    });
+}
+
+ativarScrollManual(".scroll-skus");
+ativarScrollManual(".scroll-amostras");
+
+</script>
 
 <style>
 :root{
@@ -283,8 +313,7 @@ td{
     position:relative;
     overflow-y:auto;
     overflow-x:hidden;
-    scrollbar-width:none;
-    -ms-overflow-style:none;
+    scrollbar-width:thin;
     scroll-behavior:smooth;
 }
 
@@ -293,8 +322,7 @@ td{
 }
 
 .scroll-infinito::-webkit-scrollbar{
-    width:0;
-    display:none;
+    width:8px;
 }
 
 .scroll-infinito::-webkit-scrollbar-thumb{
@@ -313,6 +341,7 @@ td{
 .scroll-content{
     display:flex;
     flex-direction:column;
+    animation:scrollVertical 20s linear infinite;
 }
 
 .scroll-infinito:hover .scroll-content{
@@ -1780,7 +1809,7 @@ th,td{
                     <div id="progressText"></div>
                 </div>
 
-                <div class="esfig-table-wrap scroll-infinito scroll-esfig">
+                <div class="esfig-table-wrap">
                     <table>
                         <thead>
                             <tr>
@@ -2059,19 +2088,17 @@ async function carregarDados(){
             return '<span style="color:#64748b;font-weight:900">Em estoque</span>';
         }
 
-        const esfigRows = data.esfig.map(item => `
-            <tr>
-                <td>${item.sku}</td>
-                <td>${item.descricao}</td>
-                <td style="text-align:center">${item.aguardando}</td>
-                <td style="text-align:center">${item.desmontado}</td>
-                <td style="text-align:center">${item.aferidos}</td>
-                <td>${statusEsfig(item)}</td>
-            </tr>
-        `).join('');
-
         document.getElementById("esfigTable").innerHTML =
-            esfigRows + esfigRows;
+            data.esfig.map(item => `
+                <tr>
+                    <td>${item.sku}</td>
+                    <td>${item.descricao}</td>
+                    <td style="text-align:center">${item.aguardando}</td>
+                    <td style="text-align:center">${item.desmontado}</td>
+                    <td style="text-align:center">${item.aferidos}</td>
+                    <td>${statusEsfig(item)}</td>
+                </tr>
+            `).join('');
 
         const amostrasRows = data.amostras.top10.map((item,index)=>`
             <div class="amostra-row">
@@ -2229,8 +2256,8 @@ function ativarScrollManual(selector, velocidade=0.35){
         function loop(){
             if(!pausado){
                 container.scrollTop += velocidade;
-                if(container.scrollTop >= container.scrollHeight / 2){
-                    container.scrollTop = 1;
+                if(container.scrollTop >= (container.scrollHeight-container.clientHeight-1)){
+                    container.scrollTop=0;
                 }
             }
             requestAnimationFrame(loop);
@@ -2241,7 +2268,6 @@ function ativarScrollManual(selector, velocidade=0.35){
 
 ativarScrollManual(".scroll-skus");
 ativarScrollManual(".scroll-amostras");
-ativarScrollManual(".scroll-esfig", 0.30);
 
 </script>
 
