@@ -4,66 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Labor | Painel Estratégico da Qualidade</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js">
-/* ==========================================================
-   SCROLL AUTOMÁTICO COM ROLAGEM MANUAL SEM BARRA CINZA
-   - Passou o mouse: pausa o automático
-   - Roda do mouse: rolagem manual livre
-   - Saiu o mouse: automático continua
-   - Chegou no final: volta para o início
-   ========================================================== */
-function ativarScrollAutomaticoManual(seletor, velocidade = 0.45){
-    document.querySelectorAll(seletor).forEach(container=>{
-        if(container.dataset.scrollManualAtivo === "true") return;
-        container.dataset.scrollManualAtivo = "true";
-
-        let pausado = false;
-        let timeoutManual = null;
-
-        container.addEventListener("mouseenter", ()=>{
-            pausado = true;
-        });
-
-        container.addEventListener("mouseleave", ()=>{
-            pausado = false;
-        });
-
-        container.addEventListener("wheel", ()=>{
-            pausado = true;
-
-            clearTimeout(timeoutManual);
-            timeoutManual = setTimeout(()=>{
-                if(!container.matches(":hover")){
-                    pausado = false;
-                }
-            }, 2500);
-        }, {passive:true});
-
-        function loop(){
-            if(!pausado){
-                container.scrollTop += velocidade;
-
-                if(container.scrollTop >= container.scrollHeight - container.clientHeight - 1){
-                    container.scrollTop = 0;
-                }
-            }
-
-            requestAnimationFrame(loop);
-        }
-
-        requestAnimationFrame(loop);
-    });
-}
-
-function iniciarScrollsDoPainel(){
-    ativarScrollAutomaticoManual(".scroll-skus", 0.45);
-    ativarScrollAutomaticoManual(".scroll-amostras", 0.45);
-}
-
-document.addEventListener("DOMContentLoaded", iniciarScrollsDoPainel);
-setTimeout(iniciarScrollsDoPainel, 800);
-
-</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 :root{
@@ -340,16 +281,7 @@ td{
 /* SCROLL INFINITO */
 .scroll-infinito{
     position:relative;
-    overflow-y:auto;
-    overflow-x:hidden;
-    scrollbar-width:none;
-    -ms-overflow-style:none;
-}
-
-.scroll-infinito::-webkit-scrollbar{
-    display:none;
-    width:0;
-    height:0;
+    overflow:hidden;
 }
 
 .scroll-skus{
@@ -364,10 +296,12 @@ td{
 .scroll-content{
     display:flex;
     flex-direction:column;
-    animation:none;
+    animation:scrollVertical 20s linear infinite;
 }
 
-
+.scroll-infinito:hover .scroll-content{
+    animation-play-state:paused;
+}
 
 @keyframes scrollVertical{
     0%{
@@ -1338,13 +1272,13 @@ td{
 
 
 /* ==========================================================
-   AJUSTE SOLICITADO - NOTEBOOK / 65% / TÍTULOS CENTRALIZADOS
+   AJUSTE SOLICITADO - NOTEBOOK / 67% / TÍTULOS CENTRALIZADOS
    ========================================================== */
 
 /* Observação: o navegador não permite forçar o zoom real do Chrome/Edge.
    O bloco abaixo simula abertura em 67% via CSS, mantendo o painel inteiro visível. */
 :root{
-    --painel-zoom: .65;
+    --painel-zoom: .67;
 }
 
 body{
