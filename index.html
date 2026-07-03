@@ -18,6 +18,7 @@ function ativarScrollManual(selector, velocidade=0.25){
             clearTimeout(container._tmr);
             container._tmr=setTimeout(()=>pausado=false,3000);
         });
+       // ===== Scroll automático + rolagem manual =====
         function loop(){
             if(!pausado){
                 container.scrollTop += velocidade;
