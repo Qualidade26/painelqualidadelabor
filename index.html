@@ -2350,24 +2350,34 @@ function ativarScrollManual(selector, velocidade=0.35){
     document.querySelectorAll(selector).forEach(container=>{
         let pausado=false;
 
-        container.addEventListener("mouseenter",()=>pausado=true);
-        container.addEventListener("mouseleave",()=>pausado=false);
+        container.addEventListener("mouseenter",()=>{
+            pausado=true;
+        });
+
+        container.addEventListener("mouseleave",()=>{
+            pausado=false;
+        });
 
         container.addEventListener("wheel",()=>{
             pausado=true;
             clearTimeout(container._tmr);
-            container._tmr=setTimeout(()=>pausado=false,3000);
+            container._tmr=setTimeout(()=>{
+                pausado=false;
+            },2500);
         });
 
         function loop(){
             if(!pausado){
                 container.scrollTop += velocidade;
-                if(container.scrollTop >= (container.scrollHeight-container.clientHeight-1)){
-                    container.scrollTop=0;
+
+                if(container.scrollTop >= container.scrollHeight / 2){
+                    container.scrollTop = 1;
                 }
             }
+
             requestAnimationFrame(loop);
         }
+
         requestAnimationFrame(loop);
     });
 }
