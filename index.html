@@ -260,6 +260,8 @@ body{
     padding:14px;
     box-shadow:var(--shadow);
     overflow:hidden;
+    display:flex;
+    flex-direction:column;
 }
 
 .card-title{
@@ -275,13 +277,15 @@ body{
 .chart-wrap{
     position:relative;
     width:100%;
-    height:285px;
+    flex:1;
+    min-height:240px;
 }
 
 .chart-wrap-small{
     position:relative;
     width:100%;
-    height:305px;
+    flex:1;
+    min-height:240px;
 }
 
 canvas{
@@ -321,6 +325,7 @@ td{
     overflow-x:hidden;
     scrollbar-width:thin;
     scroll-behavior:smooth;
+    flex:1;
 }
 
 .scroll-infinito:hover{
@@ -341,7 +346,7 @@ td{
 }
 
 .scroll-amostras{
-    height:265px;
+    height:100%;
 }
 
 .scroll-content{
@@ -492,6 +497,7 @@ td{
     margin-top:12px;
     max-height:130px;
     overflow:auto;
+    flex:1;
 }
 
 .esfig-datas{
@@ -580,7 +586,8 @@ td{
     color:#334a7d;
     font-size:12px;
     font-weight:900;
-    padding:0 0 4px;
+    padding:4px 0;
+    margin-top:4px;
 }
 
 @media (max-width:1500px){
@@ -666,11 +673,11 @@ td{
     }
 
     .chart-wrap{
-        height:210px;
+        min-height:180px;
     }
 
     .chart-wrap-small{
-        height:235px;
+        min-height:180px;
     }
 
     th,td{
@@ -738,7 +745,7 @@ td{
     }
 
     .scroll-amostras{
-        height:215px;
+        height:100%;
     }
 
     .amostra-row{
@@ -836,7 +843,7 @@ html,body{
     height:calc(100vh - 100px);
     padding:12px 16px 8px;
     display:grid;
-    grid-template-rows:92px minmax(0,1.22fr) minmax(0,.84fr) 24px;
+    grid-template-rows:92px 1fr 1fr 24px;
     gap:10px;
     overflow:hidden;
 }
@@ -896,12 +903,11 @@ html,body{
 }
 
 .chart-wrap{
-    height:205px;
+    min-height:200px;
 }
 
 .chart-wrap-small{
-    height:calc(100% - 34px);
-    min-height:190px;
+    min-height:200px;
 }
 
 .top-impactos{
@@ -938,6 +944,9 @@ html,body{
     border-radius:12px;
     overflow:hidden;
     background:#ffffff66;
+    flex:1;
+    display:flex;
+    flex-direction:column;
 }
 
 .sku-table-head,
@@ -979,13 +988,12 @@ html,body{
 }
 
 .scroll-skus{
-    height:145px;
+    height:100%;
     margin-top:0;
 }
 
 .scroll-amostras{
-    height:calc(100% - 34px);
-    min-height:190px;
+    height:100%;
 }
 
 .amostra-row{
@@ -1117,7 +1125,7 @@ td{
 
     .main{
         height:calc(100vh - 88px);
-        grid-template-rows:82px minmax(0,1.18fr) minmax(0,.82fr) 22px;
+        grid-template-rows:82px 1fr 1fr 22px;
         padding:9px 10px 6px;
         gap:8px;
     }
@@ -1168,7 +1176,7 @@ td{
     }
 
     .chart-wrap{
-        height:165px;
+        min-height:160px;
     }
 
     .chart-wrap-small{
@@ -1176,11 +1184,11 @@ td{
     }
 
     .scroll-skus{
-        height:112px;
+        height:100%;
     }
 
     .scroll-amostras{
-        min-height:165px;
+        height:100%;
     }
 
     .sku-table-head{
@@ -1353,7 +1361,7 @@ body{
 /* Redução adicional dos cards superiores sem perder leitura */
 .main{
     height:calc((100vh / var(--painel-zoom)) - 100px);
-    grid-template-rows:82px minmax(0,1.34fr) minmax(0,.66fr) 24px;
+    grid-template-rows:82px 1fr 1fr 24px;
 }
 
 .kpi{
@@ -1381,17 +1389,6 @@ body{
 .kpi-note{
     font-size:11px;
     margin-top:4px;
-}
-
-/* Painéis inferiores menores */
-.chart-wrap-small{
-    height:calc(100% - 30px);
-    min-height:155px;
-}
-
-.scroll-amostras{
-    height:calc(100% - 30px);
-    min-height:155px;
 }
 
 /* Mantém tabelas mais legíveis que os demais tópicos */
@@ -1432,7 +1429,7 @@ th,td{
 
     .main{
         height:calc((100vh / var(--painel-zoom)) - 84px);
-        grid-template-rows:74px minmax(0,1.38fr) minmax(0,.62fr) 22px;
+        grid-template-rows:74px 1fr 1fr 22px;
         padding:9px 10px 6px;
         gap:8px;
     }
@@ -1472,21 +1469,19 @@ th,td{
     }
 
     .chart-wrap{
-        height:168px;
+        min-height:160px;
     }
 
     .chart-wrap-small{
-        height:calc(100% - 26px);
-        min-height:128px;
+        min-height:160px;
     }
 
     .scroll-amostras{
-        height:calc(100% - 26px);
-        min-height:128px;
+        height:100%;
     }
 
     .scroll-skus{
-        height:116px;
+        height:100%;
     }
 
     th,td{
@@ -1530,13 +1525,12 @@ th,td{
 
 /* Gráfico Descarte por Origem: mais legível */
 .chart-wrap{
-    height:185px;
+    min-height:190px;
 }
 
 /* Evolução de amostras maior */
 .chart-wrap-small{
-    height:calc(100% - 24px);
-    min-height:175px;
+    min-height:190px;
 }
 
 /* Top 3: número e descrição lado a lado */
@@ -1645,11 +1639,11 @@ th,td{
     }
 
     .chart-wrap{
-        height:182px;
+        min-height:180px;
     }
 
     .chart-wrap-small{
-        min-height:165px;
+        min-height:180px;
     }
 
     .impacto-rank{
@@ -1892,390 +1886,4 @@ function ajustarNomeOrigem(nome){
         return "Destinados pela Empresa";
     }
 
-    if(texto.includes("devolucao") && texto.includes("avaria")){
-        return "Avaria de Devolução";
-    }
-
-    return nome;
-}
-
-function atualizarRelogio(){
-    const agora = new Date();
-
-    document.getElementById("dataAtual").innerText =
-        agora.toLocaleDateString('pt-BR',{
-            day:'2-digit',
-            month:'long',
-            year:'numeric'
-        });
-
-    document.getElementById("horaAtual").innerText =
-        agora.toLocaleTimeString('pt-BR');
-}
-
-function buscarCampoData(data, nomesPossiveis){
-    for(const nome of nomesPossiveis){
-        if(data[nome]) return data[nome];
-    }
-
-    if(data.esfigAfericao){
-        for(const nome of nomesPossiveis){
-            if(data.esfigAfericao[nome]) return data.esfigAfericao[nome];
-        }
-    }
-
-    if(data.afericao){
-        for(const nome of nomesPossiveis){
-            if(data.afericao[nome]) return data.afericao[nome];
-        }
-    }
-
-    return "--/--/----";
-}
-
-const lineLabelPlugin = {
-    id:'lineLabelPlugin',
-    afterDatasetsDraw(chart){
-        const {ctx} = chart;
-        ctx.save();
-
-        chart.data.datasets.forEach((dataset,datasetIndex)=>{
-            const meta = chart.getDatasetMeta(datasetIndex);
-
-            meta.data.forEach((point,index)=>{
-                const value = dataset.data[index];
-                ctx.font = '900 16px Arial';
-                ctx.fillStyle = '#1d4eff';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'bottom';
-                ctx.fillText(value.toLocaleString('pt-BR'), point.x, point.y - 10);
-            });
-        });
-
-        ctx.restore();
-    }
-};
-
-const barMoneyLabelPlugin = {
-    id:'barMoneyLabelPlugin',
-    afterDatasetsDraw(chart){
-        const {ctx} = chart;
-        ctx.save();
-
-        ctx.font = '900 15px Arial';
-        ctx.fillStyle = '#0f1f4d';
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'middle';
-
-        chart.data.datasets.forEach((dataset,datasetIndex)=>{
-            const meta = chart.getDatasetMeta(datasetIndex);
-
-            meta.data.forEach((bar,index)=>{
-                const value = dataset.data[index];
-                ctx.fillText(formatMoney(value), bar.x + 8, bar.y);
-            });
-        });
-
-        ctx.restore();
-    }
-};
-
-async function carregarDados(){
-    try{
-        const response = await fetch('./data.json?t=' + Date.now());
-        const data = await response.json();
-
-        const agoraPainel = new Date();
-        const campoUltimaAtualizacao = document.getElementById("ultimaAtualizacaoPainel");
-        if(campoUltimaAtualizacao){
-            campoUltimaAtualizacao.innerText = agoraPainel.toLocaleString('pt-BR');
-        }
-
-        document.getElementById("totalDescarte").innerText =
-            formatMoney(data.descarte.total);
-
-        document.getElementById("ultimoDescarte").innerText =
-            formatMoney(data.descarte.ultimoDescarte);
-
-        const totalAmostras =
-            data.amostras.mensal.reduce((acc,item)=>acc + (Number(item.valor) || 0),0);
-
-        document.getElementById("totalAmostras").innerText =
-            totalAmostras.toLocaleString('pt-BR');
-
-        document.getElementById("totalEsfig").innerText =
-            data.esfig.length.toLocaleString('pt-BR');
-
-        document.getElementById("ultimaAfericao").innerText =
-            buscarCampoData(data,[
-                'ultima_afericao',
-                'ultimaAfericao',
-                'data_ultima_afericao',
-                'dataUltimaAfericao'
-            ]);
-
-        document.getElementById("proximaAfericao").innerText =
-            buscarCampoData(data,[
-                'proxima_afericao',
-                'proximaAfericao',
-                'previsao_proxima_afericao',
-                'previsaoProximaAfericao',
-                'data_proxima_afericao',
-                'dataProximaAfericao'
-            ]);
-
-        const descarteRows = data.descarte.top10.map(item=>`
-            <div class="sku-table-row">
-                <div>${item.sku}</div>
-                <div>${item.descricao}</div>
-                <div>${formatMoney(item.valor)}</div>
-            </div>
-        `).join('');
-
-        document.getElementById("descarteTableScroll").innerHTML =
-            descarteRows + descarteRows;
-
-        const top3 = [...data.descarte.origens]
-            .map(item=>({
-                ...item,
-                nome: ajustarNomeOrigem(item.nome)
-            }))
-            .sort((a,b)=>b.valor-a.valor)
-            .slice(0,3);
-
-        document.getElementById("topImpactos").innerHTML =
-            top3.map((item,index)=>`
-                <div class="impacto-card">
-                    <div class="impacto-topo">
-                        <div class="impacto-rank">${index+1}</div>
-                        <div class="impacto-nome">${item.nome}</div>
-                    </div>
-                    <div class="impacto-valor">${formatMoney(item.valor)}</div>
-                </div>
-            `).join('');
-
-        const aguardando = data.esfig.reduce((a,b)=>a + (Number(b.aguardando) || 0),0);
-        const desmontado = data.esfig.reduce((a,b)=>a + (Number(b.desmontado) || 0),0);
-        const aferidos = data.esfig.reduce((a,b)=>a + (Number(b.aferidos) || 0),0);
-
-        document.getElementById("aguardandoTotal").innerText = aguardando.toLocaleString('pt-BR');
-        document.getElementById("desmontadoTotal").innerText = desmontado.toLocaleString('pt-BR');
-        document.getElementById("aferidosTotal").innerText = aferidos.toLocaleString('pt-BR');
-
-        const totalProcesso = aguardando + desmontado + aferidos;
-
-        const progressoProcessado =
-            totalProcesso > 0
-                ? Math.round(((desmontado + aferidos) / totalProcesso) * 100)
-                : 0;
-
-        const progressoConcluido =
-            totalProcesso > 0
-                ? Math.round((aferidos / totalProcesso) * 100)
-                : 0;
-
-        document.getElementById("progressBar").style.width = progressoProcessado + "%";
-
-        document.getElementById("progressText").innerHTML = `
-            <div class="progress-main">${progressoProcessado}% em processamento</div>
-            <div class="progress-sub">${progressoConcluido}% concluído</div>
-        `;
-
-        function statusEsfig(item){
-            if(Number(item.aferidos) > 0){
-                return '<span style="color:#22c55e;font-weight:900">Aferido</span>';
-            }
-            if(Number(item.desmontado) > 0){
-                return '<span style="color:#d946ef;font-weight:900">Desmontando</span>';
-            }
-            if(Number(item.aguardando) > 0){
-                return '<span style="color:#f59e0b;font-weight:900">Aguardando</span>';
-            }
-            return '<span style="color:#64748b;font-weight:900">Em estoque</span>';
-        }
-
-        document.getElementById("esfigTable").innerHTML =
-            data.esfig.map(item => `
-                <tr>
-                    <td>${item.sku}</td>
-                    <td>${item.descricao}</td>
-                    <td style="text-align:center">${item.aguardando}</td>
-                    <td style="text-align:center">${item.desmontado}</td>
-                    <td style="text-align:center">${item.aferidos}</td>
-                    <td>${statusEsfig(item)}</td>
-                </tr>
-            `).join('');
-
-        const amostrasRows = data.amostras.top10.map((item,index)=>`
-            <div class="amostra-row">
-                <div class="amostra-rank">${index+1}</div>
-                <div class="amostra-info">
-                    <div class="amostra-sku">${item.sku}</div>
-                    <div class="amostra-desc">${item.descricao}</div>
-                </div>
-                <div class="amostra-qtd">${item.quantidade}</div>
-            </div>
-        `).join('');
-
-        document.getElementById("amostrasTable").innerHTML =
-            amostrasRows + amostrasRows;
-
-        if(descarteChart) descarteChart.destroy();
-
-        descarteChart = new Chart(
-            document.getElementById('descarteChart'),
-            {
-                type:'bar',
-                data:{
-                    labels:data.descarte.origens.map(x=>ajustarNomeOrigem(x.nome)),
-                    datasets:[{
-                        data:data.descarte.origens.map(x=>Number(x.valor) || 0),
-                        backgroundColor:[
-                            '#1d4eff',
-                            '#60a5fa',
-                            '#8b5cf6',
-                            '#f04dd8',
-                            '#22c55e',
-                            '#38bdf8',
-                            '#7c3aed'
-                        ],
-                        borderRadius:10
-                    }]
-                },
-                options:{
-                    responsive:true,
-                    maintainAspectRatio:false,
-                    indexAxis:'y',
-                    layout:{
-                        padding:{right:105}
-                    },
-                    plugins:{
-                        legend:{display:false},
-                        tooltip:{
-                            titleFont:{size:16,weight:'bold'},
-                            bodyFont:{size:15,weight:'bold'},
-                            callbacks:{
-                                label:function(context){
-                                    return formatMoney(context.raw);
-                                }
-                            }
-                        }
-                    },
-                    scales:{
-                        x:{
-                            grid:{display:false},
-                            ticks:{
-                                font:{size:15,weight:'bold'},
-                                color:'#243b70',
-                                callback:function(value){
-                                    return value.toLocaleString('pt-BR');
-                                }
-                            }
-                        },
-                        y:{
-                            grid:{display:false},
-                            ticks:{
-                                font:{size:14,weight:'bold'},
-                                color:'#243b70'
-                            }
-                        }
-                    }
-                },
-                plugins:[barMoneyLabelPlugin]
-            }
-        );
-
-        if(amostraChart) amostraChart.destroy();
-
-        amostraChart = new Chart(
-            document.getElementById('amostraChart'),
-            {
-                type:'line',
-                data:{
-                    labels:data.amostras.mensal.map(x=>x.mes),
-                    datasets:[{
-                        data:data.amostras.mensal.map(x=>Number(x.valor) || 0),
-                        borderColor:'#1d4eff',
-                        backgroundColor:'rgba(29,78,255,.15)',
-                        fill:true,
-                        tension:.4,
-                        pointRadius:4,
-                        pointHoverRadius:6,
-                        borderWidth:3
-                    }]
-                },
-                options:{
-                    responsive:true,
-                    maintainAspectRatio:false,
-                    layout:{
-                        padding:{top:24,right:14,left:8,bottom:4}
-                    },
-                    plugins:{
-                        legend:{display:false},
-                        tooltip:{
-                            titleFont:{size:14,weight:'bold'},
-                            bodyFont:{size:13,weight:'bold'}
-                        }
-                    },
-                    scales:{
-                        x:{
-                            ticks:{font:{size:14,weight:'bold'},color:'#243b70'},
-                            grid:{color:'rgba(92,108,150,.14)'}
-                        },
-                        y:{
-                            ticks:{font:{size:14,weight:'bold'},color:'#243b70'},
-                            grid:{color:'rgba(92,108,150,.14)'}
-                        }
-                    }
-                },
-                plugins:[lineLabelPlugin]
-            }
-        );
-
-    }catch(error){
-        console.error("Erro ao carregar JSON:", error);
-    }
-}
-
-atualizarRelogio();
-carregarDados();
-
-setInterval(()=>{
-    atualizarRelogio();
-    carregarDados();
-},120000);
-
-// ===== Scroll automático + rolagem manual =====
-function ativarScrollManual(selector, velocidade=0.35){
-    document.querySelectorAll(selector).forEach(container=>{
-        let pausado=false;
-
-        container.addEventListener("mouseenter",()=>pausado=true);
-        container.addEventListener("mouseleave",()=>pausado=false);
-
-        container.addEventListener("wheel",()=>{
-            pausado=true;
-            clearTimeout(container._tmr);
-            container._tmr=setTimeout(()=>pausado=false,3000);
-        });
-
-        function loop(){
-            if(!pausado){
-                container.scrollTop += velocidade;
-                if(container.scrollTop >= (container.scrollHeight-container.clientHeight-1)){
-                    container.scrollTop=0;
-                }
-            }
-            requestAnimationFrame(loop);
-        }
-        requestAnimationFrame(loop);
-    });
-}
-
-ativarScrollManual(".scroll-skus");
-ativarScrollManual(".scroll-amostras");
-
-</script>
-
-</body>
-</html>
+    if(texto.includes("devolucao") && texto.includes("
