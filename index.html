@@ -18,15 +18,21 @@ function ativarScrollManual(selector, velocidade=0.25){
             clearTimeout(container._tmr);
             container._tmr=setTimeout(()=>pausado=false,3000);
         });
+
         function loop(){
-            if(!pausado){
+            const limite = container.scrollHeight - container.clientHeight;
+
+            if(!pausado && limite > 0){
                 container.scrollTop += velocidade;
-                if(container.scrollTop >= (container.scrollHeight-container.clientHeight-1)){
-                    container.scrollTop=0;
+
+                if(container.scrollTop >= limite){
+                    container.scrollTop = 0;
                 }
             }
+
             requestAnimationFrame(loop);
         }
+
         requestAnimationFrame(loop);
     });
 }
@@ -342,25 +348,11 @@ td{
 .scroll-esfig{
     height:150px;
 }
+
 .scroll-content{
     display:flex;
     flex-direction:column;
-    animation:scrollVertical 20s linear infinite;
 }
-
-.scroll-infinito:hover .scroll-content{
-    animation-play-state:paused;
-}
-
-@keyframes scrollVertical{
-    0%{
-        transform:translateY(0);
-    }
-    100%{
-        transform:translateY(-50%);
-    }
-}
-
 .scroll-table table{
     width:100%;
     border-collapse:collapse;
@@ -2090,151 +2082,153 @@ async function carregarDados(){
             if(Number(item.aguardando) > 0){
                 return '<span style="color:#f59e0b;font-weight:900">Aguardando</span>';
             }
-            return '<span style="color:#64748b;font-weight:900">Em estoque</span>';
+            return '<span style="color:#64748b;font-weight:900">----</span>';
         }
 
-        document.getElementById("esfigTable").innerHTML =
-            data.esfig.map(item => `
-                <tr>
-                    <td>${item.sku}</td>
-                    <td>${item.descricao}</td>
-                    <td style="text-align:center">${item.aguardando}</td>
-                    <td style="text-align:center">${item.desmontado}</td>
-                    <td style="text-align:center">${item.aferidos}</td>
-                    <td>${statusEsfig(item)}</td>
-                </tr>
-            `).join('');
+      const esfigRows = data.esfig.map(item => `
+    <tr>
+        <td>${item.sku}</td>
+        <td>${item.descricao}</td>
+        <td style="text-align:center">${item.aguardando}</td>
+        <td style="text-align:center">${item.desmontado}</td>
+        <td style="text-align:center">${item.aferidos}</td>
+        <td>${statusEsfig(item)}</td>
+    </tr>
+`).join('');
 
-        const amostrasRows = data.amostras.top10.map((item,index)=>`
-            <div class="amostra-row">
-                <div class="amostra-rank">${index+1}</div>
-                <div class="amostra-info">
-                    <div class="amostra-sku">${item.sku}</div>
-                    <div class="amostra-desc">${item.descricao}</div>
-                </div>
-                <div class="amostra-qtd">${item.quantidade}</div>
-            </div>
-        `).join('');
+document.getElementById("esfigTable").innerHTML =
+    esfigRows + esfigRows;
 
-        document.getElementById("amostrasTable").innerHTML =
-            amostrasRows + amostrasRows;
+const amostrasRows = data.amostras.top10.map((item,index)=>`
+    <div class="amostra-row">
+        <div class="amostra-rank">${index+1}</div>
+        <div class="amostra-info">
+            <div class="amostra-sku">${item.sku}</div>
+            <div class="amostra-desc">${item.descricao}</div>
+        </div>
+        <div class="amostra-qtd">${item.quantidade}</div>
+    </div>
+`).join('');
 
-        if(descarteChart) descarteChart.destroy();
+document.getElementById("amostrasTable").innerHTML =
+    amostrasRows + amostrasRows;
 
-        descarteChart = new Chart(
-            document.getElementById('descarteChart'),
-            {
-                type:'bar',
-                data:{
-                    labels:data.descarte.origens.map(x=>ajustarNomeOrigem(x.nome)),
-                    datasets:[{
-                        data:data.descarte.origens.map(x=>Number(x.valor) || 0),
-                        backgroundColor:[
-                            '#1d4eff',
-                            '#60a5fa',
-                            '#8b5cf6',
-                            '#f04dd8',
-                            '#22c55e',
-                            '#38bdf8',
-                            '#7c3aed'
-                        ],
-                        borderRadius:10
-                    }]
-                },
-                options:{
-                    responsive:true,
-                    maintainAspectRatio:false,
-                    indexAxis:'y',
-                    layout:{
-                        padding:{right:105}
-                    },
-                    plugins:{
-                        legend:{display:false},
-                        tooltip:{
-                            titleFont:{size:16,weight:'bold'},
-                            bodyFont:{size:15,weight:'bold'},
-                            callbacks:{
-                                label:function(context){
-                                    return formatMoney(context.raw);
-                                }
-                            }
+if(descarteChart) descarteChart.destroy();
+
+descarteChart = new Chart(
+    document.getElementById('descarteChart'),
+    {
+        type:'bar',
+        data:{
+            labels:data.descarte.origens.map(x=>ajustarNomeOrigem(x.nome)),
+            datasets:[{
+                data:data.descarte.origens.map(x=>Number(x.valor) || 0),
+                backgroundColor:[
+                    '#1d4eff',
+                    '#60a5fa',
+                    '#8b5cf6',
+                    '#f04dd8',
+                    '#22c55e',
+                    '#38bdf8',
+                    '#7c3aed'
+                ],
+                borderRadius:10
+            }]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            indexAxis:'y',
+            layout:{
+                padding:{right:105}
+            },
+            plugins:{
+                legend:{display:false},
+                tooltip:{
+                    titleFont:{size:16,weight:'bold'},
+                    bodyFont:{size:15,weight:'bold'},
+                    callbacks:{
+                        label:function(context){
+                            return formatMoney(context.raw);
                         }
-                    },
-                    scales:{
-                        x:{
-                            grid:{display:false},
-                            ticks:{
-                                font:{size:15,weight:'bold'},
-                                color:'#243b70',
-                                callback:function(value){
-                                    return value.toLocaleString('pt-BR');
-                                }
-                            }
-                        },
-                        y:{
-                            grid:{display:false},
-                            ticks:{
-                                font:{size:14,weight:'bold'},
-                                color:'#243b70'
-                            }
+                    }
+                }
+            },
+            scales:{
+                x:{
+                    grid:{display:false},
+                    ticks:{
+                        font:{size:15,weight:'bold'},
+                        color:'#243b70',
+                        callback:function(value){
+                            return value.toLocaleString('pt-BR');
                         }
                     }
                 },
-                plugins:[barMoneyLabelPlugin]
-            }
-        );
-
-        if(amostraChart) amostraChart.destroy();
-
-        amostraChart = new Chart(
-            document.getElementById('amostraChart'),
-            {
-                type:'line',
-                data:{
-                    labels:data.amostras.mensal.map(x=>x.mes),
-                    datasets:[{
-                        data:data.amostras.mensal.map(x=>Number(x.valor) || 0),
-                        borderColor:'#1d4eff',
-                        backgroundColor:'rgba(29,78,255,.15)',
-                        fill:true,
-                        tension:.4,
-                        pointRadius:4,
-                        pointHoverRadius:6,
-                        borderWidth:3
-                    }]
-                },
-                options:{
-                    responsive:true,
-                    maintainAspectRatio:false,
-                    layout:{
-                        padding:{top:24,right:14,left:8,bottom:4}
-                    },
-                    plugins:{
-                        legend:{display:false},
-                        tooltip:{
-                            titleFont:{size:14,weight:'bold'},
-                            bodyFont:{size:13,weight:'bold'}
-                        }
-                    },
-                    scales:{
-                        x:{
-                            ticks:{font:{size:14,weight:'bold'},color:'#243b70'},
-                            grid:{color:'rgba(92,108,150,.14)'}
-                        },
-                        y:{
-                            ticks:{font:{size:14,weight:'bold'},color:'#243b70'},
-                            grid:{color:'rgba(92,108,150,.14)'}
-                        }
+                y:{
+                    grid:{display:false},
+                    ticks:{
+                        font:{size:14,weight:'bold'},
+                        color:'#243b70'
                     }
-                },
-                plugins:[lineLabelPlugin]
+                }
             }
-        );
-
-    }catch(error){
-        console.error("Erro ao carregar JSON:", error);
+        },
+        plugins:[barMoneyLabelPlugin]
     }
+);
+
+if(amostraChart) amostraChart.destroy();
+
+amostraChart = new Chart(
+    document.getElementById('amostraChart'),
+    {
+        type:'line',
+        data:{
+            labels:data.amostras.mensal.map(x=>x.mes),
+            datasets:[{
+                data:data.amostras.mensal.map(x=>Number(x.valor) || 0),
+                borderColor:'#1d4eff',
+                backgroundColor:'rgba(29,78,255,.15)',
+                fill:true,
+                tension:.4,
+                pointRadius:4,
+                pointHoverRadius:6,
+                borderWidth:3
+            }]
+        },
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            layout:{
+                padding:{top:24,right:14,left:8,bottom:4}
+            },
+            plugins:{
+                legend:{display:false},
+                tooltip:{
+                    titleFont:{size:14,weight:'bold'},
+                    bodyFont:{size:13,weight:'bold'}
+                }
+            },
+            scales:{
+                x:{
+                    ticks:{font:{size:14,weight:'bold'},color:'#243b70'},
+                    grid:{color:'rgba(92,108,150,.14)'}
+                },
+                y:{
+                    ticks:{font:{size:14,weight:'bold'},color:'#243b70'},
+                    grid:{color:'rgba(92,108,150,.14)'}
+                }
+            }
+        },
+        plugins:[lineLabelPlugin]
+    }
+);
+
+}catch(error){
+    console.error("Erro ao carregar JSON:", error);
 }
+
 
 atualizarRelogio();
 carregarDados();
@@ -2243,39 +2237,6 @@ setInterval(()=>{
     atualizarRelogio();
     carregarDados();
 },120000);
-
-// ===== Scroll automático + rolagem manual =====
-function ativarScrollManual(selector, velocidade=0.35){
-    document.querySelectorAll(selector).forEach(container=>{
-        let pausado=false;
-
-        container.addEventListener("mouseenter",()=>pausado=true);
-        container.addEventListener("mouseleave",()=>pausado=false);
-
-        container.addEventListener("wheel",()=>{
-            pausado=true;
-            clearTimeout(container._tmr);
-            container._tmr=setTimeout(()=>pausado=false,3000);
-        });
-
-        function loop(){
-            if(!pausado){
-                container.scrollTop += velocidade;
-                if(container.scrollTop >= (container.scrollHeight-container.clientHeight-1)){
-                    container.scrollTop=0;
-                }
-            }
-            requestAnimationFrame(loop);
-        }
-        requestAnimationFrame(loop);
-    });
-}
-
-ativarScrollManual(".scroll-skus");
-ativarScrollManual(".scroll-amostras");
-ativarScrollManual(".scroll-esfig");
-
-</script>
 
 </body>
 </html>
