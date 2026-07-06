@@ -383,7 +383,17 @@ td{
     line-height:1.1;
     font-weight:900;
 }
+.esfig-row{
+    display:grid;
+    grid-template-columns:12% 38% 12% 12% 12% 14%;
+    border-bottom:1px solid var(--line);
+    align-items:center;
+}
 
+.esfig-row div{
+    padding:8px 9px;
+}
+    
 /* ESFIG */
 .fluxo-esfig{
     display:grid;
@@ -1785,20 +1795,8 @@ th,td{
                 </div>
 
                 <div class="esfig-table-wrap scroll-infinito scroll-esfig">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>SKU</th>
-                                <th>Descrição</th>
-                                <th style="text-align:center">Aguard.</th>
-                                <th style="text-align:center">Desm.</th>
-                                <th style="text-align:center">Afer.</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="esfigTable"></tbody>
-                    </table>
-                </div>
+    <div id="esfigTable" class="scroll-content"></div>
+</div>
 
                 <div class="esfig-datas">
                     <div class="esfig-data-box">
@@ -2063,28 +2061,19 @@ async function carregarDados(){
             return '<span style="color:#64748b;font-weight:900">-</span>';
         }
 
-        document.getElementById("esfigTable").innerHTML =
-            data.esfig.map(item => `
-                <tr>
-                    <td>${item.sku}</td>
-                    <td>${item.descricao}</td>
-                    <td style="text-align:center">${item.aguardando}</td>
-                    <td style="text-align:center">${item.desmontado}</td>
-                    <td style="text-align:center">${item.aferidos}</td>
-                    <td>${statusEsfig(item)}</td>
-                </tr>
-            `).join('');
+     const esfigRows = data.esfig.map(item => `
+    <div class="esfig-row">
+        <div>${item.sku}</div>
+        <div>${item.descricao}</div>
+        <div style="text-align:center">${item.aguardando}</div>
+        <div style="text-align:center">${item.desmontado}</div>
+        <div style="text-align:center">${item.aferidos}</div>
+        <div>${statusEsfig(item)}</div>
+    </div>
+`).join('');
 
-        const amostrasRows = data.amostras.top10.map((item,index)=>`
-            <div class="amostra-row">
-                <div class="amostra-rank">${index+1}</div>
-                <div class="amostra-info">
-                    <div class="amostra-sku">${item.sku}</div>
-                    <div class="amostra-desc">${item.descricao}</div>
-                </div>
-                <div class="amostra-qtd">${item.quantidade}</div>
-            </div>
-        `).join('');
+document.getElementById("esfigTable").innerHTML =
+    esfigRows + esfigRows;  
 
         document.getElementById("amostrasTable").innerHTML =
             amostrasRows + amostrasRows;
