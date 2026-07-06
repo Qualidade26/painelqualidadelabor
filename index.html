@@ -2219,7 +2219,7 @@ function ativarScrollManual(selector, velocidade=0.35){
     document.querySelectorAll(selector).forEach(container=>{
         let pausado=false;
 
-        container.addEventListener("mouseenter",()=>pausado=true);
+        container.addEventListener("mouseenter",()=>pausado=false);
         container.addEventListener("mouseleave",()=>pausado=false);
 
         container.addEventListener("wheel",()=>{
