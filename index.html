@@ -315,21 +315,9 @@ td{
 .scroll-content{
     display:flex;
     flex-direction:column;
-    animation:scrollVertical 20s linear infinite;
 }
 
-.scroll-infinito:hover .scroll-content{
-    animation-play-state:paused;
-}
-
-@keyframes scrollVertical{
-    0%{
-        transform:translateY(0);
-    }
-    100%{
-        transform:translateY(-50%);
-    }
-}
+/* Scroll infinito controlado apenas pelo JavaScript, mantendo rolagem manual no mouse */
 
 .scroll-table table{
     width:100%;
@@ -1954,10 +1942,25 @@ async function carregarDados(){
         const response = await fetch('./data.json?t=' + Date.now());
         const data = await response.json();
 
+        data.descarte = data.descarte || {};
+        data.descarte.origens = Array.isArray(data.descarte.origens) ? data.descarte.origens : [];
+        data.descarte.top10 = Array.isArray(data.descarte.top10) ? data.descarte.top10 : [];
+        data.amostras = data.amostras || {};
+        data.amostras.mensal = Array.isArray(data.amostras.mensal) ? data.amostras.mensal : [];
+        data.amostras.top10 = Array.isArray(data.amostras.top10) ? data.amostras.top10 : [];
+        data.esfig = Array.isArray(data.esfig) ? data.esfig : [];
+
         const agoraPainel = new Date();
         const campoUltimaAtualizacao = document.getElementById("ultimaAtualizacaoPainel");
+        const ultimaAtualizacaoJson =
+            data.updated_at ||
+            data.atualizacao ||
+            data.ultimaAtualizacao ||
+            data.ultima_atualizacao ||
+            agoraPainel.toLocaleString('pt-BR');
+
         if(campoUltimaAtualizacao){
-            campoUltimaAtualizacao.innerText = agoraPainel.toLocaleString('pt-BR');
+            campoUltimaAtualizacao.innerText = ultimaAtualizacaoJson;
         }
 
         document.getElementById("totalDescarte").innerText =
@@ -2002,7 +2005,7 @@ async function carregarDados(){
         `).join('');
 
         document.getElementById("descarteTableScroll").innerHTML =
-            descarteRows;
+            descarteRows + descarteRows;
 
         const top3 = [...data.descarte.origens]
             .map(item=>({
@@ -2063,8 +2066,7 @@ async function carregarDados(){
             return '<span style="color:#64748b;font-weight:900">-</span>';
         }
 
-        document.getElementById("esfigTable").innerHTML =
-            data.esfig.map(item => `
+        const esfigRows = data.esfig.map(item => `
                 <tr>
                     <td>${item.sku}</td>
                     <td>${item.descricao}</td>
@@ -2074,6 +2076,9 @@ async function carregarDados(){
                     <td>${statusEsfig(item)}</td>
                 </tr>
             `).join('');
+
+        document.getElementById("esfigTable").innerHTML =
+            esfigRows + esfigRows;
 
         const amostrasRows = data.amostras.top10.map((item,index)=>`
             <div class="amostra-row">
@@ -2088,6 +2093,8 @@ async function carregarDados(){
 
         document.getElementById("amostrasTable").innerHTML =
             amostrasRows + amostrasRows;
+
+        setTimeout(ativarTodosScrolls, 100);
 
         if(descarteChart) descarteChart.destroy();
 
@@ -2214,36 +2221,64 @@ setInterval(()=>{
     carregarDados();
 },120000);
 
-// ===== Scroll automático + rolagem manual =====
-function ativarScrollManual(selector, velocidade=0.35){
+// ===== Scroll infinito automático + rolagem manual nos 3 painéis =====
+function calcularPontoRetorno(container){
+    const conteudo = container.querySelector(".scroll-content");
+
+    if(conteudo){
+        return conteudo.scrollHeight / 2;
+    }
+
+    const tbody = container.querySelector("tbody");
+
+    if(tbody){
+        return tbody.scrollHeight / 2;
+    }
+
+    return container.scrollHeight / 2;
+}
+
+function ativarScrollInfinito(selector, velocidade=0.35){
     document.querySelectorAll(selector).forEach(container=>{
+        if(container.dataset.scrollAtivado === "true") return;
+        container.dataset.scrollAtivado = "true";
+
         let pausado=false;
 
-        container.addEventListener("mouseenter",()=>pausado=false);
+        container.addEventListener("mouseenter",()=>pausado=true);
         container.addEventListener("mouseleave",()=>pausado=false);
 
         container.addEventListener("wheel",()=>{
             pausado=true;
             clearTimeout(container._tmr);
             container._tmr=setTimeout(()=>pausado=false,3000);
-        });
+        }, {passive:true});
 
         function loop(){
-            if(!pausado){
+            const pontoRetorno = calcularPontoRetorno(container);
+
+            if(!pausado && pontoRetorno > container.clientHeight){
                 container.scrollTop += velocidade;
-                if(container.scrollTop >= (container.scrollHeight-container.clientHeight-1)){
-                    container.scrollTop=0;
+
+                if(container.scrollTop >= pontoRetorno){
+                    container.scrollTop = 0;
                 }
             }
+
             requestAnimationFrame(loop);
         }
+
         requestAnimationFrame(loop);
     });
 }
 
-ativarScrollManual(".scroll-skus");
-ativarScrollManual(".scroll-amostras");
-ativarScrollManual(".scroll-esfig");
+function ativarTodosScrolls(){
+    ativarScrollInfinito(".scroll-skus");
+    ativarScrollInfinito(".scroll-amostras");
+    ativarScrollInfinito(".scroll-esfig");
+}
+
+ativarTodosScrolls();
 
 </script>
 
