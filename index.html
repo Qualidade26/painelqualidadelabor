@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Labor | Painel Estratégico da Qualidade</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js">
 
 <style>
 :root{
@@ -311,11 +311,25 @@ td{
 .scroll-esfig{
     height:150px;
 }
-
 .scroll-content{
     display:flex;
     flex-direction:column;
+    animation:scrollVertical 20s linear infinite;
 }
+
+.scroll-infinito:hover .scroll-content{
+    animation-play-state:paused;
+}
+
+@keyframes scrollVertical{
+    0%{
+        transform:translateY(0);
+    }
+    100%{
+        transform:translateY(-50%);
+    }
+}
+
 .scroll-table table{
     width:100%;
     border-collapse:collapse;
@@ -1987,7 +2001,7 @@ async function carregarDados(){
         `).join('');
 
         document.getElementById("descarteTableScroll").innerHTML =
-            descarteRows + descarteRows;
+            descarteRows;
 
         const top3 = [...data.descarte.origens]
             .map(item=>({
@@ -2045,161 +2059,164 @@ async function carregarDados(){
             if(Number(item.aguardando) > 0){
                 return '<span style="color:#f59e0b;font-weight:900">Aguardando</span>';
             }
-            return '<span style="color:#64748b;font-weight:900">----</span>';
+            return '<span style="color:#64748b;font-weight:900">-</span>';
         }
 
-      const esfigRows = data.esfig.map(item => `
-    <tr>
-        <td>${item.sku}</td>
-        <td>${item.descricao}</td>
-        <td style="text-align:center">${item.aguardando}</td>
-        <td style="text-align:center">${item.desmontado}</td>
-        <td style="text-align:center">${item.aferidos}</td>
-        <td>${statusEsfig(item)}</td>
-    </tr>
-`).join('');
+        document.getElementById("esfigTable").innerHTML =
+            data.esfig.map(item => `
+                <tr>
+                    <td>${item.sku}</td>
+                    <td>${item.descricao}</td>
+                    <td style="text-align:center">${item.aguardando}</td>
+                    <td style="text-align:center">${item.desmontado}</td>
+                    <td style="text-align:center">${item.aferidos}</td>
+                    <td>${statusEsfig(item)}</td>
+                </tr>
+            `).join('');
 
-document.getElementById("esfigTable").innerHTML =
-    esfigRows + esfigRows;
+        const amostrasRows = data.amostras.top10.map((item,index)=>`
+            <div class="amostra-row">
+                <div class="amostra-rank">${index+1}</div>
+                <div class="amostra-info">
+                    <div class="amostra-sku">${item.sku}</div>
+                    <div class="amostra-desc">${item.descricao}</div>
+                </div>
+                <div class="amostra-qtd">${item.quantidade}</div>
+            </div>
+        `).join('');
 
-const amostrasRows = data.amostras.top10.map((item,index)=>`
-    <div class="amostra-row">
-        <div class="amostra-rank">${index+1}</div>
-        <div class="amostra-info">
-            <div class="amostra-sku">${item.sku}</div>
-            <div class="amostra-desc">${item.descricao}</div>
-        </div>
-        <div class="amostra-qtd">${item.quantidade}</div>
-    </div>
-`).join('');
+        document.getElementById("amostrasTable").innerHTML =
+            amostrasRows + amostrasRows;
 
-document.getElementById("amostrasTable").innerHTML =
-    amostrasRows + amostrasRows;
+        if(descarteChart) descarteChart.destroy();
 
-if(descarteChart) descarteChart.destroy();
-
-descarteChart = new Chart(
-    document.getElementById('descarteChart'),
-    {
-        type:'bar',
-        data:{
-            labels:data.descarte.origens.map(x=>ajustarNomeOrigem(x.nome)),
-            datasets:[{
-                data:data.descarte.origens.map(x=>Number(x.valor) || 0),
-                backgroundColor:[
-                    '#1d4eff',
-                    '#60a5fa',
-                    '#8b5cf6',
-                    '#f04dd8',
-                    '#22c55e',
-                    '#38bdf8',
-                    '#7c3aed'
-                ],
-                borderRadius:10
-            }]
-        },
-        options:{
-            responsive:true,
-            maintainAspectRatio:false,
-            indexAxis:'y',
-            layout:{
-                padding:{right:105}
-            },
-            plugins:{
-                legend:{display:false},
-                tooltip:{
-                    titleFont:{size:16,weight:'bold'},
-                    bodyFont:{size:15,weight:'bold'},
-                    callbacks:{
-                        label:function(context){
-                            return formatMoney(context.raw);
+        descarteChart = new Chart(
+            document.getElementById('descarteChart'),
+            {
+                type:'bar',
+                data:{
+                    labels:data.descarte.origens.map(x=>ajustarNomeOrigem(x.nome)),
+                    datasets:[{
+                        data:data.descarte.origens.map(x=>Number(x.valor) || 0),
+                        backgroundColor:[
+                            '#1d4eff',
+                            '#60a5fa',
+                            '#8b5cf6',
+                            '#f04dd8',
+                            '#22c55e',
+                            '#38bdf8',
+                            '#7c3aed'
+                        ],
+                        borderRadius:10
+                    }]
+                },
+                options:{
+                    responsive:true,
+                    maintainAspectRatio:false,
+                    indexAxis:'y',
+                    layout:{
+                        padding:{right:105}
+                    },
+                    plugins:{
+                        legend:{display:false},
+                        tooltip:{
+                            titleFont:{size:16,weight:'bold'},
+                            bodyFont:{size:15,weight:'bold'},
+                            callbacks:{
+                                label:function(context){
+                                    return formatMoney(context.raw);
+                                }
+                            }
                         }
-                    }
-                }
-            },
-            scales:{
-                x:{
-                    grid:{display:false},
-                    ticks:{
-                        font:{size:15,weight:'bold'},
-                        color:'#243b70',
-                        callback:function(value){
-                            return value.toLocaleString('pt-BR');
+                    },
+                    scales:{
+                        x:{
+                            grid:{display:false},
+                            ticks:{
+                                font:{size:15,weight:'bold'},
+                                color:'#243b70',
+                                callback:function(value){
+                                    return value.toLocaleString('pt-BR');
+                                }
+                            }
+                        },
+                        y:{
+                            grid:{display:false},
+                            ticks:{
+                                font:{size:14,weight:'bold'},
+                                color:'#243b70'
+                            }
                         }
                     }
                 },
-                y:{
-                    grid:{display:false},
-                    ticks:{
-                        font:{size:14,weight:'bold'},
-                        color:'#243b70'
-                    }
-                }
+                plugins:[barMoneyLabelPlugin]
             }
-        },
-        plugins:[barMoneyLabelPlugin]
-    }
-);
+        );
 
-if(amostraChart) amostraChart.destroy();
+        if(amostraChart) amostraChart.destroy();
 
-amostraChart = new Chart(
-    document.getElementById('amostraChart'),
-    {
-        type:'line',
-        data:{
-            labels:data.amostras.mensal.map(x=>x.mes),
-            datasets:[{
-                data:data.amostras.mensal.map(x=>Number(x.valor) || 0),
-                borderColor:'#1d4eff',
-                backgroundColor:'rgba(29,78,255,.15)',
-                fill:true,
-                tension:.4,
-                pointRadius:4,
-                pointHoverRadius:6,
-                borderWidth:3
-            }]
-        },
-        options:{
-            responsive:true,
-            maintainAspectRatio:false,
-            layout:{
-                padding:{top:24,right:14,left:8,bottom:4}
-            },
-            plugins:{
-                legend:{display:false},
-                tooltip:{
-                    titleFont:{size:14,weight:'bold'},
-                    bodyFont:{size:13,weight:'bold'}
-                }
-            },
-            scales:{
-                x:{
-                    ticks:{font:{size:14,weight:'bold'},color:'#243b70'},
-                    grid:{color:'rgba(92,108,150,.14)'}
+        amostraChart = new Chart(
+            document.getElementById('amostraChart'),
+            {
+                type:'line',
+                data:{
+                    labels:data.amostras.mensal.map(x=>x.mes),
+                    datasets:[{
+                        data:data.amostras.mensal.map(x=>Number(x.valor) || 0),
+                        borderColor:'#1d4eff',
+                        backgroundColor:'rgba(29,78,255,.15)',
+                        fill:true,
+                        tension:.4,
+                        pointRadius:4,
+                        pointHoverRadius:6,
+                        borderWidth:3
+                    }]
                 },
-                y:{
-                    ticks:{font:{size:14,weight:'bold'},color:'#243b70'},
-                    grid:{color:'rgba(92,108,150,.14)'}
-                }
+                options:{
+                    responsive:true,
+                    maintainAspectRatio:false,
+                    layout:{
+                        padding:{top:24,right:14,left:8,bottom:4}
+                    },
+                    plugins:{
+                        legend:{display:false},
+                        tooltip:{
+                            titleFont:{size:14,weight:'bold'},
+                            bodyFont:{size:13,weight:'bold'}
+                        }
+                    },
+                    scales:{
+                        x:{
+                            ticks:{font:{size:14,weight:'bold'},color:'#243b70'},
+                            grid:{color:'rgba(92,108,150,.14)'}
+                        },
+                        y:{
+                            ticks:{font:{size:14,weight:'bold'},color:'#243b70'},
+                            grid:{color:'rgba(92,108,150,.14)'}
+                        }
+                    }
+                },
+                plugins:[lineLabelPlugin]
             }
-        },
-        plugins:[lineLabelPlugin]
-    }
-);
+        );
 
-}catch(error){
-    console.error("Erro ao carregar JSON:", error);
+    }catch(error){
+        console.error("Erro ao carregar JSON:", error);
+    }
 }
-}
+
+atualizarRelogio();
+carregarDados();
+
+setInterval(()=>{
+    atualizarRelogio();
+    carregarDados();
+},120000);
 
 // ===== Scroll automático + rolagem manual =====
-function ativarScrollManual(selector, velocidade=0.25){
+function ativarScrollManual(selector, velocidade=0.35){
     document.querySelectorAll(selector).forEach(container=>{
-        if(container.dataset.scrollAtivo === "1") return;
-        container.dataset.scrollAtivo = "1";
-
-        let pausado = false;
+        let pausado=false;
 
         container.addEventListener("mouseenter",()=>pausado=true);
         container.addEventListener("mouseleave",()=>pausado=false);
@@ -2211,43 +2228,23 @@ function ativarScrollManual(selector, velocidade=0.25){
         });
 
         function loop(){
-            const limite = container.scrollHeight - container.clientHeight;
-
-            if(!pausado && limite > 1){
+            if(!pausado){
                 container.scrollTop += velocidade;
-
-                if(container.scrollTop >= limite - 1){
-                    container.scrollTop = 0;
+                if(container.scrollTop >= (container.scrollHeight-container.clientHeight-1)){
+                    container.scrollTop=0;
                 }
             }
-
             requestAnimationFrame(loop);
         }
-
         requestAnimationFrame(loop);
     });
 }
 
-function ativarTodosScrolls(){
-    ativarScrollManual(".scroll-skus",0.25);
-    ativarScrollManual(".scroll-amostras",0.25);
-    ativarScrollManual(".scroll-esfig",0.25);
-}
-
-atualizarRelogio();
-carregarDados().then(()=>{
-    document.querySelectorAll(".scroll-skus,.scroll-amostras,.scroll-esfig").forEach(el=>el.scrollTop=0);
-    ativarTodosScrolls();
-});
-
-setInterval(()=>{
-    atualizarRelogio();
-    carregarDados().then(()=>{
-        document.querySelectorAll(".scroll-skus,.scroll-amostras,.scroll-esfig").forEach(el=>el.scrollTop=0);
-        ativarTodosScrolls();
-    });
-},120000);
+ativarScrollManual(".scroll-skus");
+ativarScrollManual(".scroll-amostras");
+ativarScrollManual(".scroll-esfig");
 
 </script>
+
 </body>
 </html>
