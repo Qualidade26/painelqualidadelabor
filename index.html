@@ -4,44 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Labor | Painel Estratégico da Qualidade</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js">
-// ===== Scroll automático + rolagem manual =====
-function ativarScrollManual(selector, velocidade=0.25){
-    document.querySelectorAll(selector).forEach(container=>{
-        let pausado=false;
-
-        container.addEventListener("mouseenter",()=>pausado=true);
-        container.addEventListener("mouseleave",()=>pausado=false);
-
-        container.addEventListener("wheel",()=>{
-            pausado=true;
-            clearTimeout(container._tmr);
-            container._tmr=setTimeout(()=>pausado=false,3000);
-        });
-
-        function loop(){
-            const limite = container.scrollHeight - container.clientHeight;
-
-            if(!pausado && limite > 0){
-                container.scrollTop += velocidade;
-
-                if(container.scrollTop >= limite){
-                    container.scrollTop = 0;
-                }
-            }
-
-            requestAnimationFrame(loop);
-        }
-
-        requestAnimationFrame(loop);
-    });
-}
-
-ativarScrollManual(".scroll-skus");
-ativarScrollManual(".scroll-amostras");
-ativarScrollManual(".scroll-esfig");
-    
-</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 :root{
@@ -2225,9 +2188,41 @@ amostraChart = new Chart(
     }
 );
 
-    }catch(error){
-        console.error("Erro ao carregar JSON:", error);
-    }
+}catch(error){
+    console.error("Erro ao carregar JSON:", error);
+}
+}
+
+// ===== Scroll automático + rolagem manual =====
+function ativarScrollManual(selector, velocidade=0.25){
+    document.querySelectorAll(selector).forEach(container=>{
+        let pausado=false;
+
+        container.addEventListener("mouseenter",()=>pausado=true);
+        container.addEventListener("mouseleave",()=>pausado=false);
+
+        container.addEventListener("wheel",()=>{
+            pausado=true;
+            clearTimeout(container._tmr);
+            container._tmr=setTimeout(()=>pausado=false,3000);
+        });
+
+        function loop(){
+            const limite = container.scrollHeight - container.clientHeight;
+
+            if(!pausado && limite > 0){
+                container.scrollTop += velocidade;
+
+                if(container.scrollTop >= limite){
+                    container.scrollTop = 0;
+                }
+            }
+
+            requestAnimationFrame(loop);
+        }
+
+        requestAnimationFrame(loop);
+    });
 }
 
 atualizarRelogio();
@@ -2237,6 +2232,10 @@ setInterval(()=>{
     atualizarRelogio();
     carregarDados();
 },120000);
+
+ativarScrollManual(".scroll-skus");
+ativarScrollManual(".scroll-amostras");
+ativarScrollManual(".scroll-esfig");
 
 </script>
 </body>
