@@ -1748,6 +1748,125 @@ th,td{
     }
 }
 
+
+/* ==========================================================
+   AJUSTE SOLICITADO - DESCARTE E TOP 10 AMOSTRAS
+   Mantém as demais estruturas e funções sem alteração.
+   ========================================================== */
+
+/* Painel de descarte: ocupa melhor o quadro e mantém Rank 1,2,3 acima do Top 10 */
+.grid > .card:first-child{
+    display:grid;
+    grid-template-rows:auto minmax(230px,1fr) auto auto;
+    gap:8px;
+}
+
+.grid > .card:first-child .chart-wrap{
+    height:auto !important;
+    min-height:230px;
+}
+
+.grid > .card:first-child .top-impactos{
+    margin-top:0;
+}
+
+.grid > .card:first-child .sku-table-box{
+    margin-top:0;
+}
+
+.grid > .card:first-child .scroll-skus{
+    height:128px;
+}
+
+/* Rank 1, 2 e 3 mais compacto, com leitura melhor */
+.top-impactos{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+.impacto-card{
+    min-height:58px;
+    padding:8px 10px;
+}
+
+.impacto-rank{
+    border:2px solid #ffffff;
+    box-shadow:0 0 0 2px #1d4eff;
+}
+
+.impacto-nome{
+    font-size:13px;
+    line-height:1.08;
+}
+
+.impacto-valor{
+    font-size:15px;
+    margin-top:5px;
+}
+
+/* Top 10 Amostras com o mesmo padrão visual do Top 10 Descarte */
+.amostra-table-box{
+    margin-top:0;
+    height:calc(100% - 30px);
+    min-height:155px;
+    display:flex;
+    flex-direction:column;
+}
+
+.amostra-table-box .scroll-amostras{
+    height:auto;
+    min-height:0;
+    flex:1;
+}
+
+.amostra-table-box .sku-table-head,
+.amostra-table-box .sku-table-row{
+    grid-template-columns:18% 62% 20%;
+}
+
+.amostra-table-box .sku-table-row div:nth-child(3){
+    color:#1d4eff;
+    text-align:right;
+}
+
+.amostra-table-box .sku-table-row div:nth-child(2){
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+@media (max-width:1500px){
+    .grid > .card:first-child{
+        grid-template-rows:auto minmax(205px,1fr) auto auto;
+        gap:6px;
+    }
+
+    .grid > .card:first-child .chart-wrap{
+        min-height:205px;
+    }
+
+    .grid > .card:first-child .scroll-skus{
+        height:108px;
+    }
+
+    .impacto-card{
+        min-height:50px;
+        padding:6px 8px;
+    }
+
+    .impacto-nome{
+        font-size:11px;
+    }
+
+    .impacto-valor{
+        font-size:13px;
+    }
+
+    .amostra-table-box{
+        height:calc(100% - 26px);
+        min-height:128px;
+    }
+}
+
 </style>
 </head>
 
@@ -1905,8 +2024,15 @@ th,td{
 
             <div class="full-card">
                 <div class="card-title">🏆 TOP 10 AMOSTRAS MAIS SOLICITADAS</div>
-                <div class="scroll-infinito scroll-amostras">
-                    <div id="amostrasTable" class="scroll-content"></div>
+                <div class="sku-table-box amostra-table-box">
+                    <div class="sku-table-head">
+                        <div>SKU</div>
+                        <div>Descrição</div>
+                        <div>Qtd.</div>
+                    </div>
+                    <div class="scroll-infinito scroll-amostras">
+                        <div id="amostrasTable" class="scroll-content"></div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1948,6 +2074,25 @@ function ajustarNomeOrigem(nome){
     }
 
     return nome;
+}
+
+function quebrarLabelGrafico(texto, limite=24){
+    const palavras = String(texto || "").split(" ");
+    const linhas = [];
+    let linha = "";
+
+    palavras.forEach(palavra=>{
+        const tentativa = linha ? linha + " " + palavra : palavra;
+        if(tentativa.length > limite && linha){
+            linhas.push(linha);
+            linha = palavra;
+        }else{
+            linha = tentativa;
+        }
+    });
+
+    if(linha) linhas.push(linha);
+    return linhas;
 }
 
 function atualizarRelogio(){
@@ -2158,13 +2303,10 @@ async function carregarDados(){
             `).join('');
 
         const amostrasRows = data.amostras.top10.map((item,index)=>`
-            <div class="amostra-row">
-                <div class="amostra-rank">${index+1}</div>
-                <div class="amostra-info">
-                    <div class="amostra-sku">${item.sku}</div>
-                    <div class="amostra-desc">${item.descricao}</div>
-                </div>
-                <div class="amostra-qtd">${item.quantidade}</div>
+            <div class="sku-table-row amostra-table-row">
+                <div>${item.sku}</div>
+                <div>${item.descricao}</div>
+                <div>${item.quantidade}</div>
             </div>
         `).join('');
 
@@ -2178,7 +2320,7 @@ async function carregarDados(){
             {
                 type:'bar',
                 data:{
-                    labels:data.descarte.origens.map(x=>ajustarNomeOrigem(x.nome)),
+                    labels:data.descarte.origens.map(x=>quebrarLabelGrafico(ajustarNomeOrigem(x.nome),24)),
                     datasets:[{
                         data:data.descarte.origens.map(x=>Number(x.valor) || 0),
                         backgroundColor:[
@@ -2198,7 +2340,7 @@ async function carregarDados(){
                     maintainAspectRatio:false,
                     indexAxis:'y',
                     layout:{
-                        padding:{right:105}
+                        padding:{left:8,right:115,top:4,bottom:4}
                     },
                     plugins:{
                         legend:{display:false},
@@ -2225,8 +2367,12 @@ async function carregarDados(){
                         },
                         y:{
                             grid:{display:false},
+                            afterFit:function(scale){
+                                scale.width = 190;
+                            },
                             ticks:{
-                                font:{size:14,weight:'bold'},
+                                autoSkip:false,
+                                font:{size:12,weight:'bold'},
                                 color:'#243b70'
                             }
                         }
