@@ -1666,6 +1666,88 @@ th,td{
     }
 }
 
+
+/* ==========================================================
+   AJUSTE SOLICITADO - ESFIG COMO TABELA FIXA SEM SCROLL
+   ========================================================== */
+.esfig-table-wrap{
+    margin-top:8px;
+    height:auto !important;
+    max-height:none !important;
+    overflow:visible !important;
+    border:1px solid #bcd3ff;
+    border-radius:12px;
+    background:#ffffff66;
+}
+
+.esfig-table-wrap table{
+    width:100%;
+    table-layout:fixed;
+    border-collapse:collapse;
+}
+
+.esfig-table-wrap thead{
+    position:static !important;
+}
+
+.esfig-table-wrap th,
+.esfig-table-wrap td{
+    padding:5px 6px;
+    font-size:12px;
+    line-height:1.15;
+    border-bottom:1px solid var(--line);
+}
+
+.esfig-table-wrap th:nth-child(1),
+.esfig-table-wrap td:nth-child(1){
+    width:12%;
+}
+
+.esfig-table-wrap th:nth-child(2),
+.esfig-table-wrap td:nth-child(2){
+    width:38%;
+}
+
+.esfig-table-wrap th:nth-child(3),
+.esfig-table-wrap td:nth-child(3),
+.esfig-table-wrap th:nth-child(4),
+.esfig-table-wrap td:nth-child(4),
+.esfig-table-wrap th:nth-child(5),
+.esfig-table-wrap td:nth-child(5){
+    width:10%;
+}
+
+.esfig-table-wrap th:nth-child(6),
+.esfig-table-wrap td:nth-child(6){
+    width:20%;
+}
+
+.esfig-table-wrap td:nth-child(2){
+    white-space:normal;
+    word-break:normal;
+}
+
+.esfig-table-wrap tbody tr:last-child td{
+    border-bottom:0;
+}
+
+.esfig-datas{
+    margin-top:7px;
+}
+
+@media (max-width:1500px){
+    .esfig-table-wrap th,
+    .esfig-table-wrap td{
+        padding:4px 5px;
+        font-size:10px;
+        line-height:1.1;
+    }
+
+    .esfig-datas{
+        margin-top:5px;
+    }
+}
+
 </style>
 </head>
 
@@ -1784,7 +1866,7 @@ th,td{
                     <div id="progressText"></div>
                 </div>
 
-                <div class="esfig-table-wrap scroll-infinito scroll-esfig">
+                <div class="esfig-table-wrap">
                     <table>
                         <thead>
                             <tr>
@@ -2249,5 +2331,3 @@ ativarScrollManual(".scroll-esfig");
 
 </body>
 </html>
-
-correto 
