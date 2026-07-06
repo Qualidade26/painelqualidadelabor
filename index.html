@@ -2225,10 +2225,10 @@ amostraChart = new Chart(
     }
 );
 
-}catch(error){
-    console.error("Erro ao carregar JSON:", error);
+    }catch(error){
+        console.error("Erro ao carregar JSON:", error);
+    }
 }
-
 
 atualizarRelogio();
 carregarDados();
@@ -2238,5 +2238,6 @@ setInterval(()=>{
     carregarDados();
 },120000);
 
+</script>
 </body>
 </html>
