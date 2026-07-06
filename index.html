@@ -2272,10 +2272,57 @@ function ativarScrollInfinito(selector, velocidade=0.35){
     });
 }
 
+// ===== Ajuste exclusivo do painel ESFIG =====
+// Mantém o scroll manual e adiciona o loop automático infinito mesmo quando
+// a primeira metade da tabela é menor que a altura visível do quadro.
+function calcularPontoRetornoEsfig(container){
+    const tbody = container.querySelector("tbody");
+
+    if(tbody && tbody.scrollHeight > 0){
+        return tbody.scrollHeight / 2;
+    }
+
+    return container.scrollHeight / 2;
+}
+
+function ativarScrollEsfig(selector, velocidade=0.35){
+    document.querySelectorAll(selector).forEach(container=>{
+        if(container.dataset.scrollEsfigAtivado === "true") return;
+        container.dataset.scrollEsfigAtivado = "true";
+
+        let pausado=false;
+
+        container.addEventListener("mouseenter",()=>pausado=true);
+        container.addEventListener("mouseleave",()=>pausado=false);
+
+        container.addEventListener("wheel",()=>{
+            pausado=true;
+            clearTimeout(container._tmrEsfig);
+            container._tmrEsfig=setTimeout(()=>pausado=false,3000);
+        }, {passive:true});
+
+        function loop(){
+            const pontoRetorno = calcularPontoRetornoEsfig(container);
+
+            if(!pausado && container.scrollHeight > container.clientHeight && pontoRetorno > 0){
+                container.scrollTop += velocidade;
+
+                if(container.scrollTop >= pontoRetorno){
+                    container.scrollTop = 0;
+                }
+            }
+
+            requestAnimationFrame(loop);
+        }
+
+        requestAnimationFrame(loop);
+    });
+}
+
 function ativarTodosScrolls(){
     ativarScrollInfinito(".scroll-skus");
     ativarScrollInfinito(".scroll-amostras");
-    ativarScrollInfinito(".scroll-esfig");
+    ativarScrollEsfig(".scroll-esfig");
 }
 
 ativarTodosScrolls();
