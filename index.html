@@ -2077,6 +2077,13 @@ async function carregarDados(){
         document.getElementById("esfigTable").innerHTML =
             esfigRows + esfigRows;
 
+        const esfigScrollBox = document.querySelector(".scroll-esfig");
+        const esfigTbody = document.getElementById("esfigTable");
+
+        if(esfigScrollBox && esfigTbody){
+            esfigScrollBox.dataset.loopAltura = String(esfigTbody.scrollHeight / 2);
+        }
+
         const amostrasRows = data.amostras.top10.map((item,index)=>`
             <div class="amostra-row">
                 <div class="amostra-rank">${index+1}</div>
@@ -2234,8 +2241,9 @@ function ativarScrollManual(selector, velocidade=0.35){
             if(!pausado){
                 container.scrollTop += velocidade;
 
-                const limiteScroll = container.classList.contains("scroll-esfig")
-                    ? (container.scrollHeight / 2)
+                const loopAltura = Number(container.dataset.loopAltura) || 0;
+                const limiteScroll = loopAltura > 0
+                    ? loopAltura
                     : (container.scrollHeight - container.clientHeight - 1);
 
                 if(container.scrollTop >= limiteScroll){
