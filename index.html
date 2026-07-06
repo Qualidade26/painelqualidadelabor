@@ -899,6 +899,16 @@ html,body{
     margin-top:5px;
 }
 
+
+.card-descarte{
+    display:flex;
+    flex-direction:column;
+}
+
+.card-descarte .sku-table-box{
+    margin-top:auto;
+}
+
 /* Tabela de SKUs do descarte com divisórias */
 .sku-table-box{
     margin-top:8px;
@@ -911,7 +921,7 @@ html,body{
 .sku-table-head,
 .sku-table-row{
     display:grid;
-    grid-template-columns:18% 52% 30%;
+    grid-template-columns:8% 16% 48% 28%;
     align-items:center;
 }
 
@@ -942,7 +952,7 @@ html,body{
     color:#0f1f4d;
 }
 
-.sku-table-row div:nth-child(3){
+.sku-table-row div:nth-child(4){
     color:#0f3cc9;
 }
 
@@ -1813,7 +1823,7 @@ th,td{
         </section>
 
         <section class="grid">
-            <div class="card">
+            <div class="card card-descarte">
                 <div class="card-title">📊 DESCARTE POR ORIGEM</div>
 
                 <div class="chart-wrap">
@@ -1824,6 +1834,7 @@ th,td{
 
                 <div class="sku-table-box">
                     <div class="sku-table-head">
+                        <div>Nº</div>
                         <div>SKU</div>
                         <div>Descrição</div>
                         <div>Valor</div>
@@ -2075,8 +2086,9 @@ async function carregarDados(){
                 'dataProximaAfericao'
             ]);
 
-        const descarteRows = data.descarte.top10.map(item=>`
+        const descarteRows = data.descarte.top10.map((item,index)=>`
             <div class="sku-table-row">
+                <div>${index + 1}º</div>
                 <div>${item.sku}</div>
                 <div>${item.descricao}</div>
                 <div>${formatMoney(item.valor)}</div>
