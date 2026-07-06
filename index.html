@@ -2063,8 +2063,7 @@ async function carregarDados(){
             return '<span style="color:#64748b;font-weight:900">-</span>';
         }
 
-        document.getElementById("esfigTable").innerHTML =
-            data.esfig.map(item => `
+        const esfigRows = data.esfig.map(item => `
                 <tr>
                     <td>${item.sku}</td>
                     <td>${item.descricao}</td>
@@ -2074,6 +2073,9 @@ async function carregarDados(){
                     <td>${statusEsfig(item)}</td>
                 </tr>
             `).join('');
+
+        document.getElementById("esfigTable").innerHTML =
+            esfigRows + esfigRows;
 
         const amostrasRows = data.amostras.top10.map((item,index)=>`
             <div class="amostra-row">
@@ -2231,7 +2233,12 @@ function ativarScrollManual(selector, velocidade=0.35){
         function loop(){
             if(!pausado){
                 container.scrollTop += velocidade;
-                if(container.scrollTop >= (container.scrollHeight-container.clientHeight-1)){
+
+                const limiteScroll = container.classList.contains("scroll-esfig")
+                    ? (container.scrollHeight / 2)
+                    : (container.scrollHeight - container.clientHeight - 1);
+
+                if(container.scrollTop >= limiteScroll){
                     container.scrollTop=0;
                 }
             }
