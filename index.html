@@ -315,21 +315,9 @@ td{
 .scroll-content{
     display:flex;
     flex-direction:column;
-    animation:scrollVertical 20s linear infinite;
 }
 
-.scroll-infinito:hover .scroll-content{
-    animation-play-state:paused;
-}
-
-@keyframes scrollVertical{
-    0%{
-        transform:translateY(0);
-    }
-    100%{
-        transform:translateY(-50%);
-    }
-}
+/* Scroll infinito controlado apenas pelo JavaScript, mantendo rolagem manual no mouse */
 
 .scroll-table table{
     width:100%;
@@ -383,17 +371,7 @@ td{
     line-height:1.1;
     font-weight:900;
 }
-.esfig-row{
-    display:grid;
-    grid-template-columns:12% 38% 12% 12% 12% 14%;
-    border-bottom:1px solid var(--line);
-    align-items:center;
-}
 
-.esfig-row div{
-    padding:8px 9px;
-}
-    
 /* ESFIG */
 .fluxo-esfig{
     display:grid;
@@ -1795,8 +1773,20 @@ th,td{
                 </div>
 
                 <div class="esfig-table-wrap scroll-infinito scroll-esfig">
-    <div id="esfigTable" class="scroll-content"></div>
-</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>SKU</th>
+                                <th>Descrição</th>
+                                <th style="text-align:center">Aguard.</th>
+                                <th style="text-align:center">Desm.</th>
+                                <th style="text-align:center">Afer.</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="esfigTable"></tbody>
+                    </table>
+                </div>
 
                 <div class="esfig-datas">
                     <div class="esfig-data-box">
@@ -1952,10 +1942,25 @@ async function carregarDados(){
         const response = await fetch('./data.json?t=' + Date.now());
         const data = await response.json();
 
+        data.descarte = data.descarte || {};
+        data.descarte.origens = Array.isArray(data.descarte.origens) ? data.descarte.origens : [];
+        data.descarte.top10 = Array.isArray(data.descarte.top10) ? data.descarte.top10 : [];
+        data.amostras = data.amostras || {};
+        data.amostras.mensal = Array.isArray(data.amostras.mensal) ? data.amostras.mensal : [];
+        data.amostras.top10 = Array.isArray(data.amostras.top10) ? data.amostras.top10 : [];
+        data.esfig = Array.isArray(data.esfig) ? data.esfig : [];
+
         const agoraPainel = new Date();
         const campoUltimaAtualizacao = document.getElementById("ultimaAtualizacaoPainel");
+        const ultimaAtualizacaoJson =
+            data.updated_at ||
+            data.atualizacao ||
+            data.ultimaAtualizacao ||
+            data.ultima_atualizacao ||
+            agoraPainel.toLocaleString('pt-BR');
+
         if(campoUltimaAtualizacao){
-            campoUltimaAtualizacao.innerText = agoraPainel.toLocaleString('pt-BR');
+            campoUltimaAtualizacao.innerText = ultimaAtualizacaoJson;
         }
 
         document.getElementById("totalDescarte").innerText =
@@ -2000,7 +2005,7 @@ async function carregarDados(){
         `).join('');
 
         document.getElementById("descarteTableScroll").innerHTML =
-            descarteRows;
+            descarteRows + descarteRows;
 
         const top3 = [...data.descarte.origens]
             .map(item=>({
@@ -2061,19 +2066,28 @@ async function carregarDados(){
             return '<span style="color:#64748b;font-weight:900">-</span>';
         }
 
-     const esfigRows = data.esfig.map(item => `
-    <div class="esfig-row">
-        <div>${item.sku}</div>
-        <div>${item.descricao}</div>
-        <div style="text-align:center">${item.aguardando}</div>
-        <div style="text-align:center">${item.desmontado}</div>
-        <div style="text-align:center">${item.aferidos}</div>
-        <div>${statusEsfig(item)}</div>
-    </div>
-`).join('');
+        document.getElementById("esfigTable").innerHTML =
+            data.esfig.map(item => `
+                <tr>
+                    <td>${item.sku}</td>
+                    <td>${item.descricao}</td>
+                    <td style="text-align:center">${item.aguardando}</td>
+                    <td style="text-align:center">${item.desmontado}</td>
+                    <td style="text-align:center">${item.aferidos}</td>
+                    <td>${statusEsfig(item)}</td>
+                </tr>
+            `).join('');
 
-document.getElementById("esfigTable").innerHTML =
-    esfigRows + esfigRows;  
+        const amostrasRows = data.amostras.top10.map((item,index)=>`
+            <div class="amostra-row">
+                <div class="amostra-rank">${index+1}</div>
+                <div class="amostra-info">
+                    <div class="amostra-sku">${item.sku}</div>
+                    <div class="amostra-desc">${item.descricao}</div>
+                </div>
+                <div class="amostra-qtd">${item.quantidade}</div>
+            </div>
+        `).join('');
 
         document.getElementById("amostrasTable").innerHTML =
             amostrasRows + amostrasRows;
@@ -2208,7 +2222,7 @@ function ativarScrollManual(selector, velocidade=0.35){
     document.querySelectorAll(selector).forEach(container=>{
         let pausado=false;
 
-        container.addEventListener("mouseenter",()=>pausado=false);
+        container.addEventListener("mouseenter",()=>pausado=true);
         container.addEventListener("mouseleave",()=>pausado=false);
 
         container.addEventListener("wheel",()=>{
