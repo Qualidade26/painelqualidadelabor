@@ -32,7 +32,7 @@
   },
 
 "ultimaAfericao":"06/07/2026",
-"proximaAfericao": "46211",
+"proximaAfericao": "08/07/2026",
 
 
 "esfig": [
@@ -59,7 +59,7 @@
       {"mes": "Abril", "valor": 30},
       {"mes": "Maio", "valor": 30},
       {"mes": "Junho", "valor": 22},
-      {"mes": "Julho", "valor": 2},
+      {"mes": "Julho", "valor": 8},
       {"mes": "Agosto", "valor": 0},
       {"mes": "Setembro", "valor": 0},
       {"mes": "Outubro", "valor": 0},
@@ -71,16 +71,16 @@
     "top10": [
 
 
+      {"sku": "AM3942",  "descricao": "CATETER INTRA PUR SEG 24G (PM) ", "quantidade":128  }, 
       {"sku": "AM5468",  "descricao": "ELETRODO (ECG) SOLIDOR - 50 UN ", "quantidade":124  }, 
-      {"sku": "AM3942",  "descricao": "CATETER INTRA PUR SEG 24G (PM) ", "quantidade":118  }, 
-      {"sku": "AM4259",  "descricao": "SCALP INFUSAO SEG 25G PGC (ML) ", "quantidade":106  }, 
+      {"sku": "AM4259",  "descricao": "SCALP INFUSAO SEG 25G PGC (ML) ", "quantidade":116  }, 
       {"sku": "AM3932",  "descricao": "LAMINULA 24X50 0 (YA) ", "quantidade":100  }, 
       {"sku": "AM3931",  "descricao": "LAMINULA 24X32 0 (YA) ", "quantidade":100  }, 
       {"sku": "AM3936",  "descricao": "LAMINULA 24X40 0 (YA) ", "quantidade":100  }, 
+      {"sku": "AM3938",  "descricao": "CATETER INTRA PUR SEG 16G (PM) ", "quantidade":89  }, 
+      {"sku": "AM3941",  "descricao": "CATETER INTRA PUR SEG 22G (PM) ", "quantidade":88  }, 
       {"sku": "AM50039",  "descricao": "AGULHA A VACUO 25X8 (SW) ", "quantidade":83  }, 
-      {"sku": "AM3938",  "descricao": "CATETER INTRA PUR SEG 16G (PM) ", "quantidade":79  }, 
-      {"sku": "AM3941",  "descricao": "CATETER INTRA PUR SEG 22G (PM) ", "quantidade":78  }, 
-      {"sku": "AM86003",  "descricao": "ALCOOL SWAB SACHE (PH) ", "quantidade":70  }
+      {"sku": "AM4258",  "descricao": "SCALP INFUSAO SEG 23G (ML) ", "quantidade":80  }
 
 
 
