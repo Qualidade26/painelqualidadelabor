@@ -115,8 +115,8 @@
 "retrabalho": {
 "totaldeRetrabalhono Ano":77,
 "quantidadeRetrabalhada": 5524.00,
-"totaldeHoras":79.00,
-
+"totaldeHoras":79,
+"fabricantes": [
 
 {"Fabricante":"Bonrre Medical","Quantidade Retrabalhada":0,"Horas":0,"Motivo":"" }, 
 {"Fabricante":"AB Medical","Quantidade Retrabalhada":0,"Horas":0,"Motivo":"" }, 
