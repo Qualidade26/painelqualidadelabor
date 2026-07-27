@@ -1,89 +1,165 @@
 {
   "descarte": {
-    "total":662803.52,
-    "ultimoDescarte":614772.08,
+    "total":978352.17,
+    "ultimoDescarte":614772.09,
     "origens": [
-      {"nome": "Avaria de Importação", "valor": 11899.70},
-      {"nome": "Avaria estoque", "valor": 2819.62},
-      {"nome": "Devolução avaria", "valor": 3445.67},
-      {"nome": "Desvio de Qualidade", "valor": 146716.68},
-      {"nome": "Vencido", "valor": 67408.00},
-      {"nome": "Avaria Nacional", "valor": 50.77},
-      {"nome": "Destinado pela Empresa", "valor": 407080.35}
-
-
+      {"nome": "Avaria de Importação", "valor": 15824.35},
+      {"nome": "Avaria estoque", "valor": 3446.36},
+      {"nome": "Devolução avaria", "valor": 11625.72},
+      {"nome": "Desvio de Qualidade", "valor": 150618.83},
+      {"nome": "Vencido", "valor": 390080.67},
+      {"nome": "Avaria Nacional", "valor": 186.78},
+      {"nome": "Destinado pela Empresa", "valor": 405596.38}
 ],
 
 
     "top10": [
 
-      {"sku": "518", "descricao": "PT-FIO AGULHADO SINTETIC ABS.(PGA)-125 C/24", "valor": 147881.75},
-      {"sku": "516", "descricao": "PT-FIO AGULHADO SINTETIC ABS.(PGA)-140 C/24", "valor": 127851.84},
-      {"sku": "5390", "descricao": "PT-FIO AGULHADO SINTETIC ABS(PGA)-2040 C/24", "valor": 90047.17},
-      {"sku": "5388", "descricao": "PT-SCALP VACUO SEG C/ADAP 25G 3/4X7 C/100", "valor": 35599.85},
-      {"sku": "725", "descricao": "PT-SCALP VACUO SEG C/ADAP 21G 3/4X7 C/100", "valor": 34953.89},
-      {"sku": "5389", "descricao": "PT-AGULHA RAQ PTA LAPIS 25GX3,5 C/25 PROCAR", "valor": 31659.06},
-      {"sku": "519", "descricao": "PT-SCALP VACUO SEG C/ADAP 23G 3/4X7 C/100", "valor": 28494.24},
-      {"sku": "727", "descricao": "PT-FIO AGULHADO SINTETIC ABS.(PGA)-035 C/24", "valor": 25606.69},
-      {"sku": "726", "descricao": "PT-AGULHA RAQ PTA LAPIS 27GX3,5 C/25 PROCAR", "valor": 23562.84},
-      {"sku": "Outros", "descricao": "Outros", "valor": 93383.57}
+      {"sku":"518", "descricao":"PT-FIO AGULHADO SINTETIC ABS.(PGA)-125 C/24", "valor": 147881.75},
+      {"sku":"726", "descricao":"PT-FIO AGULHADO SINTETIC ABS.(PGA)-140 C/24", "valor": 127851.84},
+      {"sku":"724", "descricao":"PT-AGULHA RAQ PTA LAPIS 26GX3,5 C/25 PROCAR", "valor": 122458.95},
+      {"sku":"727", "descricao":"PT-AGULHA RAQ PTA LAPIS 22GX3,5 C/25 PROCAR", "valor": 104237.43},
+      {"sku":"516", "descricao":"PT-AGULHA RAQ PTA LAPIS 27GX3,5 C/25 PROCAR", "valor": 95117.65},
+      {"sku":"725", "descricao":"PT-FIO AGULHADO SINTETIC ABS(PGA)-2040 C/24", "valor": 88272.56},
+      {"sku":"5390", "descricao":"PT-AGULHA RAQ PTA LAPIS 25GX3,5 C/25 PROCAR", "valor": 53978.70},
+      {"sku":"5388", "descricao":"PT-SCALP VACUO SEG C/ADAP 25G 3/4X7 C/100", "valor": 35886.95},
+      {"sku":"5389", "descricao":"PT-SCALP VACUO SEG C/ADAP 21G 3/4X7 C/100", "valor": 35312.76},
+      {"sku":"Outros", "descricao":"Outros", "valor": 119597.02}
 
     ]
   },
+"esfig": {
+"totalHoras":818,
+"totalGruInmetro":146951.87,
+"ultimaAfericao":"08/07/2026",
+"proximaAfericao":"Aguardando",
+"produtos": [
 
-"ultimaAfericao":"06/07/2026",
-"proximaAfericao": "08/07/2026",
+  {"sku":"267",  "descricao":"ESFIGM VELCRO",   "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "","totalAnualSku":17000},
+  {"sku":"268",  "descricao":"ESFIGM METAL",  "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "","totalAnualSku":2000},
+  {"sku":"558",  "descricao":"ESFIGM KIT VELCRO",  "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "","totalAnualSku":9000},
+  {"sku":"560",  "descricao":"ESFIGM KIT METAL ",  "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "","totalAnualSku":2500},
+  {"sku":"308",  "descricao":"ESFIG MANOMETRO",  "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "","totalAnualSku":3500},
+  {"sku":"721",  "descricao":"ESFIG PRETO VELCRO",  "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "","totalAnualSku":1100},
+  {"sku":"722",  "descricao":"ESFIG PRETO METAL",  "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "","totalAnualSku":800},
+  {"sku":"719",  "descricao":"ESFIG RED VELCRO ",  "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "","totalAnualSku":0},
+  {"sku":"720",  "descricao":"ESFIG RED METAL ",  "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "","totalAnualSku":0}
 
 
-"esfig": [
-
-  {"sku":"267",  "descricao": "ESFIGM VELCRO",   "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "" },
-  {"sku":"268",  "descricao": "ESFIGM METAL",  "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "" },
-  {"sku":"558",  "descricao": "ESFIGM KIT VELCRO",  "aguardando":0,   "desmontado": 100,    "aferidos": 3500,       "ultimaAfericao": "02/07/2026" },
-  {"sku":"560",  "descricao": "ESFIGM KIT METAL ",  "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "" },
-  {"sku":"308",  "descricao": "ESFIG MANOMETRO",  "aguardando":0,   "desmontado": 2500,    "aferidos": 1000,       "ultimaAfericao": "02/07/2026" },
-  {"sku":"721",  "descricao": "ESFIG PRETO VELCRO",  "aguardando":0,   "desmontado": 0,    "aferidos": 10,       "ultimaAfericao": "" },
-  {"sku":"722",  "descricao": "ESFIG PRETO METAL",  "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "" },
-  {"sku":"719",  "descricao": "ESFIG RED VELCRO ",  "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "" },
-  {"sku":"720",  "descricao": "ESFIG RED METAL ",  "aguardando":0,   "desmontado": 0,    "aferidos": 0,       "ultimaAfericao": "" }
-
-
-  ],
-
+  ]
+},
   "amostras": {
+"totalHoras":60.33,
     "mensal": [
 
-      {"mes": "Janeiro", "valor": 26},
-      {"mes": "Fevereiro", "valor": 25},
-      {"mes": "Março", "valor": 33},
-      {"mes": "Abril", "valor": 30},
-      {"mes": "Maio", "valor": 30},
-      {"mes": "Junho", "valor": 22},
-      {"mes": "Julho", "valor": 9},
-      {"mes": "Agosto", "valor": 0},
-      {"mes": "Setembro", "valor": 0},
-      {"mes": "Outubro", "valor": 0},
-      {"mes": "Novembro", "valor": 0},
-      {"mes": "Dezembro", "valor": 0}
+      {"mes":"Janeiro", "valor": 26,"horas":7.92},
+      {"mes":"Fevereiro", "valor": 25,"horas":8.67},
+      {"mes":"Março", "valor": 33,"horas":12.33},
+      {"mes":"Abril", "valor": 30,"horas":8.67},
+      {"mes":"Maio", "valor": 30,"horas":8.08},
+      {"mes":"Junho", "valor": 22,"horas":6.67},
+      {"mes":"Julho", "valor": 31,"horas":8.00},
+      {"mes":"Agosto", "valor": 0,"horas":0.00},
+      {"mes":"Setembro", "valor": 0,"horas":0.00},
+      {"mes":"Outubro", "valor": 0,"horas":0.00},
+      {"mes":"Novembro", "valor": 0,"horas":0.00},
+      {"mes":"Dezembro", "valor": 0,"horas":0.00}
 
     ],
 
     "top10": [
 
 
-      {"sku": "AM3942",  "descricao": "CATETER INTRA PUR SEG 24G (PM) ", "quantidade":128  }, 
-      {"sku": "AM5468",  "descricao": "ELETRODO (ECG) SOLIDOR - 50 UN ", "quantidade":124  }, 
-      {"sku": "AM4259",  "descricao": "SCALP INFUSAO SEG 25G PGC (ML) ", "quantidade":116  }, 
-      {"sku": "AM3932",  "descricao": "LAMINULA 24X50 0 (YA) ", "quantidade":100  }, 
-      {"sku": "AM3931",  "descricao": "LAMINULA 24X32 0 (YA) ", "quantidade":100  }, 
-      {"sku": "AM3936",  "descricao": "LAMINULA 24X40 0 (YA) ", "quantidade":100  }, 
-      {"sku": "AM3938",  "descricao": "CATETER INTRA PUR SEG 16G (PM) ", "quantidade":89  }, 
-      {"sku": "AM3941",  "descricao": "CATETER INTRA PUR SEG 22G (PM) ", "quantidade":88  }, 
-      {"sku": "AM50039",  "descricao": "AGULHA A VACUO 25X8 (SW) ", "quantidade":83  }, 
-      {"sku": "AM4258",  "descricao": "SCALP INFUSAO SEG 23G (ML) ", "quantidade":80  }
-
+      {"sku":"AM3942",  "descricao":"CATETER INTRA PUR SEG 24G (PM)", "quantidade":153  }, 
+      {"sku":"AM5468",  "descricao":"ELETRODO (ECG) SOLIDOR - 50 UN", "quantidade":124  }, 
+      {"sku":"AM4259",  "descricao":"SCALP INFUSAO SEG 25G PGC (ML)", "quantidade":116  }, 
+      {"sku":"AM3932",  "descricao":"LAMINULA 24X50 0 (YA)", "quantidade":100  }, 
+      {"sku":"AM3931",  "descricao":"LAMINULA 24X32 0 (YA)", "quantidade":100  }, 
+      {"sku":"AM3936",  "descricao":"LAMINULA 24X40 0 (YA)", "quantidade":100  }, 
+      {"sku":"AM3941",  "descricao":"CATETER INTRA PUR SEG 22G (PM)", "quantidade":95  }, 
+      {"sku":"AM50215",  "descricao":"TUBO AMARELO GEL 5ML (AB)", "quantidade":92  }, 
+      {"sku":"AM4258",  "descricao":"SCALP INFUSAO SEG 23G (ML)", "quantidade":90  }, 
+      {"sku":"AM3938",  "descricao":"CATETER INTRA PUR SEG 16G (PM)", "quantidade":89  }
 
 
     ]
+},
+
+"importacao": {
+"processosAno":106,
+"totalSku":318,
+"totalLotes":870,
+"laudosEmitidos":588,
+"totalHoras":391.40,
+
+"mensal": [
+
+      {"mes": "Janeiro","processos":13,"sku":64,"lotes":95,"laudos":95,"horas":54.00 }, 
+      {"mes": "Fevereiro","processos":15,"sku":66,"lotes":99,"laudos":104,"horas":86.00 }, 
+      {"mes": "Março","processos":15,"sku":116,"lotes":124,"laudos":132,"horas":70.00 }, 
+      {"mes": "Abril","processos":20,"sku":180,"lotes":180,"laudos":180,"horas":91.00 }, 
+      {"mes": "Maio","processos":19,"sku":82,"lotes":141,"laudos":54,"horas":68.40 }, 
+      {"mes": "Junho","processos":9,"sku":21,"lotes":48,"laudos":8,"horas":6.42 }, 
+      {"mes": "Julho","processos":15,"sku":64,"lotes":183,"laudos":15,"horas":15.58 }, 
+      {"mes": "Agosto","processos":0,"sku":0,"lotes":0,"laudos":0,"horas":0.00 }, 
+      {"mes": "Setembro","processos":0,"sku":0,"lotes":0,"laudos":0,"horas":0.00 }, 
+      {"mes": "Outubro","processos":0,"sku":0,"lotes":0,"laudos":0,"horas":0.00 }, 
+      {"mes": "Novembro","processos":0,"sku":0,"lotes":0,"laudos":0,"horas":0.00 }, 
+      {"mes": "Dezembro","processos":0,"sku":0,"lotes":0,"laudos":0,"horas":0.00 }
+]
+},
+
+
+"retrabalho": {
+"processos":7,
+"totalUnidades":5524,
+"totalHoras":79,
+"fabricantes": [
+{"fabricante":"Bonrre Medical","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"AB Medical","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"All Lab Comercial","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"SteriLance Medical","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Biomed Healthcare","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Accumax","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Shanxian Huayu Suture Product Co,. Ltd","quantidade":625,"horas":4,"motivo":"Nome da Responsável Tecnica antiga" }, 
+{"fabricante":"Shandong Aosaite","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Shangai Kindly","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Shanghai SA Medical","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Ayset Plastik","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Medico Electroude","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Anhui Easyway Medical","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Huaian Tianda Medical","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Medico (Huaian) CO., LTDA","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Well Lead medical co., ltd.","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Polymed Medicure","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Phoenix Innovative HealtCare","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Wellspring Medical","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Yangzhou Medline Industry","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Jiangsu Webest Medical","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Honsun (Nantong)","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Shandong Weigao","quantidade":2460,"horas":11,"motivo":"Nome da Responsável Tecnica antiga" }, 
+{"fabricante":"Nanjing Jiangnan Novel","quantidade":843,"horas":54,"motivo":"Nome da Responsável Tecnica antiga" }, 
+{"fabricante":"Vitromed Healthcare","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Jiangsu Kangjian","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Garware Bestretch","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Xiantao Xingrong","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Nantong Renon","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Jiangxi Hongda Medical","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Huaian Tianda Medica","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Jiangsu Kangjian Medical","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Dailymag Magnetic","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Yancheng Tiandi","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Dfi","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Pharmaplast AS ","quantidade":1596,"horas":10,"motivo":"Nome da Responsável Tecnica antiga" }, 
+{"fabricante":"Blue","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Jiangsu Huida Medical","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Guangzhou Improve Medical","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Hangzhou Rollmed","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Dalian GoodWood","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Anhui hongyu","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"Alphaven","quantidade":0,"horas":0,"motivo":"" }, 
+{"fabricante":"SR Produtos para la salud S.A","quantidade":0,"horas":0,"motivo":"" }
+
+      ]
   }
 }
