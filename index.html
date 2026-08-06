@@ -1,1 +1,405 @@
 
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Painel de Processos do Sistema de Gestão da Qualidade"
+    >
+
+    <title>
+        Painel de Processos SGQ
+    </title>
+
+
+    <!-- =====================================================
+         CSS PRINCIPAL
+
+         O arquivo style.css importa:
+         - base.css
+         - layout.css
+         - componentes.css
+         - responsivo.css
+         - CSS de todas as páginas
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="css/style.css?v=18"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- =====================================================
+         CABEÇALHO
+    ====================================================== -->
+
+    <header class="topbar">
+
+        <div class="logo-labor">
+
+            <div class="logo-main">
+                LABOR
+            </div>
+
+            <div class="logo-sub">
+                HEALTH SUPPLY
+            </div>
+
+        </div>
+
+
+        <div class="top-title">
+
+            <h1>
+                PAINEL DE PROCESSOS SGQ
+            </h1>
+
+            <p>
+                Indicadores operacionais em tempo real
+            </p>
+
+        </div>
+
+
+        <div class="top-status">
+
+            <span
+                class="pill data-pill"
+                id="dataAtual"
+            >
+                -- --- ----
+            </span>
+
+            <span
+                class="pill time-pill"
+                id="horaAtual"
+            >
+                --:--:--
+            </span>
+
+            <span class="pill">
+
+                <span
+                    class="online-dot"
+                    aria-hidden="true"
+                >
+                    ●
+                </span>
+
+                Online
+
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         ESTRUTURA PRINCIPAL
+    ====================================================== -->
+
+    <div
+        class="main-wrap"
+        id="mainWrap"
+    >
+
+        <!-- =================================================
+             MENU LATERAL
+        ================================================== -->
+
+        <aside
+            class="menu"
+            id="menuLateral"
+            aria-label="Menu principal"
+        >
+
+            <button
+                type="button"
+                class="toggle-menu"
+                id="btnToggleMenu"
+                onclick="toggleMenu()"
+                title="Esconder menu"
+                aria-label="Esconder menu lateral"
+            >
+                ◀
+            </button>
+
+
+            <!-- INSPEÇÃO DE IMPORTAÇÃO -->
+
+            <button
+                type="button"
+                class="active"
+                onclick="abrirAba('importacao', this)"
+            >
+
+                <span
+                    class="ico"
+                    aria-hidden="true"
+                >
+                    📦
+                </span>
+
+                <span class="label">
+                    Inspeção
+                    <br>
+                    Importação
+                </span>
+
+            </button>
+
+
+            <!-- ESFIGMOMANÔMETRO -->
+
+            <button
+                type="button"
+                onclick="abrirAba('esfig', this)"
+            >
+
+                <span
+                    class="ico"
+                    aria-hidden="true"
+                >
+                    ⏱
+                </span>
+
+                <span class="label">
+                    Esfigmomanômetro
+                </span>
+
+            </button>
+
+
+            <!-- DESCARTE -->
+
+            <button
+                type="button"
+                onclick="abrirAba('descarte', this)"
+            >
+
+                <span
+                    class="ico"
+                    aria-hidden="true"
+                >
+                    🗑
+                </span>
+
+                <span class="label">
+                    Descarte
+                </span>
+
+            </button>
+
+
+            <!-- AMOSTRA -->
+
+            <button
+                type="button"
+                onclick="abrirAba('amostra', this)"
+            >
+
+                <span
+                    class="ico"
+                    aria-hidden="true"
+                >
+                    📦
+                </span>
+
+                <span class="label">
+                    Amostra
+                </span>
+
+            </button>
+
+
+            <!-- RETRABALHO -->
+
+            <button
+                type="button"
+                onclick="abrirAba('retrabalho', this)"
+            >
+
+                <span
+                    class="ico"
+                    aria-hidden="true"
+                >
+                    🔄
+                </span>
+
+                <span class="label">
+                    Retrabalho
+                </span>
+
+            </button>
+
+
+            <!-- FORNECEDORES -->
+
+            <button
+                type="button"
+                onclick="abrirAba('fornecedores', this)"
+            >
+
+                <span
+                    class="ico"
+                    aria-hidden="true"
+                >
+                    🏭
+                </span>
+
+                <span class="label">
+                    Fornecedores
+                </span>
+
+            </button>
+
+
+            <!-- INFORMATIVO -->
+
+            <button
+                type="button"
+                onclick="abrirAba('informativo', this)"
+            >
+
+                <span
+                    class="ico"
+                    aria-hidden="true"
+                >
+                    ℹ️
+                </span>
+
+                <span class="label">
+                    Informativo
+                </span>
+
+            </button>
+
+        </aside>
+
+
+        <!-- =================================================
+             CONTEÚDO DINÂMICO DAS ABAS
+        ================================================== -->
+
+        <main
+            class="content"
+            id="conteudo"
+            aria-live="polite"
+        >
+
+            <noscript>
+
+                <div class="aviso-sistema">
+
+                    Para utilizar este painel, habilite o
+                    JavaScript no navegador.
+
+                </div>
+
+            </noscript>
+
+        </main>
+
+    </div>
+
+
+    <!-- =====================================================
+         BIBLIOTECAS EXTERNAS
+    ====================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"
+    ></script>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"
+    ></script>
+
+
+    <!-- =====================================================
+         REGISTRO DO PLUGIN CHART DATA LABELS
+    ====================================================== -->
+
+    <script>
+
+        if (
+            typeof Chart !== "undefined" &&
+            typeof ChartDataLabels !== "undefined"
+        ) {
+
+            Chart.register(
+                ChartDataLabels
+            );
+
+            console.log(
+                "Plugin ChartDataLabels registrado com sucesso."
+            );
+
+        } else {
+
+            console.error(
+                "Chart.js ou ChartDataLabels não foi carregado."
+            );
+        }
+
+    </script>
+
+
+    <!-- =====================================================
+         TEMA GLOBAL DOS GRÁFICOS
+    ====================================================== -->
+
+    <script src="js/chart-theme.js?v=25"></script>
+
+
+    <!-- =====================================================
+         FUNÇÕES AUXILIARES
+    ====================================================== -->
+
+    <script src="js/utils.js?v=25"></script>
+
+
+    <!-- =====================================================
+         ARQUIVOS DAS ABAS
+    ====================================================== -->
+
+    <script src="js/importacao.js?v=25"></script>
+
+    <script src="js/esfig.js?v=25"></script>
+
+    <script src="js/descarte.js?v=25"></script>
+
+    <script src="js/amostras.js?v=25"></script>
+
+    <script src="js/retrabalho.js?v=25"></script>
+
+    <script src="js/fornecedores.js?v=25"></script>
+
+    <script src="js/informativo.js?v=25"></script>
+
+
+    <!-- =====================================================
+         CONTROLE PRINCIPAL
+    ====================================================== -->
+
+    <script src="js/script.js?v=25"></script>
+
+</body>
+
+</html>
+```
