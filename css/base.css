@@ -1,0 +1,71 @@
+/* ==========================================================
+   VARIÁVEIS GLOBAIS
+========================================================== */
+
+:root{
+    --bg:#dfeeff;
+    --top1:#0f3cc9;
+    --top2:#1d4eff;
+
+    --card:#f8fbff;
+    --card2:#eef5ff;
+
+    --primary:#1d4eff;
+    --primary-dark:#0f3cc9;
+
+    --line:#b8d1ff;
+    --line2:#dce8ff;
+
+    --text:#0f1f4d;
+    --muted:#5c6c96;
+
+    --green:#22c55e;
+    --pink:#f04dd8;
+    --purple:#8b5cf6;
+    --red:#ef4444;
+    --orange:#f97316;
+    --cyan:#38bdf8;
+}
+
+
+/* ==========================================================
+   RESET
+========================================================== */
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    width:100%;
+    min-height:100%;
+
+    font-size:clamp(
+        12px,
+        min(.72vw,1.35vh),
+        16px
+    );
+
+    text-size-adjust:100%;
+    -webkit-text-size-adjust:100%;
+
+    text-rendering:optimizeLegibility;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+
+body{
+    width:100%;
+    min-height:100vh;
+    min-height:100dvh;
+
+    margin:0;
+
+    font-family:Arial, Helvetica, sans-serif;
+
+    background:var(--bg);
+    color:var(--text);
+
+    overflow-x:hidden;
+}
